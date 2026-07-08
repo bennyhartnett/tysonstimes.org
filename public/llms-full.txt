@@ -1,0 +1,222 @@
+# Tysons Times Full Article Corpus
+
+Source: https://tysonstimes.org
+Coverage area: Tysons, Vienna, McLean, Dunn Loring, Falls Church, Fairfax County, Silver Line corridor
+
+## Tysons' Next Chapter
+
+Canonical URL: https://tysonstimes.org/articles/tysons-next-chapter/
+Author: Tysons Times Staff
+Published: 2026-07-07
+Section: Local
+Location: Tysons
+Topics: front page, neighborhoods, planning
+Summary: Growth around the Silver Line, school traffic, storefront change, and neighborhood preservation move to the front page.
+
+Tysons is often described by what surrounds it: the Beltway, Route 7, Route 123, Metro stations, McLean, Vienna, and the office towers that keep reshaping the skyline. The daily story is smaller and more exact.
+
+It is told in apartment lobbies, crosswalk debates, planning meetings, school drop-off lines, shop windows, sports fields, and quiet civic arguments about how much change a fast-growing place can absorb.
+
+Tysons Times is built for that scale. It treats a sidewalk closure, a small-business opening, a school-board decision, and a neighborhood arts night as the kind of local record worth preserving.
+
+Every edition keeps the same promise: clear reporting, readable context, sharp photographs, and a page that still feels like ink on paper.
+
+As the site grows, this article template can hold long investigations, short explainers, photo essays, neighborhood profiles, and live-update summaries without breaking the broadsheet visual system.
+
+## Route 7 Remains the Main Thread
+
+Canonical URL: https://tysonstimes.org/articles/route-7-main-thread/
+Author: Civic Desk
+Published: 2026-07-06
+Section: Civic Desk
+Location: Route 7
+Topics: roads, walkability, route 7
+Summary: The corridor ties together errands, restaurants, offices, schools, Metro stations, and the daily questions of walkability.
+
+Route 7 is more than a route through Tysons. It is the local spine where drivers, pedestrians, restaurant owners, office workers, students, residents, and visitors all meet the same crowded public space.
+
+Future coverage from Tysons Times will follow the practical details: crossing conditions, parking pressure, storefront changes, construction work, and how proposed improvements are explained to residents.
+
+The Civic Desk will keep a standing file of public notices and decision points so readers can see what changed, who asked for it, and what questions remain unresolved.
+
+A local newspaper becomes useful when repeated small updates build into a clear public memory. This template is designed for that slow accumulation.
+
+## Tysons Growth Keeps Neighbors Watching
+
+Canonical URL: https://tysonstimes.org/articles/tysons-growth-watch/
+Author: Business Desk
+Published: 2026-07-05
+Section: Business
+Location: Tysons
+Topics: tysons, development, business
+Summary: Development around the Beltway still shapes commutes, restaurant traffic, housing pressure, and local business decisions.
+
+The Tysons skyline is visible from nearby neighborhoods, but its influence is felt most clearly in ordinary routines: the time it takes to cross the Beltway, the lunch crowd at a small restaurant, and the lease pressure on a local office.
+
+The Business Desk will track those connections without treating residents as an afterthought. Development stories will be paired with maps, timelines, public documents, and plain-language summaries.
+
+Readers should be able to understand not only what is being built, but how a project may affect traffic, housing conversations, tax base, and the small businesses that define the area.
+
+This page pattern can support quick briefs, project explainers, recurring development trackers, and longer accountability reporting.
+
+## Public Meetings Need Better Memory
+
+Canonical URL: https://tysonstimes.org/articles/public-meeting-memory/
+Author: Tysons Times Staff
+Published: 2026-07-04
+Section: Civic Desk
+Location: Fairfax County
+Topics: meetings, public record, county
+Summary: Votes, filings, resident questions, and follow-up promises deserve a record that survives beyond the meeting room.
+
+Public meetings often produce more information than a single headline can hold. A resident asks a technical question. A staff member promises a follow-up. A vote moves forward with a condition that matters later.
+
+Tysons Times will use civic templates for those running stories: agenda previews, meeting recaps, document explainers, and follow-up trackers.
+
+The format is intentionally dense. Local readers should be able to scan the top, read the plain-language summary, then move into documents, dates, and related coverage.
+
+A well-maintained civic archive is one of the most valuable products a local newspaper can build.
+
+## Schools, Fields, Libraries, and Friday Nights
+
+Canonical URL: https://tysonstimes.org/articles/schools-fields-libraries/
+Author: Schools Desk
+Published: 2026-07-03
+Section: Schools
+Location: Tysons Area
+Topics: schools, families, calendar
+Summary: A local paper has to cover the places where families actually spend their week.
+
+A Tysons-area newspaper has to be useful before it is impressive. Parents need calendars. Students need recognition. Coaches need results recorded. Neighbors need to know when a library room, park field, or auditorium becomes the center of town for an evening.
+
+The Schools Desk will follow classroom milestones, student publications, theater openings, debate teams, athletics, graduation plans, and the public decisions that affect families across the Tysons, Vienna, and McLean school communities.
+
+Coverage will also make room for quieter public life: book sales, scout projects, volunteer drives, arts exhibits, local history talks, and the ordinary civic labor that rarely fits inside a headline.
+
+The template can handle roundups, profiles, game stories, explainers, and student achievement briefs while preserving a consistent local-news identity.
+
+## A Weekend Calendar Built for Residents
+
+Canonical URL: https://tysonstimes.org/articles/weekend-calendar-built-for-residents/
+Author: Calendar Desk
+Published: 2026-07-02
+Section: Culture
+Location: Tysons
+Topics: events, weekend, arts
+Summary: The Times calendar template is designed for library talks, school stages, fundraisers, markets, concerts, and civic deadlines.
+
+A community calendar should do more than stack dates. It should help readers understand what is free, what needs registration, what is family-friendly, and which events connect to a larger local story.
+
+The Tysons Times events template separates date, place, category, and short context so dozens of listings can remain readable.
+
+For larger events, calendar entries can link into full articles, photo galleries, or follow-up coverage after the weekend has passed.
+
+As the site grows, the events page can become a practical front door for residents who want one reliable place to check before making plans.
+
+## Small Business Notebook Starts on the Ground Floor
+
+Canonical URL: https://tysonstimes.org/articles/small-business-notebook/
+Author: Business Desk
+Published: 2026-07-01
+Section: Business
+Location: Tysons
+Topics: small business, restaurants, retail
+Summary: Restaurant openings, office moves, retail changes, and independent businesses belong on the local front page.
+
+A changing storefront can tell a larger story about rent, customer habits, office work, and the way a neighborhood uses its main streets.
+
+The Small Business Notebook will collect those smaller signals in a consistent format: what changed, where it happened, who is involved, and what readers need to know next.
+
+Some items will be short. Others will grow into profiles, interviews, or development coverage. The important thing is that local commerce gets recorded with the same seriousness as larger institutions.
+
+The layout supports fast updates without making the page feel disposable.
+
+## Parks, Trails, and Stream Valleys
+
+Canonical URL: https://tysonstimes.org/articles/parks-trails-river-edge/
+Author: Features Desk
+Published: 2026-06-30
+Section: Culture
+Location: Tysons
+Topics: parks, trails, outdoors
+Summary: Green space is part of Tysons' identity, from pocket parks to trails and wooded edges around the urban core.
+
+Tysons public life is not limited to meeting rooms, towers, and commercial corridors. It also happens along trails, in pocket parks, near athletic fields, and on the wooded edges that shape the community's sense of place.
+
+The Times will use features and photo essays to record seasonal changes, maintenance questions, volunteer work, and the everyday use of local green space.
+
+Outdoor coverage can be service journalism, too: closures, access notes, cleanup days, youth sports scheduling, and safety updates all belong in the same local record.
+
+The visual system is intentionally photographic, even when image assets are placeholders, so future real photos can drop into the same templates.
+
+## Local History Should Stay on the Page
+
+Canonical URL: https://tysonstimes.org/articles/crossroads-local-history/
+Author: History Desk
+Published: 2026-06-29
+Section: Culture
+Location: Tysons
+Topics: history, archives, features
+Summary: Historic places, family archives, and neighborhood memory give Tysons reporting a longer timeline.
+
+Local history can be easy to flatten into a plaque or a passing reference. A newspaper can do something better: keep returning to the places, documents, photographs, and residents who explain how the community became itself.
+
+The History Desk template is suited for archival photo essays, oral histories, landmark explainers, and stories that connect present decisions to older maps and property lines.
+
+These pieces should be carefully sourced, plainly written, and visually distinct from daily briefs while still belonging to the same newspaper.
+
+Tysons Times can become both a news source and a working archive.
+
+## Commute Notes Need Plain English
+
+Canonical URL: https://tysonstimes.org/articles/commute-notes/
+Author: Transportation Desk
+Published: 2026-06-28
+Section: Civic Desk
+Location: Tysons / McLean / Vienna
+Topics: transportation, commute, roads
+Summary: Readers need clear updates on lane shifts, bus connections, trail access, Metro links, and construction timing.
+
+Transportation coverage is most helpful when it is specific. Which block is affected? What hours matter? Is the work temporary? Who is responsible for the update?
+
+The Tysons Times transportation format is built for those details. Short notices can run as briefs, while larger projects can become explainers with timelines and related documents.
+
+The same structure can support road work, pedestrian safety, transit changes, bike and trail access, and the recurring pressure points around Tysons.
+
+Clarity is the point. Readers should not have to decode agency language before leaving the house.
+
+## Youth Sports Roundup Finds the Names
+
+Canonical URL: https://tysonstimes.org/articles/youth-sports-roundup/
+Author: Sports Desk
+Published: 2026-06-27
+Section: Sports
+Location: Tysons Area
+Topics: sports, students, recreation
+Summary: Local teams, coaches, volunteers, and athletes deserve a record beyond the final score.
+
+A strong local sports page records names, context, and effort. It covers school teams and recreation leagues without pretending every game is a championship.
+
+The Sports Desk will make room for short results, team photos, coach notes, season previews, and profiles of volunteers who keep fields, schedules, and snack bars working.
+
+Because the article catalog is structured by section, tags, and dates, older roundups can remain searchable long after a season ends.
+
+A newspaper archive matters most to the people whose names appear in it.
+
+## Letters Should Be Local, Signed, and Clear
+
+Canonical URL: https://tysonstimes.org/articles/letters-policy/
+Author: Opinion Editor
+Published: 2026-06-26
+Section: Opinion
+Location: Tysons
+Topics: opinion, letters, policy
+Summary: The opinion page will make space for reader arguments without losing accountability.
+
+A local opinion page works best when readers know the rules. Letters should be signed, focused on Tysons-area issues, and written in a way that helps neighbors understand the argument.
+
+The Times will separate reported news from opinion and make labels obvious. Editorials, columns, guest essays, and letters should not borrow the authority of straight reporting.
+
+The format is designed for short pieces, longer guest arguments, editor's notes, and response packages when a public issue generates several thoughtful submissions.
+
+Strong opinion pages are not loud by default. They are clear, accountable, and close to home.

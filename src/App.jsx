@@ -1,8 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { NewspaperLayout } from "./components/NewspaperLayout.jsx";
-import { site } from "./data/content.js";
-import { pageTitles } from "./data/pages.js";
 import { useHashRoute } from "./routing.js";
+import { applyDocumentMetadata, buildRouteMeta } from "./seo.js";
 import { AboutPage } from "./pages/AboutPage.jsx";
 import { ArchivePage } from "./pages/ArchivePage.jsx";
 import { ArticlePage } from "./pages/ArticlePage.jsx";
@@ -46,19 +45,11 @@ const pages = {
 export default function App() {
   const route = useHashRoute();
   const Page = pages[route.page] || HomePage;
-  const title = useMemo(() => {
-    if (route.page === "article" && route.article) {
-      return `${route.article.title} | ${site.name}`;
-    }
-    if (route.page === "section" && route.section) {
-      return `${route.section.label} | ${site.name}`;
-    }
-    return route.page === "home" ? site.name : `${pageTitles[route.page] || "Page"} | ${site.name}`;
-  }, [route]);
+  const meta = useMemo(() => buildRouteMeta(route), [route]);
 
   useEffect(() => {
-    document.title = title;
-  }, [title]);
+    applyDocumentMetadata(meta);
+  }, [meta]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });

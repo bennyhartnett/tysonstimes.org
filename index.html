@@ -5,10 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Tysons Times is an independent local newspaper for Tysons, Virginia and nearby Fairfax County neighborhoods."
+      content="Tysons Times is an independent local newspaper for Tysons, Virginia, covering civic life, schools, business, dining, events, transportation, and neighborhood change across Northern Fairfax County."
     />
-    <title>Tysons Times</title>
+    <meta name="author" content="Tysons Times" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="geo.region" content="US-VA" />
+    <meta name="geo.placename" content="Tysons, Virginia" />
+    <meta name="geo.position" content="38.9187;-77.2311" />
+    <meta name="ICBM" content="38.9187, -77.2311" />
+    <meta property="og:site_name" content="Tysons Times" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tysons Times | Local News for Tysons, Virginia" />
+    <meta
+      property="og:description"
+      content="Independent local reporting for Tysons, Vienna, McLean, Dunn Loring, Falls Church, Fairfax County, and the Silver Line corridor."
+    />
+    <meta property="og:url" content="https://tysonstimes.org/" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Tysons Times | Local News for Tysons, Virginia" />
+    <meta
+      name="twitter:description"
+      content="Independent local reporting for Tysons, Virginia and nearby Northern Fairfax County neighborhoods."
+    />
+    <title>Tysons Times | Local News for Tysons, Virginia</title>
+    <link rel="canonical" href="https://tysonstimes.org/" />
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" href="/feed.xml" title="Tysons Times RSS" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Tysons Times LLM index" />
+    <script id="structured-data" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "NewsMediaOrganization",
+            "@id": "https://tysonstimes.org/#organization",
+            "name": "Tysons Times",
+            "url": "https://tysonstimes.org/",
+            "description": "Tysons Times is an independent local newspaper for Tysons, Virginia, covering civic life, schools, business, dining, events, transportation, and neighborhood change across Northern Fairfax County.",
+            "areaServed": [
+              { "@type": "Place", "name": "Tysons" },
+              { "@type": "Place", "name": "Vienna" },
+              { "@type": "Place", "name": "McLean" },
+              { "@type": "Place", "name": "Dunn Loring" },
+              { "@type": "Place", "name": "Falls Church" },
+              { "@type": "Place", "name": "Fairfax County" }
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://tysonstimes.org/#website",
+            "name": "Tysons Times",
+            "url": "https://tysonstimes.org/",
+            "publisher": { "@id": "https://tysonstimes.org/#organization" },
+            "inLanguage": "en-US"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

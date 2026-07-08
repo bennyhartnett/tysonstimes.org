@@ -1,0 +1,944 @@
+{
+  "content": {
+    "site": {
+      "name": "Tysons Times",
+      "domain": "tysonstimes.org",
+      "url": "https://tysonstimes.org",
+      "location": "Tysons, Virginia",
+      "region": "US-VA",
+      "latitude": "38.9187",
+      "longitude": "-77.2311",
+      "edition": "Morning Edition",
+      "volume": "Vol. 1, No. 1",
+      "description": "Tysons Times is an independent local newspaper for Tysons, Virginia, covering civic life, schools, business, dining, events, transportation, and neighborhood change across Northern Fairfax County.",
+      "coverageArea": ["Tysons", "Vienna", "McLean", "Dunn Loring", "Falls Church", "Fairfax County", "Silver Line corridor"],
+      "topics": [
+        "Tysons local news",
+        "Fairfax County civic coverage",
+        "Northern Virginia schools",
+        "Tysons business",
+        "Tysons dining",
+        "local events",
+        "transportation",
+        "public meetings"
+      ],
+      "tagline": "Local reporting for Tysons, Vienna, McLean, Dunn Loring, Falls Church, and the Silver Line corridor",
+      "issueLine": "A black-and-white broadsheet for the neighborhoods between Route 7, Route 123, the Beltway, and the Silver Line",
+      "footer": "Tysons Times - Independent local newspaper for Tysons, Virginia"
+    },
+    "sections": [
+      {
+        "id": "local",
+        "label": "Local",
+        "description": "Neighborhood coverage from Tysons Corner to Vienna, McLean, Dunn Loring, and Falls Church."
+      },
+      {
+        "id": "civic",
+        "label": "Civic Desk",
+        "description": "Public meetings, planning, transportation, county notes, and local accountability."
+      },
+      {
+        "id": "schools",
+        "label": "Schools",
+        "description": "Students, classrooms, athletics, arts, calendars, and family-facing decisions."
+      },
+      {
+        "id": "business",
+        "label": "Business",
+        "description": "Storefronts, restaurants, offices, development, and the local economy."
+      },
+      {
+        "id": "culture",
+        "label": "Culture",
+        "description": "Arts, libraries, history, weekend listings, and community traditions."
+      },
+      {
+        "id": "sports",
+        "label": "Sports",
+        "description": "Youth sports, school teams, recreation leagues, and local results."
+      },
+      {
+        "id": "opinion",
+        "label": "Opinion",
+        "description": "Letters, columns, reader questions, and editorials rooted in Tysons."
+      }
+    ],
+    "articles": [
+      {
+        "id": "tysons-next-chapter",
+        "section": "local",
+        "title": "Tysons' Next Chapter",
+        "homeTitle": "Next Chapter",
+        "dek": "Growth around the Silver Line, school traffic, storefront change, and neighborhood preservation move to the front page.",
+        "author": "Tysons Times Staff",
+        "location": "Tysons",
+        "date": "2026-07-07",
+        "priority": 1,
+        "imageStyle": "local",
+        "tags": ["front page", "neighborhoods", "planning"],
+        "body": [
+          "Tysons is often described by what surrounds it: the Beltway, Route 7, Route 123, Metro stations, McLean, Vienna, and the office towers that keep reshaping the skyline. The daily story is smaller and more exact.",
+          "It is told in apartment lobbies, crosswalk debates, planning meetings, school drop-off lines, shop windows, sports fields, and quiet civic arguments about how much change a fast-growing place can absorb.",
+          "Tysons Times is built for that scale. It treats a sidewalk closure, a small-business opening, a school-board decision, and a neighborhood arts night as the kind of local record worth preserving.",
+          "Every edition keeps the same promise: clear reporting, readable context, sharp photographs, and a page that still feels like ink on paper.",
+          "As the site grows, this article template can hold long investigations, short explainers, photo essays, neighborhood profiles, and live-update summaries without breaking the broadsheet visual system."
+        ]
+      },
+      {
+        "id": "route-7-main-thread",
+        "section": "civic",
+        "title": "Route 7 Remains the Main Thread",
+        "dek": "The corridor ties together errands, restaurants, offices, schools, Metro stations, and the daily questions of walkability.",
+        "author": "Civic Desk",
+        "location": "Route 7",
+        "date": "2026-07-06",
+        "priority": 2,
+        "imageStyle": "local",
+        "tags": ["roads", "walkability", "route 7"],
+        "body": [
+          "Route 7 is more than a route through Tysons. It is the local spine where drivers, pedestrians, restaurant owners, office workers, students, residents, and visitors all meet the same crowded public space.",
+          "Future coverage from Tysons Times will follow the practical details: crossing conditions, parking pressure, storefront changes, construction work, and how proposed improvements are explained to residents.",
+          "The Civic Desk will keep a standing file of public notices and decision points so readers can see what changed, who asked for it, and what questions remain unresolved.",
+          "A local newspaper becomes useful when repeated small updates build into a clear public memory. This template is designed for that slow accumulation."
+        ]
+      },
+      {
+        "id": "tysons-growth-watch",
+        "section": "business",
+        "title": "Tysons Growth Keeps Neighbors Watching",
+        "dek": "Development around the Beltway still shapes commutes, restaurant traffic, housing pressure, and local business decisions.",
+        "author": "Business Desk",
+        "location": "Tysons",
+        "date": "2026-07-05",
+        "priority": 3,
+        "imageStyle": "business",
+        "tags": ["tysons", "development", "business"],
+        "body": [
+          "The Tysons skyline is visible from nearby neighborhoods, but its influence is felt most clearly in ordinary routines: the time it takes to cross the Beltway, the lunch crowd at a small restaurant, and the lease pressure on a local office.",
+          "The Business Desk will track those connections without treating residents as an afterthought. Development stories will be paired with maps, timelines, public documents, and plain-language summaries.",
+          "Readers should be able to understand not only what is being built, but how a project may affect traffic, housing conversations, tax base, and the small businesses that define the area.",
+          "This page pattern can support quick briefs, project explainers, recurring development trackers, and longer accountability reporting."
+        ]
+      },
+      {
+        "id": "public-meeting-memory",
+        "section": "civic",
+        "title": "Public Meetings Need Better Memory",
+        "dek": "Votes, filings, resident questions, and follow-up promises deserve a record that survives beyond the meeting room.",
+        "author": "Tysons Times Staff",
+        "location": "Fairfax County",
+        "date": "2026-07-04",
+        "priority": 4,
+        "imageStyle": "culture",
+        "tags": ["meetings", "public record", "county"],
+        "body": [
+          "Public meetings often produce more information than a single headline can hold. A resident asks a technical question. A staff member promises a follow-up. A vote moves forward with a condition that matters later.",
+          "Tysons Times will use civic templates for those running stories: agenda previews, meeting recaps, document explainers, and follow-up trackers.",
+          "The format is intentionally dense. Local readers should be able to scan the top, read the plain-language summary, then move into documents, dates, and related coverage.",
+          "A well-maintained civic archive is one of the most valuable products a local newspaper can build."
+        ]
+      },
+      {
+        "id": "schools-fields-libraries",
+        "section": "schools",
+        "title": "Schools, Fields, Libraries, and Friday Nights",
+        "dek": "A local paper has to cover the places where families actually spend their week.",
+        "author": "Schools Desk",
+        "location": "Tysons Area",
+        "date": "2026-07-03",
+        "priority": 5,
+        "imageStyle": "schools",
+        "tags": ["schools", "families", "calendar"],
+        "body": [
+          "A Tysons-area newspaper has to be useful before it is impressive. Parents need calendars. Students need recognition. Coaches need results recorded. Neighbors need to know when a library room, park field, or auditorium becomes the center of town for an evening.",
+          "The Schools Desk will follow classroom milestones, student publications, theater openings, debate teams, athletics, graduation plans, and the public decisions that affect families across the Tysons, Vienna, and McLean school communities.",
+          "Coverage will also make room for quieter public life: book sales, scout projects, volunteer drives, arts exhibits, local history talks, and the ordinary civic labor that rarely fits inside a headline.",
+          "The template can handle roundups, profiles, game stories, explainers, and student achievement briefs while preserving a consistent local-news identity."
+        ]
+      },
+      {
+        "id": "weekend-calendar-built-for-residents",
+        "section": "culture",
+        "title": "A Weekend Calendar Built for Residents",
+        "dek": "The Times calendar template is designed for library talks, school stages, fundraisers, markets, concerts, and civic deadlines.",
+        "author": "Calendar Desk",
+        "location": "Tysons",
+        "date": "2026-07-02",
+        "priority": 6,
+        "imageStyle": "culture",
+        "tags": ["events", "weekend", "arts"],
+        "body": [
+          "A community calendar should do more than stack dates. It should help readers understand what is free, what needs registration, what is family-friendly, and which events connect to a larger local story.",
+          "The Tysons Times events template separates date, place, category, and short context so dozens of listings can remain readable.",
+          "For larger events, calendar entries can link into full articles, photo galleries, or follow-up coverage after the weekend has passed.",
+          "As the site grows, the events page can become a practical front door for residents who want one reliable place to check before making plans."
+        ]
+      },
+      {
+        "id": "small-business-notebook",
+        "section": "business",
+        "title": "Small Business Notebook Starts on the Ground Floor",
+        "dek": "Restaurant openings, office moves, retail changes, and independent businesses belong on the local front page.",
+        "author": "Business Desk",
+        "location": "Tysons",
+        "date": "2026-07-01",
+        "priority": 7,
+        "imageStyle": "business",
+        "tags": ["small business", "restaurants", "retail"],
+        "body": [
+          "A changing storefront can tell a larger story about rent, customer habits, office work, and the way a neighborhood uses its main streets.",
+          "The Small Business Notebook will collect those smaller signals in a consistent format: what changed, where it happened, who is involved, and what readers need to know next.",
+          "Some items will be short. Others will grow into profiles, interviews, or development coverage. The important thing is that local commerce gets recorded with the same seriousness as larger institutions.",
+          "The layout supports fast updates without making the page feel disposable."
+        ]
+      },
+      {
+        "id": "parks-trails-river-edge",
+        "section": "culture",
+        "title": "Parks, Trails, and Stream Valleys",
+        "dek": "Green space is part of Tysons' identity, from pocket parks to trails and wooded edges around the urban core.",
+        "author": "Features Desk",
+        "location": "Tysons",
+        "date": "2026-06-30",
+        "priority": 8,
+        "imageStyle": "local",
+        "tags": ["parks", "trails", "outdoors"],
+        "body": [
+          "Tysons public life is not limited to meeting rooms, towers, and commercial corridors. It also happens along trails, in pocket parks, near athletic fields, and on the wooded edges that shape the community's sense of place.",
+          "The Times will use features and photo essays to record seasonal changes, maintenance questions, volunteer work, and the everyday use of local green space.",
+          "Outdoor coverage can be service journalism, too: closures, access notes, cleanup days, youth sports scheduling, and safety updates all belong in the same local record.",
+          "The visual system is intentionally photographic, even when image assets are placeholders, so future real photos can drop into the same templates."
+        ]
+      },
+      {
+        "id": "crossroads-local-history",
+        "section": "culture",
+        "title": "Local History Should Stay on the Page",
+        "dek": "Historic places, family archives, and neighborhood memory give Tysons reporting a longer timeline.",
+        "author": "History Desk",
+        "location": "Tysons",
+        "date": "2026-06-29",
+        "priority": 9,
+        "imageStyle": "culture",
+        "tags": ["history", "archives", "features"],
+        "body": [
+          "Local history can be easy to flatten into a plaque or a passing reference. A newspaper can do something better: keep returning to the places, documents, photographs, and residents who explain how the community became itself.",
+          "The History Desk template is suited for archival photo essays, oral histories, landmark explainers, and stories that connect present decisions to older maps and property lines.",
+          "These pieces should be carefully sourced, plainly written, and visually distinct from daily briefs while still belonging to the same newspaper.",
+          "Tysons Times can become both a news source and a working archive."
+        ]
+      },
+      {
+        "id": "commute-notes",
+        "section": "civic",
+        "title": "Commute Notes Need Plain English",
+        "dek": "Readers need clear updates on lane shifts, bus connections, trail access, Metro links, and construction timing.",
+        "author": "Transportation Desk",
+        "location": "Tysons / McLean / Vienna",
+        "date": "2026-06-28",
+        "priority": 10,
+        "imageStyle": "business",
+        "tags": ["transportation", "commute", "roads"],
+        "body": [
+          "Transportation coverage is most helpful when it is specific. Which block is affected? What hours matter? Is the work temporary? Who is responsible for the update?",
+          "The Tysons Times transportation format is built for those details. Short notices can run as briefs, while larger projects can become explainers with timelines and related documents.",
+          "The same structure can support road work, pedestrian safety, transit changes, bike and trail access, and the recurring pressure points around Tysons.",
+          "Clarity is the point. Readers should not have to decode agency language before leaving the house."
+        ]
+      },
+      {
+        "id": "youth-sports-roundup",
+        "section": "sports",
+        "title": "Youth Sports Roundup Finds the Names",
+        "dek": "Local teams, coaches, volunteers, and athletes deserve a record beyond the final score.",
+        "author": "Sports Desk",
+        "location": "Tysons Area",
+        "date": "2026-06-27",
+        "priority": 11,
+        "imageStyle": "schools",
+        "tags": ["sports", "students", "recreation"],
+        "body": [
+          "A strong local sports page records names, context, and effort. It covers school teams and recreation leagues without pretending every game is a championship.",
+          "The Sports Desk will make room for short results, team photos, coach notes, season previews, and profiles of volunteers who keep fields, schedules, and snack bars working.",
+          "Because the article catalog is structured by section, tags, and dates, older roundups can remain searchable long after a season ends.",
+          "A newspaper archive matters most to the people whose names appear in it."
+        ]
+      },
+      {
+        "id": "letters-policy",
+        "section": "opinion",
+        "title": "Letters Should Be Local, Signed, and Clear",
+        "dek": "The opinion page will make space for reader arguments without losing accountability.",
+        "author": "Opinion Editor",
+        "location": "Tysons",
+        "date": "2026-06-26",
+        "priority": 12,
+        "imageStyle": "local",
+        "tags": ["opinion", "letters", "policy"],
+        "body": [
+          "A local opinion page works best when readers know the rules. Letters should be signed, focused on Tysons-area issues, and written in a way that helps neighbors understand the argument.",
+          "The Times will separate reported news from opinion and make labels obvious. Editorials, columns, guest essays, and letters should not borrow the authority of straight reporting.",
+          "The format is designed for short pieces, longer guest arguments, editor's notes, and response packages when a public issue generates several thoughtful submissions.",
+          "Strong opinion pages are not loud by default. They are clear, accountable, and close to home."
+        ]
+      }
+    ],
+    "events": [
+      {
+        "title": "Community Calendar Submissions",
+        "date": "Every Monday",
+        "location": "Online",
+        "category": "Calendar",
+        "summary": "Submit public events, school performances, fundraisers, lectures, and neighborhood meetings for editorial review."
+      },
+      {
+        "title": "Public Meeting Watch",
+        "date": "Weekly",
+        "location": "Tysons / Fairfax County",
+        "category": "Civic",
+        "summary": "A standing tracker for agendas, hearings, votes, and follow-up items affecting Tysons-area readers."
+      },
+      {
+        "title": "Weekend Arts Listings",
+        "date": "Fridays",
+        "location": "Tysons",
+        "category": "Culture",
+        "summary": "The culture desk highlights concerts, library programs, theater, exhibits, and family-friendly weekend options."
+      },
+      {
+        "title": "Small Business Notebook",
+        "date": "Rolling",
+        "location": "Tysons and nearby corridors",
+        "category": "Business",
+        "summary": "Openings, closings, moves, menus, leases, and local business tips collected for verification."
+      },
+      {
+        "title": "Schools and Sports Roundup",
+        "date": "Seasonal",
+        "location": "Tysons Area",
+        "category": "Schools",
+        "summary": "Student awards, team results, theater notices, debate news, and school calendar items."
+      },
+      {
+        "title": "Reader Letters Deadline",
+        "date": "Thursdays",
+        "location": "Opinion Desk",
+        "category": "Opinion",
+        "summary": "Letters should be brief, signed, local, and tied to issues that affect Tysons-area readers."
+      }
+    ]
+  },
+  "pages": {
+    "pageTitles": {
+      "home": "Front Page",
+      "section": "Section",
+      "article": "Article",
+      "archive": "Archive",
+      "events": "Events",
+      "briefs": "Briefs",
+      "guide": "Guide",
+      "photo": "Photo Essay",
+      "live": "Live Updates",
+      "newsletter": "Newsletter",
+      "investigations": "Investigations",
+      "election": "Election Results",
+      "dining": "Dining Guide",
+      "obituaries": "Obituaries",
+      "classifieds": "Classifieds",
+      "corrections": "Corrections",
+      "about": "Subscribe/About"
+    },
+    "pageDescriptions": {
+      "home": "Tysons Times is an independent local newspaper for Tysons, Virginia, covering civic life, schools, business, dining, events, transportation, and neighborhood change across Northern Fairfax County.",
+      "archive": "Search the Tysons Times archive for Tysons-area local news, civic coverage, schools, business, dining, events, transportation, and neighborhood reporting.",
+      "events": "Community calendar listings for Tysons public meetings, school events, arts notices, fundraisers, weekend plans, and recurring local deadlines.",
+      "briefs": "Short verified local-news briefs from Tysons, Vienna, McLean, Dunn Loring, Falls Church, Fairfax County, and the Silver Line corridor.",
+      "guide": "Plain-English resident guides for Tysons public meetings, transportation changes, weekend planning, school deadlines, and neighborhood questions.",
+      "photo": "A visual Tysons Times photo-essay index for parks, streetscapes, storefronts, classrooms, public meetings, and neighborhood records.",
+      "live": "Live-update format for developing Tysons-area stories, public meetings, traffic disruptions, election nights, weather events, and major civic filings.",
+      "newsletter": "Tysons Times newsletter preview for local headlines, weekend events, civic alerts, schools, sports, business, and dining updates.",
+      "investigations": "Accountability reporting, case files, timelines, public records, source notes, and unanswered reader questions for Tysons and Fairfax County.",
+      "election": "Local election-results template for Tysons-area races, precinct returns, turnout notes, ballot questions, and civic-desk context.",
+      "dining": "Tysons dining guide for restaurant openings, closings, lunch picks, cafes, patios, takeout notes, and small-business reporting.",
+      "obituaries": "Memorial notices, service announcements, community remembrances, and obituary submission guidance for the Tysons area.",
+      "classifieds": "A local classifieds board for Tysons public notices, jobs, services, real estate, sales, announcements, and community marketplace needs.",
+      "corrections": "Tysons Times corrections, clarifications, editorial standards, reader review requests, and visible updates to the public record.",
+      "about": "About Tysons Times, an independent local newspaper template and reader-service hub for Tysons, Virginia."
+    },
+    "pageSlugs": {
+      "home": "",
+      "archive": "archive",
+      "events": "events",
+      "briefs": "briefs",
+      "guide": "guide",
+      "photo": "photo-essay",
+      "live": "live",
+      "newsletter": "newsletter",
+      "investigations": "investigations",
+      "election": "election",
+      "dining": "dining",
+      "obituaries": "obituaries",
+      "classifieds": "classifieds",
+      "corrections": "corrections",
+      "about": "about"
+    },
+    "pageTypes": [
+      {
+        "title": "Front Page",
+        "text": "A dense edition layout with lead story, briefs, photo record, long read, and community notices.",
+        "page": "home"
+      },
+      {
+        "title": "Section Page",
+        "text": "Reusable feed template for civic, schools, business, culture, sports, opinion, and future desks.",
+        "page": "section"
+      },
+      {
+        "title": "Article Page",
+        "text": "Long-form story template with byline, deck, image plate, tags, and related coverage.",
+        "page": "article"
+      },
+      {
+        "title": "Archive",
+        "text": "Searchable article catalog with section filtering for a growing newsroom library.",
+        "page": "archive"
+      },
+      {
+        "title": "Events",
+        "text": "Calendar page for meetings, school items, arts listings, deadlines, and weekend guides.",
+        "page": "events"
+      },
+      {
+        "title": "Briefs",
+        "text": "Compact local-news file for quick updates, notices, short items, and confirmed newsroom notes.",
+        "page": "briefs"
+      },
+      {
+        "title": "Guide",
+        "text": "Service-journalism page for explainers, checklists, recurring resident questions, and practical links.",
+        "page": "guide"
+      },
+      {
+        "title": "Photo Essay",
+        "text": "Visual feature page with a lead image plate, captioned gallery, and narrative newspaper columns.",
+        "page": "photo"
+      },
+      {
+        "title": "Live Updates",
+        "text": "Running-story page for meetings, storms, elections, traffic incidents, and developing civic stories.",
+        "page": "live"
+      },
+      {
+        "title": "Newsletter",
+        "text": "Email-edition page with issue preview, sign-up panel, and reusable module blocks.",
+        "page": "newsletter"
+      },
+      {
+        "title": "Investigations",
+        "text": "Accountability hub with a case file, documents, source notes, timelines, and related coverage.",
+        "page": "investigations"
+      },
+      {
+        "title": "Election Results",
+        "text": "Results board for local races, precinct returns, turnout notes, and election-night analysis.",
+        "page": "election"
+      },
+      {
+        "title": "Dining Guide",
+        "text": "Restaurant and cafe guide for openings, closings, neighborhood picks, and service notes.",
+        "page": "dining"
+      },
+      {
+        "title": "Obituaries",
+        "text": "Memorial notice template with submission guidance, service details, and remembrance modules.",
+        "page": "obituaries"
+      },
+      {
+        "title": "Classifieds",
+        "text": "Local marketplace and public-notice board for jobs, services, real estate, sales, and notices.",
+        "page": "classifieds"
+      },
+      {
+        "title": "Corrections",
+        "text": "Corrections log and standards page that keeps updates visible and tied to original coverage.",
+        "page": "corrections"
+      },
+      {
+        "title": "Subscribe/About",
+        "text": "Mission, submission notes, newsletter shell, and reader-service information.",
+        "page": "about"
+      }
+    ],
+    "primaryNavLinks": [
+      { "label": "Front Page", "page": "home" },
+      { "label": "Local", "section": "local" },
+      { "label": "Civic", "section": "civic" },
+      { "label": "Schools", "section": "schools" },
+      { "label": "Business", "section": "business" },
+      { "label": "Dining", "page": "dining" },
+      { "label": "Events", "page": "events" },
+      { "label": "Opinion", "section": "opinion" },
+      { "label": "Archive", "page": "archive" }
+    ],
+    "directoryNavGroups": [
+      {
+        "title": "More Desks",
+        "links": [
+          { "label": "Culture", "section": "culture" },
+          { "label": "Sports", "section": "sports" },
+          { "label": "Investigations", "page": "investigations" },
+          { "label": "Election", "page": "election" }
+        ]
+      },
+      {
+        "title": "Quick Files",
+        "links": [
+          { "label": "Briefs", "page": "briefs" },
+          { "label": "Guides", "page": "guide" },
+          { "label": "Photos", "page": "photo" },
+          { "label": "Live", "page": "live" }
+        ]
+      },
+      {
+        "title": "Reader Services",
+        "links": [
+          { "label": "Newsletter", "page": "newsletter" },
+          { "label": "Obits", "page": "obituaries" },
+          { "label": "Classifieds", "page": "classifieds" },
+          { "label": "Corrections", "page": "corrections" },
+          { "label": "About", "page": "about" }
+        ]
+      }
+    ],
+    "homePage": {
+      "leadCaption": "Front-page visual treatment for Tysons streets, reproduced with heavy halftone screens and visible ink rub.",
+      "civicSections": ["civic", "business", "schools"],
+      "civicLimit": 3,
+      "longReadArticleId": "schools-fields-libraries",
+      "photoRecord": {
+        "articleId": "parks-trails-river-edge",
+        "caption": "A future photo essay space for Tysons streetscapes, parks, storefronts, school fields, and commuter edges."
+      },
+      "quotePanel": {
+        "text": "Local news should feel close enough to walk to.",
+        "attribution": "From the editor's desk"
+      },
+      "notices": [
+        {
+          "title": "Calendar",
+          "text": "Submit public meetings, school events, arts listings, fundraisers, and neighborhood gatherings for the weekly calendar."
+        },
+        {
+          "title": "Tips",
+          "text": "Send notes on traffic changes, new storefronts, civic filings, reader questions, and stories that deserve a closer look."
+        },
+        {
+          "title": "Corrections",
+          "text": "Corrections will run clearly, with the original context and the updated record kept visible to readers."
+        },
+        {
+          "title": "Subscribe",
+          "text": "A future email edition can carry the top headlines, weekend guide, public meetings, and school notes."
+        },
+        {
+          "title": "Business",
+          "text": "Restaurant openings, office moves, retail changes, and independent businesses belong on the local front page."
+        },
+        {
+          "title": "Opinion",
+          "text": "Letters should be brief, local, signed, and focused on issues that directly affect Tysons-area readers."
+        },
+        {
+          "title": "Archives",
+          "text": "Major stories will be organized by neighborhood, topic, and date so readers can follow long-running issues."
+        },
+        {
+          "title": "Sports",
+          "text": "Youth sports, school teams, recreation leagues, and seasonal results will have a standing place in the paper."
+        }
+      ]
+    },
+    "diningPage": {
+      "listings": [
+        {
+          "title": "Tysons Lunch File",
+          "area": "Tysons",
+          "category": "Lunch / Casual",
+          "text": "A compact module for weekday lunch picks, quick service notes, and verified hours.",
+          "articleId": "small-business-notebook"
+        },
+        {
+          "title": "Beltway Dinner Watch",
+          "area": "Tysons",
+          "category": "Dinner / Openings",
+          "text": "Track new menus, reservation changes, patios, and restaurant projects near the Beltway.",
+          "articleId": "tysons-growth-watch"
+        },
+        {
+          "title": "Coffee and Bakeries",
+          "area": "Tysons Area",
+          "category": "Morning / Cafe",
+          "text": "A reusable card for cafes, bakeries, counters, and neighborhood meeting spots.",
+          "articleId": "small-business-notebook"
+        },
+        {
+          "title": "Family Tables",
+          "area": "Tysons Area",
+          "category": "Weekend / Family",
+          "text": "Reader-facing notes on kid-friendly seating, parking, noise, and easy group meals.",
+          "articleId": "weekend-calendar-built-for-residents"
+        },
+        {
+          "title": "Date-Night File",
+          "area": "Northern Fairfax",
+          "category": "Evening / Guide",
+          "text": "A more selective guide format for service, atmosphere, dress, and reservation context.",
+          "articleId": "parks-trails-river-edge"
+        },
+        {
+          "title": "Restaurant Changes",
+          "area": "Tysons and Nearby Corridors",
+          "category": "Notebook / Business",
+          "text": "A standing slot for closings, moves, leases, permits, and ownership changes.",
+          "articleId": "small-business-notebook"
+        }
+      ],
+      "serviceNotes": [
+        {
+          "title": "Openings",
+          "text": "Confirmed restaurant launches and first-week service notes."
+        },
+        {
+          "title": "Closings",
+          "text": "Last-day notices, relocation details, and follow-up reporting."
+        },
+        {
+          "title": "Patios",
+          "text": "Outdoor seating, shade, weather limits, and reservation rules."
+        },
+        {
+          "title": "Takeout",
+          "text": "Counter-service, pickup windows, family meals, and delivery notes."
+        }
+      ],
+      "tipBox": "Restaurant openings, menu changes, permit activity, and closing notices belong in the small-business notebook before they become guide entries."
+    },
+    "correctionsPage": {
+      "items": [
+        {
+          "date": "2026-07-07",
+          "articleId": "tysons-next-chapter",
+          "text": "Template entry showing where a corrected location, date, quote attribution, or context note would appear.",
+          "status": "Updated"
+        },
+        {
+          "date": "2026-07-06",
+          "articleId": "route-7-main-thread",
+          "text": "Clarification module for distinguishing agency plans from final approved work.",
+          "status": "Clarified"
+        },
+        {
+          "date": "2026-07-05",
+          "articleId": "tysons-growth-watch",
+          "text": "Follow-up note space for revised figures, changed project timing, or additional document links.",
+          "status": "Appended"
+        },
+        {
+          "date": "2026-07-04",
+          "articleId": "public-meeting-memory",
+          "text": "Correction log item tied to a civic story so the archive keeps the change visible.",
+          "status": "Logged"
+        }
+      ],
+      "standards": [
+        {
+          "title": "Corrections",
+          "text": "Material errors are corrected in the story and listed on this page with date and context."
+        },
+        {
+          "title": "Clarifications",
+          "text": "Ambiguous language can be clarified without hiding the original reporting path."
+        },
+        {
+          "title": "Updates",
+          "text": "Developing stories keep major updates timestamped so readers can follow what changed."
+        },
+        {
+          "title": "Reader Contact",
+          "text": "Correction requests should include the article, claim, source, and preferred contact path."
+        }
+      ]
+    },
+    "classifiedsPage": {
+      "ads": [
+        {
+          "title": "Public Notice",
+          "text": "County filing, hearing notice, estate notice, or legal announcement with publication dates."
+        },
+        {
+          "title": "Help Wanted",
+          "text": "Local office, restaurant, retail, tutoring, seasonal, and part-time hiring posts."
+        },
+        {
+          "title": "Real Estate",
+          "text": "Open houses, rentals, office space, short notices, and neighborhood property updates."
+        },
+        {
+          "title": "Services",
+          "text": "Tutoring, repairs, lessons, accounting, yard work, childcare, and local professional services."
+        },
+        {
+          "title": "Sales",
+          "text": "Estate sales, yard sales, equipment, furniture, instruments, and school-group fundraisers."
+        },
+        {
+          "title": "Lost & Found",
+          "text": "Small community notices with location, date, contact path, and verification notes."
+        },
+        {
+          "title": "Announcements",
+          "text": "Milestones, reunions, club notes, scout projects, and volunteer calls."
+        },
+        {
+          "title": "Marketplace",
+          "text": "Reader-to-reader listings for useful local goods and neighborhood needs."
+        }
+      ],
+      "submissionCopy": "Classified pages can collect submissions, route public notices for review, and publish print-style listings with a searchable category index.",
+      "submissionCategories": ["Public notice", "Help wanted", "Real estate", "Services", "Sales"]
+    },
+    "featurePages": {
+      "guide": {
+        "items": [
+          {
+            "title": "Public Meetings",
+            "text": "What is being decided, where the agenda lives, when public comment closes, and which follow-up documents matter.",
+            "articleId": "public-meeting-memory"
+          },
+          {
+            "title": "Getting Around",
+            "text": "Lane shifts, crossings, bus links, trail access, and construction timing translated into plain local language.",
+            "articleId": "commute-notes"
+          },
+          {
+            "title": "Weekend Planning",
+            "text": "A concise path through library events, school stages, volunteer drives, concerts, markets, and civic deadlines.",
+            "articleId": "weekend-calendar-built-for-residents"
+          },
+          {
+            "title": "Business Changes",
+            "text": "Openings, closings, permits, leases, menus, and storefront moves tracked with address-level context.",
+            "articleId": "small-business-notebook"
+          }
+        ],
+        "residentLinks": [
+          { "label": "Calendar and deadlines", "page": "events" },
+          { "label": "Civic Desk", "section": "civic" },
+          { "label": "Schools", "section": "schools" },
+          { "label": "Search archive", "page": "archive" }
+        ],
+        "readerQuestion": "Guide pages can begin with a reader question and grow into a standing reference as reporting accumulates."
+      },
+      "photoEssay": {
+        "featureArticleId": "parks-trails-river-edge",
+        "galleryLimit": 6,
+        "heroCaption": "Lead image plate for a Tysons photo essay with caption space and monochrome press texture."
+      },
+      "live": {
+        "updates": [
+          {
+            "time": "8:15 a.m.",
+            "label": "Civic",
+            "title": "Agenda watch opens",
+            "text": "County and school-board agenda items are grouped for review before evening meetings.",
+            "articleId": "public-meeting-memory"
+          },
+          {
+            "time": "9:40 a.m.",
+            "label": "Roads",
+            "title": "Commute note added",
+            "text": "Transportation notices are checked for block-by-block impact, timing, and responsible agency.",
+            "articleId": "commute-notes"
+          },
+          {
+            "time": "11:05 a.m.",
+            "label": "Business",
+            "title": "Storefront file updated",
+            "text": "The business desk adds confirmed openings, closings, menu changes, and lease moves to the notebook.",
+            "articleId": "small-business-notebook"
+          },
+          {
+            "time": "1:30 p.m.",
+            "label": "Schools",
+            "title": "Calendar items queued",
+            "text": "Student events, performances, athletics, and family deadlines are sorted for the weekly school file.",
+            "articleId": "schools-fields-libraries"
+          },
+          {
+            "time": "3:10 p.m.",
+            "label": "Culture",
+            "title": "Weekend guide refresh",
+            "text": "Library talks, arts listings, local history items, and volunteer events are checked for the weekend calendar.",
+            "articleId": "weekend-calendar-built-for-residents"
+          }
+        ],
+        "fileUses": ["Public meeting nights", "Election results", "Weather closures", "Traffic incidents", "Major civic filings"]
+      },
+      "newsletter": {
+        "modules": [
+          {
+            "title": "Morning Brief",
+            "text": "Top local story, traffic note, school deadline, and meeting watch in a compact daily format."
+          },
+          {
+            "title": "Weekend Edition",
+            "text": "Events, restaurants, performances, outdoor notes, and family-facing calendar items."
+          },
+          {
+            "title": "Civic Watch",
+            "text": "Agendas, votes, filings, public comment deadlines, and follow-up questions from residents."
+          },
+          {
+            "title": "Schools and Sports",
+            "text": "Student achievements, team results, stage listings, and family calendar reminders."
+          }
+        ],
+        "options": ["Morning edition", "Weekend guide", "Civic alerts", "Schools and sports"]
+      }
+    },
+    "investigationsPage": {
+      "leadArticleId": "public-meeting-memory",
+      "relatedSections": ["civic", "business"],
+      "relatedLimit": 4,
+      "caseStats": [
+        { "label": "Documents", "value": "14" },
+        { "label": "Open Questions", "value": "6" },
+        { "label": "Status", "value": "Reporting" }
+      ],
+      "documentRows": [
+        {
+          "title": "Request Filed",
+          "text": "Public-records request, agenda packet, and meeting video link collected in one working file."
+        },
+        {
+          "title": "What Changed",
+          "text": "A plain-language note explains which vote, filing, contract, or deadline moved the story forward."
+        },
+        {
+          "title": "Who Decides",
+          "text": "Named agencies, boards, departments, and elected officials are separated from outside stakeholders."
+        },
+        {
+          "title": "Reader Questions",
+          "text": "Open questions are preserved until documents, interviews, or official answers close the loop."
+        }
+      ],
+      "timeline": [
+        {
+          "date": "June 18",
+          "text": "Agenda item appears in public packet with staff recommendation and attached supporting documents."
+        },
+        {
+          "date": "June 24",
+          "text": "Residents raise follow-up questions about timing, public notice, cost, and neighborhood impact."
+        },
+        {
+          "date": "July 02",
+          "text": "The Times files a document request and logs every promised response in the case file."
+        },
+        {
+          "date": "July 07",
+          "text": "Reporter notes, source calls, and related coverage are grouped for a publishable explainer."
+        }
+      ],
+      "sourceLog": ["Agenda packet", "Meeting minutes", "County staff memo", "Resident interview notes", "Records request receipt"]
+    },
+    "electionPage": {
+      "races": [
+        {
+          "title": "County Board",
+          "label": "Precincts Reporting",
+          "value": 72,
+          "note": "Awaiting late precincts"
+        },
+        {
+          "title": "School Board",
+          "label": "Votes Counted",
+          "value": 64,
+          "note": "Early and Election Day returns"
+        },
+        {
+          "title": "Bond Question",
+          "label": "Yes Share",
+          "value": 58,
+          "note": "Unofficial returns"
+        },
+        {
+          "title": "Turnout",
+          "label": "Registered Voters",
+          "value": 47,
+          "note": "Estimated participation"
+        }
+      ],
+      "precincts": [
+        {
+          "name": "Tysons",
+          "ballots": "1,842",
+          "turnout": "71%",
+          "status": "Reported"
+        },
+        {
+          "name": "Pimmit Hills",
+          "ballots": "1,416",
+          "turnout": "64%",
+          "status": "Reported"
+        },
+        {
+          "name": "Dunn Loring",
+          "ballots": "1,105",
+          "turnout": "52%",
+          "status": "Partial"
+        },
+        {
+          "name": "McLean Edge",
+          "ballots": "908",
+          "turnout": "49%",
+          "status": "Partial"
+        },
+        {
+          "name": "Vienna North",
+          "ballots": "836",
+          "turnout": "44%",
+          "status": "Pending"
+        }
+      ],
+      "deskItems": ["Unofficial results", "Precinct returns", "Turnout notes", "Ballot explainers", "Certification timeline"],
+      "readerNote": "Election pages can switch from live updates to certified results while preserving the original timestamped race notes."
+    },
+    "obituariesPage": {
+      "notices": [
+        {
+          "title": "Memorial Notice Template",
+          "location": "Tysons",
+          "text": "A respectful short-form notice with family-approved biographical details, service location, and charitable-giving note."
+        },
+        {
+          "title": "Community Remembrance",
+          "location": "Tysons Area",
+          "text": "A longer remembrance format for civic volunteers, teachers, coaches, faith leaders, and neighborhood figures."
+        },
+        {
+          "title": "Service Announcement",
+          "location": "Northern Fairfax",
+          "text": "A compact service notice for date, time, location, visitation details, and publication contact information."
+        },
+        {
+          "title": "Anniversary Memorial",
+          "location": "Tysons",
+          "text": "A standing module for anniversary notices, family messages, and archival photo placement."
+        }
+      ],
+      "editorialCare": "Obituary pages should keep family-provided details clear, avoid crowding service information, and preserve the notice after publication."
+    }
+  }
+}
