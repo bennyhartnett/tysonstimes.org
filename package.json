@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
+    "seo": "node scripts/generate-seo-assets.mjs",
+    "prebuild": "node scripts/generate-seo-assets.mjs",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1"
   },
