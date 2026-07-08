@@ -66,8 +66,10 @@ a:focus-visible {
   text-decoration: none;
 }
 
-a.hw-ready {
+.hw-ready {
   --hw-hover-weight: 950;
+  --hw-hover-duration: 560ms;
+  --hw-hover-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --hw-shadow-offset: 0px;
 }
 
@@ -112,24 +114,24 @@ a.hw-ready {
     0 var(--hw-shadow-offset) 0 currentColor,
     0 calc(-1 * var(--hw-shadow-offset)) 0 currentColor;
   transition:
-    font-weight 180ms ease,
-    font-variation-settings 180ms ease,
-    text-shadow 180ms ease;
+    font-weight var(--hw-hover-duration) var(--hw-hover-ease),
+    font-variation-settings var(--hw-hover-duration) var(--hw-hover-ease),
+    text-shadow var(--hw-hover-duration) var(--hw-hover-ease);
   will-change: font-weight, font-variation-settings, text-shadow;
 }
 
-a.hw-ready:hover,
-a.hw-ready:focus-visible {
+.hw-ready:hover,
+.hw-ready:focus-visible {
   --hw-shadow-offset: 0.012em;
 }
 
-a.hw-ready:hover .hw-anim,
-a.hw-ready:focus-visible .hw-anim {
+.hw-ready:hover .hw-anim,
+.hw-ready:focus-visible .hw-anim {
   font-weight: var(--hw-hover-weight);
   font-variation-settings: "wght" var(--hw-hover-weight);
 }
 
-a.hw-ready:focus-visible {
+.hw-ready:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 3px;
 }
