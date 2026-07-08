@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redirecting | Tysons Times</title>
+  </head>
+  <body>
+    <script>
+      (function () {
+        const file = window.location.pathname.split("/").pop() || "";
+        const params = new URLSearchParams(window.location.search);
+        const pageMap = {
+          "": "/",
+          "index.html": "/",
+          "archive.html": "/archive",
+          "events.html": "/events",
+          "briefs.html": "/briefs",
+          "guide.html": "/guide",
+          "photo-essay.html": "/photo",
+          "live.html": "/live",
+          "newsletter.html": "/newsletter",
+          "investigations.html": "/investigations",
+          "election.html": "/election",
+          "dining.html": "/dining",
+          "obituaries.html": "/obituaries",
+          "classifieds.html": "/classifieds",
+          "corrections.html": "/corrections",
+          "about.html": "/about"
+        };
+
+        let route = pageMap[file] || "/";
+        if (file === "article.html") {
+          route = "/article/" + encodeURIComponent(params.get("id") || "tysons-next-chapter");
+        }
+        if (file === "section.html") {
+          route = "/section/" + encodeURIComponent(params.get("section") || "local");
+        }
+
+        const basePath = window.location.pathname.replace(/[^/]*$/, "");
+        window.location.replace(window.location.origin + basePath + "#" + route);
+      })();
+    </script>
+  </body>
+</html>
