@@ -1,28 +1,15 @@
 import { HoverLink } from "../components/HoverLink.jsx";
+import { electionPage } from "../data/pages.js";
 import { pagePath } from "../routing.js";
 
 export function ElectionPage() {
-  const races = [
-    ["County Board", "Precincts Reporting", 72, "Awaiting late precincts"],
-    ["School Board", "Votes Counted", 64, "Early and Election Day returns"],
-    ["Bond Question", "Yes Share", 58, "Unofficial returns"],
-    ["Turnout", "Registered Voters", 47, "Estimated participation"],
-  ];
-  const precincts = [
-    ["Tysons", "1,842", "71%", "Reported"],
-    ["Pimmit Hills", "1,416", "64%", "Reported"],
-    ["Dunn Loring", "1,105", "52%", "Partial"],
-    ["McLean Edge", "908", "49%", "Partial"],
-    ["Vienna North", "836", "44%", "Pending"],
-  ];
-
   return (
     <section className="section election-layout">
       <div>
         <h2 className="page-title">Election Results</h2>
         <p className="deck">A live-results template for local races, precinct returns, turnout notes, ballot questions, and context from the civic desk.</p>
         <div className="results-grid">
-          {races.map(([title, label, value, note]) => (
+          {electionPage.races.map(({ title, label, value, note }) => (
             <article className="result-card" key={title}>
               <div className="event-date">{label}</div>
               <h3>{title}</h3>
@@ -45,7 +32,7 @@ export function ElectionPage() {
               </tr>
             </thead>
             <tbody>
-              {precincts.map(([name, ballots, turnout, status]) => (
+              {electionPage.precincts.map(({ name, ballots, turnout, status }) => (
                 <tr key={name}>
                   <td>{name}</td>
                   <td>{ballots}</td>
@@ -61,16 +48,14 @@ export function ElectionPage() {
         <div className="index-box">
           <h3>Election Desk</h3>
           <ol>
-            <li>Unofficial results</li>
-            <li>Precinct returns</li>
-            <li>Turnout notes</li>
-            <li>Ballot explainers</li>
-            <li>Certification timeline</li>
+            {electionPage.deskItems.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
           </ol>
         </div>
         <div className="ad-box">
           <h3>Reader Note</h3>
-          <p>Election pages can switch from live updates to certified results while preserving the original timestamped race notes.</p>
+          <p>{electionPage.readerNote}</p>
         </div>
         <HoverLink className="button" href={pagePath("live")}>
           Open Live File

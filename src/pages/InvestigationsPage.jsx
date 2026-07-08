@@ -1,24 +1,15 @@
 import { HeadlineList } from "../components/ArticleBits.jsx";
 import { HoverLink } from "../components/HoverLink.jsx";
+import { investigationsPage } from "../data/pages.js";
 import { sortedArticles, sectionLabel } from "../data/selectors.js";
 import { articlePath, pagePath } from "../routing.js";
 import { formatDate } from "../utils/format.js";
 
 export function InvestigationsPage() {
-  const lead = sortedArticles.find((article) => article.id === "public-meeting-memory") || sortedArticles[0];
-  const related = sortedArticles.filter((article) => ["civic", "business"].includes(article.section)).slice(0, 4);
-  const documentRows = [
-    ["Request Filed", "Public-records request, agenda packet, and meeting video link collected in one working file."],
-    ["What Changed", "A plain-language note explains which vote, filing, contract, or deadline moved the story forward."],
-    ["Who Decides", "Named agencies, boards, departments, and elected officials are separated from outside stakeholders."],
-    ["Reader Questions", "Open questions are preserved until documents, interviews, or official answers close the loop."],
-  ];
-  const timeline = [
-    ["June 18", "Agenda item appears in public packet with staff recommendation and attached supporting documents."],
-    ["June 24", "Residents raise follow-up questions about timing, public notice, cost, and neighborhood impact."],
-    ["July 02", "The Times files a document request and logs every promised response in the case file."],
-    ["July 07", "Reporter notes, source calls, and related coverage are grouped for a publishable explainer."],
-  ];
+  const lead = sortedArticles.find((article) => article.id === investigationsPage.leadArticleId) || sortedArticles[0];
+  const related = sortedArticles
+    .filter((article) => investigationsPage.relatedSections.includes(article.section))
+    .slice(0, investigationsPage.relatedLimit);
 
   return (
     <section className="section investigations-layout">
@@ -34,13 +25,15 @@ export function InvestigationsPage() {
           </h3>
           <p>{lead.dek}</p>
           <div className="case-strip">
-            <span>Documents: 14</span>
-            <span>Open Questions: 6</span>
-            <span>Status: Reporting</span>
+            {investigationsPage.caseStats.map((stat) => (
+              <span key={stat.label}>
+                {stat.label}: {stat.value}
+              </span>
+            ))}
           </div>
         </article>
         <div className="document-grid">
-          {documentRows.map(([title, text]) => (
+          {investigationsPage.documentRows.map(({ title, text }) => (
             <article className="document-card" key={title}>
               <h3>{title}</h3>
               <p>{text}</p>
@@ -48,7 +41,7 @@ export function InvestigationsPage() {
           ))}
         </div>
         <div className="timeline-list">
-          {timeline.map(([date, text]) => (
+          {investigationsPage.timeline.map(({ date, text }) => (
             <article className="timeline-item" key={`${date}-${text}`}>
               <strong>{date}</strong>
               <p>{text}</p>
@@ -64,11 +57,9 @@ export function InvestigationsPage() {
         <div className="ad-box source-list">
           <h3>Source Log</h3>
           <ol>
-            <li>Agenda packet</li>
-            <li>Meeting minutes</li>
-            <li>County staff memo</li>
-            <li>Resident interview notes</li>
-            <li>Records request receipt</li>
+            {investigationsPage.sourceLog.map((source) => (
+              <li key={source}>{source}</li>
+            ))}
           </ol>
         </div>
         <HoverLink className="button" href={pagePath("archive")}>
