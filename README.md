@@ -1,32 +1,29 @@
 # Tysons Times
 
-Hello world React site for `tysonstimes.com`, built with Vite and deployed to
-GitHub Pages.
+A React/Vite local-news site built for GitHub Pages and the custom domain `tysonstimes.org`.
 
-## Local development
+## Development
 
-```sh
+```bash
 npm install
 npm run dev
 ```
 
-## Build
+## Production Build
 
-```sh
+```bash
 npm run build
 npm run preview
 ```
 
-## GitHub Pages deployment
+Pushes to `main` deploy through `.github/workflows/deploy-pages.yml`.
 
-The workflow at `.github/workflows/deploy-pages.yml` builds and deploys the site
-on every push to `main`.
+The app uses hash-based routes so GitHub Pages can serve every page reliably:
 
-In GitHub, set **Settings -> Pages -> Build and deployment -> Source** to
-**GitHub Actions**.
+- `#/`
+- `#/section/local`
+- `#/article/tysons-next-chapter`
+- `#/archive`
+- `#/events`
 
-The custom domain is configured in `public/CNAME` as:
-
-```txt
-tysonstimes.com
-```
+`public/CNAME` configures the GitHub Pages custom domain.
