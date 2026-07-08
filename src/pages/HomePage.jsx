@@ -1,4 +1,5 @@
 import { ArticleCard, SectionIndex } from "../components/ArticleBits.jsx";
+import { HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate, MiniPhoto } from "../components/Media.jsx";
 import { sections } from "../data/content.js";
 import { sortedArticles, sectionLabel } from "../data/selectors.js";
@@ -28,7 +29,7 @@ export function HomePage() {
         <div className="lead-story">
           <div className="lead-copy">
             <h2>
-              <a href={articlePath(lead.id)}>{lead.homeTitle || lead.title}</a>
+              <HoverLink href={articlePath(lead.id)}>{lead.homeTitle || lead.title}</HoverLink>
             </h2>
             <p className="deck">{lead.dek}</p>
             <div className="columns">
@@ -49,7 +50,7 @@ export function HomePage() {
             <div className="bulletin" key={article.id}>
               <strong>{sectionLabel(article.section)}</strong>
               <h3>
-                <a href={articlePath(article.id)}>{article.title}</a>
+                <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
               </h3>
               <p>{textPreview(article.dek, 190)}</p>
             </div>
@@ -80,7 +81,7 @@ export function HomePage() {
                 {sectionLabel(article.section)} / {formatDate(article.date)}
               </div>
               <h3>
-                <a href={articlePath(article.id)}>{article.title}</a>
+                <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
               </h3>
               <p>{textPreview(article.dek, 170)}</p>
             </article>
@@ -108,7 +109,7 @@ export function HomePage() {
       <section className="section long-read" aria-labelledby="long-feature">
         <div>
           <h2 id="long-feature">
-            <a href={articlePath(longRead.id)}>{longRead.title}</a>
+            <HoverLink href={articlePath(longRead.id)}>{longRead.title}</HoverLink>
           </h2>
           <p className="deck">{longRead.dek}</p>
           <div className="columns">

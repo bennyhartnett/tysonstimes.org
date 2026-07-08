@@ -65,7 +65,7 @@ export default function App() {
   }, [route.key]);
 
   return (
-    <NewspaperLayout>
+    <NewspaperLayout route={route}>
       <Page route={route} />
     </NewspaperLayout>
   );

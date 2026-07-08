@@ -1,3 +1,4 @@
+import { HoverLink } from "../components/HoverLink.jsx";
 import { pagePath } from "../routing.js";
 
 export function ElectionPage() {
@@ -71,9 +72,9 @@ export function ElectionPage() {
           <h3>Reader Note</h3>
           <p>Election pages can switch from live updates to certified results while preserving the original timestamped race notes.</p>
         </div>
-        <a className="button" href={pagePath("live")}>
+        <HoverLink className="button" href={pagePath("live")}>
           Open Live File
-        </a>
+        </HoverLink>
       </aside>
     </section>
   );

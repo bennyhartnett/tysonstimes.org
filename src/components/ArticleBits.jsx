@@ -1,6 +1,7 @@
 import { articlePath, sectionPath } from "../routing.js";
 import { sectionLabel } from "../data/selectors.js";
 import { formatDate, textPreview } from "../utils/format.js";
+import { HoverLink } from "./HoverLink.jsx";
 import { MiniPhoto } from "./Media.jsx";
 
 export function Tags({ article }) {
@@ -21,7 +22,7 @@ export function HeadlineList({ articles }) {
     <ul className="headline-list">
       {articles.map((article) => (
         <li key={article.id}>
-          <a href={articlePath(article.id)}>{article.title}</a>
+          <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
           <br />
           <span>
             {sectionLabel(article.section)} / {formatDate(article.date)}
@@ -46,7 +47,7 @@ export function ArticleCard({ article, includeImage = true }) {
         {sectionLabel(article.section)} / {article.location} / {formatDate(article.date)}
       </div>
       <h3>
-        <a href={articlePath(article.id)}>{article.title}</a>
+        <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
       </h3>
       <p>{textPreview(article.dek)}</p>
       <Tags article={article} />
@@ -59,7 +60,7 @@ export function SectionIndex({ sections }) {
     <ol>
       {sections.map((section) => (
         <li key={section.id}>
-          <a href={sectionPath(section.id)}>{section.label}</a>
+          <HoverLink href={sectionPath(section.id)}>{section.label}</HoverLink>
         </li>
       ))}
     </ol>

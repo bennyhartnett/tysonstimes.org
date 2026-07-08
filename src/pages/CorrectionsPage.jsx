@@ -1,3 +1,4 @@
+import { HoverLink } from "../components/HoverLink.jsx";
 import { sortedArticles } from "../data/selectors.js";
 import { articlePath } from "../routing.js";
 import { formatDate } from "../utils/format.js";
@@ -32,7 +33,7 @@ export function CorrectionsPage() {
                 </div>
                 <div>
                   <h3>
-                    <a href={articlePath(article.id)}>{article.title}</a>
+                    <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
                   </h3>
                   <p>{text}</p>
                 </div>

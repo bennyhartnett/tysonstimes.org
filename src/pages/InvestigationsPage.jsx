@@ -1,4 +1,5 @@
 import { HeadlineList } from "../components/ArticleBits.jsx";
+import { HoverLink } from "../components/HoverLink.jsx";
 import { sortedArticles, sectionLabel } from "../data/selectors.js";
 import { articlePath, pagePath } from "../routing.js";
 import { formatDate } from "../utils/format.js";
@@ -29,7 +30,7 @@ export function InvestigationsPage() {
             {sectionLabel(lead.section)} / Case File / {formatDate(lead.date)}
           </div>
           <h3>
-            <a href={articlePath(lead.id)}>{lead.title}</a>
+            <HoverLink href={articlePath(lead.id)}>{lead.title}</HoverLink>
           </h3>
           <p>{lead.dek}</p>
           <div className="case-strip">
@@ -70,9 +71,9 @@ export function InvestigationsPage() {
             <li>Records request receipt</li>
           </ol>
         </div>
-        <a className="button" href={pagePath("archive")}>
+        <HoverLink className="button" href={pagePath("archive")}>
           Search Archive
-        </a>
+        </HoverLink>
       </aside>
     </section>
   );

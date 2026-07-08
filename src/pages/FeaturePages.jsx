@@ -1,4 +1,5 @@
 import { HeadlineList, Tags } from "../components/ArticleBits.jsx";
+import { HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate, MiniPhoto } from "../components/Media.jsx";
 import { sections } from "../data/content.js";
 import { sortedArticles, sectionLabel } from "../data/selectors.js";
@@ -26,7 +27,7 @@ export function BriefsPage() {
                   {sectionLabel(article.section)} / {article.location} / {formatDate(article.date)}
                 </div>
                 <h3>
-                  <a href={articlePath(article.id)}>{article.title}</a>
+                  <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
                 </h3>
                 <p>{textPreview(article.dek, 220)}</p>
                 <Tags article={article} />
@@ -41,7 +42,7 @@ export function BriefsPage() {
           <ol>
             {sectionCounts.map(([section, count]) => (
               <li key={section.id}>
-                <a href={sectionPath(section.id)}>{section.label}</a> ({count})
+                <HoverLink href={sectionPath(section.id)}>{section.label}</HoverLink> ({count})
               </li>
             ))}
           </ol>
@@ -77,7 +78,7 @@ export function GuidePage() {
                   {sectionLabel(article.section)} / {formatDate(article.date)}
                 </div>
                 <h3>
-                  <a href={articlePath(article.id)}>{title}</a>
+                  <HoverLink href={articlePath(article.id)}>{title}</HoverLink>
                 </h3>
                 <p>{text}</p>
               </article>
@@ -90,16 +91,16 @@ export function GuidePage() {
           <h3>Resident Links</h3>
           <ol>
             <li>
-              <a href={pagePath("events")}>Calendar and deadlines</a>
+              <HoverLink href={pagePath("events")}>Calendar and deadlines</HoverLink>
             </li>
             <li>
-              <a href={sectionPath("civic")}>Civic Desk</a>
+              <HoverLink href={sectionPath("civic")}>Civic Desk</HoverLink>
             </li>
             <li>
-              <a href={sectionPath("schools")}>Schools</a>
+              <HoverLink href={sectionPath("schools")}>Schools</HoverLink>
             </li>
             <li>
-              <a href={pagePath("archive")}>Search archive</a>
+              <HoverLink href={pagePath("archive")}>Search archive</HoverLink>
             </li>
           </ol>
         </div>
@@ -140,7 +141,7 @@ export function PhotoEssayPage() {
               {sectionLabel(article.section)} / {article.location}
             </div>
             <h3>
-              <a href={articlePath(article.id)}>{article.title}</a>
+              <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
             </h3>
             <p>{textPreview(article.dek, 130)}</p>
           </article>
@@ -175,7 +176,7 @@ export function LivePage() {
                 </div>
                 <div>
                   <h3>
-                    <a href={articlePath(article.id)}>{title}</a>
+                    <HoverLink href={articlePath(article.id)}>{title}</HoverLink>
                   </h3>
                   <p>{text}</p>
                 </div>
@@ -195,9 +196,9 @@ export function LivePage() {
             <li>Major civic filings</li>
           </ol>
         </div>
-        <a className="button" href={pagePath("archive")}>
+        <HoverLink className="button" href={pagePath("archive")}>
           Search Background
-        </a>
+        </HoverLink>
       </aside>
     </section>
   );
@@ -223,7 +224,7 @@ export function NewsletterPage() {
           <ol className="newsletter-list">
             {issueArticles.map((article) => (
               <li key={article.id}>
-                <a href={articlePath(article.id)}>{article.title}</a>
+                <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
                 <span>
                   {sectionLabel(article.section)} / {formatDate(article.date)}
                 </span>
