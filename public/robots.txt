@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://tysonstimes.org/sitemap.xml
-# LLM-readable site index: https://tysonstimes.org/llms.txt
-# Full article corpus for citation and retrieval: https://tysonstimes.org/llms-full.txt
