@@ -227,6 +227,17 @@ textarea {
   text-transform: uppercase;
 }
 
+.masthead-locale {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.masthead-weather {
+  padding-left: 10px;
+  border-left: 1px solid var(--ink);
+}
+
 .masthead h1 {
   margin: 12px 0 12px;
   font-size: clamp(3rem, 10.5vw, 8.6rem);
