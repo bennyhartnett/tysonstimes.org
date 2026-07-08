@@ -38,16 +38,45 @@ export const pageTypes = [
   ["Subscribe/About", "Mission, submission notes, newsletter shell, and reader-service information.", "about"],
 ];
 
-export const featureNavLinks = [
-  ["Briefs", "briefs"],
-  ["Guides", "guide"],
-  ["Photos", "photo"],
-  ["Live", "live"],
-  ["Newsletter", "newsletter"],
-  ["Investigations", "investigations"],
-  ["Election", "election"],
-  ["Dining", "dining"],
-  ["Obits", "obituaries"],
-  ["Classifieds", "classifieds"],
-  ["Corrections", "corrections"],
+export const primaryNavLinks = [
+  { label: "Front Page", page: "home" },
+  { label: "Local", section: "local" },
+  { label: "Civic", section: "civic" },
+  { label: "Schools", section: "schools" },
+  { label: "Business", section: "business" },
+  { label: "Dining", page: "dining" },
+  { label: "Events", page: "events" },
+  { label: "Opinion", section: "opinion" },
+  { label: "Archive", page: "archive" },
+];
+
+export const directoryNavGroups = [
+  {
+    title: "More Desks",
+    links: [
+      { label: "Culture", section: "culture" },
+      { label: "Sports", section: "sports" },
+      { label: "Investigations", page: "investigations" },
+      { label: "Election", page: "election" },
+    ],
+  },
+  {
+    title: "Quick Files",
+    links: [
+      { label: "Briefs", page: "briefs" },
+      { label: "Guides", page: "guide" },
+      { label: "Photos", page: "photo" },
+      { label: "Live", page: "live" },
+    ],
+  },
+  {
+    title: "Reader Services",
+    links: [
+      { label: "Newsletter", page: "newsletter" },
+      { label: "Obits", page: "obituaries" },
+      { label: "Classifieds", page: "classifieds" },
+      { label: "Corrections", page: "corrections" },
+      { label: "About", page: "about" },
+    ],
+  },
 ];

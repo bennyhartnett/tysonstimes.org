@@ -1,4 +1,5 @@
 import { HeadlineList, Tags } from "../components/ArticleBits.jsx";
+import { HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate } from "../components/Media.jsx";
 import { getArticleById, relatedArticlesFor, sectionLabel } from "../data/selectors.js";
 import { pagePath } from "../routing.js";
@@ -44,9 +45,9 @@ export function ArticlePage({ route }) {
             article data model.
           </p>
         </div>
-        <a className="button" href={pagePath("archive")}>
+        <HoverLink className="button" href={pagePath("archive")}>
           Search Archive
-        </a>
+        </HoverLink>
       </aside>
     </section>
   );

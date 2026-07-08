@@ -1,3 +1,4 @@
+import { HoverLink } from "../components/HoverLink.jsx";
 import { MiniPhoto } from "../components/Media.jsx";
 import { sortedArticles } from "../data/selectors.js";
 import { articlePath } from "../routing.js";
@@ -34,7 +35,7 @@ export function DiningPage() {
                     {area} / {category}
                   </div>
                   <h3>
-                    <a href={articlePath(article.id)}>{title}</a>
+                    <HoverLink href={articlePath(article.id)}>{title}</HoverLink>
                   </h3>
                   <p>{text}</p>
                 </div>

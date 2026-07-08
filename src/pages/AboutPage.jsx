@@ -1,3 +1,4 @@
+import { HoverLink } from "../components/HoverLink.jsx";
 import { pageTypes } from "../data/pages.js";
 import { articlePath, pagePath, sectionPath } from "../routing.js";
 import { sortedArticles } from "../data/selectors.js";
@@ -43,7 +44,7 @@ export function AboutPage() {
           {pageTypes.map(([title, text, page]) => (
             <article className="classified" key={title}>
               <h3>
-                <a href={pathForTemplate(page)}>{title}</a>
+                <HoverLink href={pathForTemplate(page)}>{title}</HoverLink>
               </h3>
               <p>{text}</p>
             </article>
