@@ -16,6 +16,10 @@ function HoverText({ text }) {
   });
 }
 
+function hoverClassName(className) {
+  return className ? `${className} hw-ready` : "hw-ready";
+}
+
 export function HoverLink({ children, className, "aria-label": ariaLabel, ...props }) {
   const text = typeof children === "string" || typeof children === "number" ? String(children) : null;
 
@@ -27,13 +31,31 @@ export function HoverLink({ children, className, "aria-label": ariaLabel, ...pro
     );
   }
 
-  const linkClassName = className ? `${className} hw-ready` : "hw-ready";
-
   return (
-    <a className={linkClassName} aria-label={ariaLabel || text} {...props}>
+    <a className={hoverClassName(className)} aria-label={ariaLabel || text} {...props}>
       <span className="hw-text" aria-hidden="true">
         <HoverText text={text} />
       </span>
     </a>
+  );
+}
+
+export function HoverButton({ children, className, "aria-label": ariaLabel, ...props }) {
+  const text = typeof children === "string" || typeof children === "number" ? String(children) : null;
+
+  if (text === null) {
+    return (
+      <button className={className} aria-label={ariaLabel} {...props}>
+        {children}
+      </button>
+    );
+  }
+
+  return (
+    <button className={hoverClassName(className)} aria-label={ariaLabel || text} {...props}>
+      <span className="hw-text" aria-hidden="true">
+        <HoverText text={text} />
+      </span>
+    </button>
   );
 }

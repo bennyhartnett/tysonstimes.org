@@ -2,26 +2,19 @@ import { ArticleCard, SectionIndex } from "../components/ArticleBits.jsx";
 import { HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate, MiniPhoto } from "../components/Media.jsx";
 import { sections } from "../data/content.js";
+import { homePage } from "../data/pages.js";
 import { sortedArticles, sectionLabel } from "../data/selectors.js";
 import { articlePath } from "../routing.js";
 import { formatDate, textPreview } from "../utils/format.js";
 
-const notices = [
-  ["Calendar", "Submit public meetings, school events, arts listings, fundraisers, and neighborhood gatherings for the weekly calendar."],
-  ["Tips", "Send notes on traffic changes, new storefronts, civic filings, reader questions, and stories that deserve a closer look."],
-  ["Corrections", "Corrections will run clearly, with the original context and the updated record kept visible to readers."],
-  ["Subscribe", "A future email edition can carry the top headlines, weekend guide, public meetings, and school notes."],
-  ["Business", "Restaurant openings, office moves, retail changes, and independent businesses belong on the local front page."],
-  ["Opinion", "Letters should be brief, local, signed, and focused on issues that directly affect Tysons-area readers."],
-  ["Archives", "Major stories will be organized by neighborhood, topic, and date so readers can follow long-running issues."],
-  ["Sports", "Youth sports, school teams, recreation leagues, and seasonal results will have a standing place in the paper."],
-];
-
 export function HomePage() {
   const lead = sortedArticles[0];
   const side = sortedArticles.slice(1, 3);
-  const civic = sortedArticles.filter((article) => ["civic", "business", "schools"].includes(article.section)).slice(0, 3);
-  const longRead = sortedArticles.find((article) => article.id === "schools-fields-libraries") || sortedArticles[4];
+  const civic = sortedArticles
+    .filter((article) => homePage.civicSections.includes(article.section))
+    .slice(0, homePage.civicLimit);
+  const longRead = sortedArticles.find((article) => article.id === homePage.longReadArticleId) || sortedArticles[4];
+  const photoRecord = sortedArticles.find((article) => article.id === homePage.photoRecord.articleId) || sortedArticles[7] || lead;
 
   return (
     <>
@@ -42,7 +35,7 @@ export function HomePage() {
           </div>
           <ImagePlate
             article={lead}
-            caption="Front-page visual treatment for Tysons streets, reproduced with heavy halftone screens and visible ink rub."
+            caption={homePage.leadCaption}
           />
         </div>
         <aside className="side-stack" aria-label="Top briefs">
@@ -95,13 +88,13 @@ export function HomePage() {
         </h2>
         <div className="photo-band">
           <ImagePlate
-            article={sortedArticles[7]}
-            caption="A future photo essay space for Tysons streetscapes, parks, storefronts, school fields, and commuter edges."
+            article={photoRecord}
+            caption={homePage.photoRecord.caption}
             size="wide"
           />
           <aside className="quote-panel">
-            <p>Local news should feel close enough to walk to.</p>
-            <span>From the editor's desk</span>
+            <p>{homePage.quotePanel.text}</p>
+            <span>{homePage.quotePanel.attribution}</span>
           </aside>
         </div>
       </section>
@@ -131,7 +124,7 @@ export function HomePage() {
           <span>Community Notices</span>
         </h2>
         <div className="classifieds">
-          {notices.map(([title, text]) => (
+          {homePage.notices.map(({ title, text }) => (
             <article className="classified" key={title}>
               <h3>{title}</h3>
               <p>{text}</p>

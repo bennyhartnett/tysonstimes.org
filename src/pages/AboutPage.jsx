@@ -1,4 +1,4 @@
-import { HoverLink } from "../components/HoverLink.jsx";
+import { HoverButton, HoverLink } from "../components/HoverLink.jsx";
 import { pageTypes } from "../data/pages.js";
 import { articlePath, pagePath, sectionPath } from "../routing.js";
 import { sortedArticles } from "../data/selectors.js";
@@ -29,9 +29,9 @@ export function AboutPage() {
             <div className="form-grid">
               <input className="subscribe-input" type="email" placeholder="email@example.com" />
               <textarea className="subscribe-textarea" placeholder="Neighborhood, coverage tip, or section interest" />
-              <button className="button" type="button">
+              <HoverButton className="button" type="button">
                 Join The List
-              </button>
+              </HoverButton>
             </div>
           </form>
         </aside>
@@ -41,7 +41,7 @@ export function AboutPage() {
           <span>Template Library</span>
         </h2>
         <div className="template-list">
-          {pageTypes.map(([title, text, page]) => (
+          {pageTypes.map(({ title, text, page }) => (
             <article className="classified" key={title}>
               <h3>
                 <HoverLink href={pathForTemplate(page)}>{title}</HoverLink>
