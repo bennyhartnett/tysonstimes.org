@@ -1,4 +1,4 @@
-import { mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { articles, events, sections, site } from "../src/data/content.js";
@@ -17,6 +17,8 @@ import { relatedArticlesFor, sectionLabel, sortedArticles } from "../src/data/se
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(rootDir, "public");
+const fullArticles = JSON.parse(await readFile(path.join(rootDir, ".cache", "content", "articles-full.json"), "utf8"));
+const fullArticleMap = new Map(fullArticles.map((article) => [article.id, article]));
 
 const generatedFiles = ["robots.txt", "sitemap.xml", "feed.xml", "llms.txt", "llms-full.txt"];
 const generatedDirs = [
@@ -152,9 +154,13 @@ function layout(meta, body, appHref) {
     ${isArticle ? `<meta property="article:published_time" content="${escapeHtml(meta.publishedTime)}" />` : ""}
     ${isArticle ? `<meta property="article:modified_time" content="${escapeHtml(meta.modifiedTime)}" />` : ""}
     ${isArticle ? `<meta property="article:section" content="${escapeHtml(meta.section)}" />` : ""}
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="${meta.imageUrl ? "summary_large_image" : "summary"}" />
     <meta name="twitter:title" content="${escapeHtml(meta.title)}" />
     <meta name="twitter:description" content="${escapeHtml(meta.description)}" />
+    ${meta.imageUrl ? `<meta name="twitter:image" content="${escapeHtml(meta.imageUrl)}" />` : ""}
+    ${meta.imageAlt ? `<meta name="twitter:image:alt" content="${escapeHtml(meta.imageAlt)}" />` : ""}
+    ${meta.imageUrl ? `<meta property="og:image" content="${escapeHtml(meta.imageUrl)}" />` : ""}
+    ${meta.imageAlt ? `<meta property="og:image:alt" content="${escapeHtml(meta.imageAlt)}" />` : ""}
     <link rel="canonical" href="${escapeHtml(meta.canonicalUrl)}" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" href="/feed.xml" title="Tysons Times RSS" />
@@ -181,6 +187,17 @@ function layout(meta, body, appHref) {
       .story-list li { margin: 0 0 18px; }
       .story-list p { margin: 4px 0; }
       .content-block { border-top: 2px solid #151515; margin-top: 30px; padding-top: 8px; }
+      .article-photo { margin: 24px 0; border: 1px solid #151515; }
+      .article-photo picture, .article-photo img { display: block; width: 100%; }
+      .article-photo img { height: auto; filter: grayscale(1) contrast(1.12); }
+      .article-photo figcaption { border-top: 1px solid #151515; padding: 8px 10px; font: 700 12px/1.35 Arial, sans-serif; text-transform: uppercase; }
+      .article-photo figcaption span { display: block; margin-top: 4px; font-size: 11px; }
+      .article-text h2, .article-text h3 { font-family: Arial, sans-serif; line-height: 1; text-transform: uppercase; }
+      .article-text blockquote { margin: 24px 0; border-top: 4px solid #151515; border-bottom: 1px solid #151515; padding: 14px 0; font-size: 22px; font-weight: 700; }
+      .article-inline-image { margin: 24px 0; border: 1px solid #151515; }
+      .article-inline-image picture, .article-inline-image img { display: block; width: 100%; height: auto; }
+      .article-inline-image figcaption { border-top: 1px solid #151515; padding: 8px 10px; font: 700 12px/1.35 Arial, sans-serif; text-transform: uppercase; }
+      .article-inline-image figcaption span { display: block; margin-top: 4px; font-size: 11px; }
       .open-app { display: inline-block; margin-top: 18px; border: 1px solid #151515; padding: 9px 12px; font: 700 13px/1 Arial, sans-serif; text-transform: uppercase; text-decoration: none; }
       footer { border-top: 3px double #151515; margin-top: 36px; padding-top: 14px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
     </style>
@@ -210,8 +227,21 @@ function layout(meta, body, appHref) {
 </html>`;
 }
 
+function staticPicture(image, className = "article-photo") {
+  if (!image) return "";
+  return `<figure class="${className}">
+    <picture>
+      <source type="image/webp" srcset="${escapeHtml(image.srcSet)}" sizes="(max-width: 980px) 100vw, 920px" />
+      <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}" width="${image.width}" height="${image.height}" />
+    </picture>
+    <figcaption>${escapeHtml(image.caption)} <span>Photo: ${escapeHtml(image.credit)}</span></figcaption>
+  </figure>`;
+}
+
 function renderArticlePage(article) {
-  const meta = buildRouteMeta({ page: "article", article });
+  const fullArticle = fullArticleMap.get(article.id) || article;
+  const metaArticle = { ...article, body: fullArticle.body };
+  const meta = buildRouteMeta({ page: "article", article: metaArticle });
   const related = relatedArticlesFor(article);
   const body = `
     <article>
@@ -219,15 +249,16 @@ function renderArticlePage(article) {
       <h1>${escapeHtml(article.title)}</h1>
       <p class="deck">${escapeHtml(article.dek)}</p>
       <p class="meta">By ${escapeHtml(article.author)}</p>
+      ${staticPicture(article.hero)}
       <dl class="key-facts">
         <div><dt>Coverage area</dt><dd>${escapeHtml(article.location)}</dd></div>
         <div><dt>Section</dt><dd>${escapeHtml(sectionLabel(article.section))}</dd></div>
         <div><dt>Published</dt><dd>${escapeHtml(formatDisplayDate(article.date))}</dd></div>
         <div><dt>Topics</dt><dd>${escapeHtml(article.tags.join(", "))}</dd></div>
       </dl>
-      <section class="content-block">
+      <section class="content-block article-text">
         <h2>Article Text</h2>
-        ${article.body.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}
+        ${fullArticle.bodyHtml}
       </section>
       ${articleList(related)}
     </article>
@@ -332,7 +363,7 @@ function buildSitemap() {
     }),
     ...articles.map((article) => ({
       loc: absoluteUrl(articleCleanPath(article.id)),
-      lastmod: article.date,
+      lastmod: article.updated || article.date,
       changefreq: "monthly",
       priority: article.priority <= 3 ? "0.9" : "0.8",
     })),
@@ -433,7 +464,7 @@ function buildLlmsFullTxt() {
 Source: ${siteOrigin}
 Coverage area: ${site.coverageArea.join(", ")}
 
-${sortedArticles
+${fullArticles
   .map(
     (article) => `## ${article.title}
 

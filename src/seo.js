@@ -165,7 +165,8 @@ function articleSchema(article, meta) {
     description: article.dek,
     articleBody: article.body.join("\n\n"),
     datePublished: article.date,
-    dateModified: article.date,
+    dateModified: article.updated || article.date,
+    image: article.hero ? [absoluteUrl(article.hero.src)] : undefined,
     author: {
       "@type": "Organization",
       name: article.author,
@@ -245,10 +246,12 @@ export function buildRouteMeta(route = { page: "home" }) {
       canonicalUrl,
       type: "article",
       publishedTime: article.date,
-      modifiedTime: article.date,
+      modifiedTime: article.updated || article.date,
       section: sectionLabel(article.section),
       keywords: keywordString([article.title, article.dek, article.location, sectionLabel(article.section), ...article.tags, ...site.coverageArea]),
       relatedUrls: related.map((item) => absoluteUrl(articleCleanPath(item.id))),
+      imageUrl: article.hero ? absoluteUrl(article.hero.src) : undefined,
+      imageAlt: article.hero?.alt,
       structuredData: buildStructuredData({ ...route, article }, { canonicalUrl }),
     };
   }
@@ -325,9 +328,11 @@ export function applyDocumentMetadata(meta) {
   setMetaAttribute("name", "geo.placename", site.location);
   setMetaAttribute("name", "geo.position", `${site.latitude};${site.longitude}`);
   setMetaAttribute("name", "ICBM", `${site.latitude}, ${site.longitude}`);
-  setMetaAttribute("name", "twitter:card", "summary");
+  setMetaAttribute("name", "twitter:card", meta.imageUrl ? "summary_large_image" : "summary");
   setMetaAttribute("name", "twitter:title", meta.title);
   setMetaAttribute("name", "twitter:description", meta.description);
+  setMetaAttribute("name", "twitter:image", meta.imageUrl);
+  setMetaAttribute("name", "twitter:image:alt", meta.imageAlt);
 
   setMetaAttribute("property", "og:site_name", site.name);
   setMetaAttribute("property", "og:locale", "en_US");
@@ -335,6 +340,8 @@ export function applyDocumentMetadata(meta) {
   setMetaAttribute("property", "og:title", meta.title);
   setMetaAttribute("property", "og:description", meta.description);
   setMetaAttribute("property", "og:url", meta.canonicalUrl);
+  setMetaAttribute("property", "og:image", meta.imageUrl);
+  setMetaAttribute("property", "og:image:alt", meta.imageAlt);
   setMetaAttribute("property", "article:published_time", meta.publishedTime);
   setMetaAttribute("property", "article:modified_time", meta.modifiedTime);
   setMetaAttribute("property", "article:section", meta.section);
