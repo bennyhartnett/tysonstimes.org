@@ -7,7 +7,7 @@
   --line: rgba(5, 5, 5, 0.64);
   --soft-line: rgba(5, 5, 5, 0.22);
   --shadow: rgba(0, 0, 0, 0.46);
-  --texture: url("newsprint-texture.png");
+  --texture: url("newsprint-texture.webp");
 }
 
 * {
@@ -611,92 +611,47 @@ textarea {
 
 .image-plate {
   position: relative;
-  min-height: 520px;
+  margin: 0;
   border: 1px solid var(--ink);
-  background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.18), transparent 18%),
-    radial-gradient(circle at 55% 28%, rgba(245, 245, 245, 0.86), transparent 8%),
-    radial-gradient(circle at 58% 30%, rgba(15, 15, 15, 0.85), transparent 9%),
-    linear-gradient(90deg, rgba(20, 20, 20, 0.92), transparent 20% 78%, rgba(5, 5, 5, 0.86)),
-    var(--texture);
-  background-size: auto, auto, auto, auto, 760px auto;
   overflow: hidden;
-  filter: grayscale(1) contrast(1.36);
   box-shadow: inset 0 0 46px rgba(0, 0, 0, 0.32);
 }
 
-.image-plate::before,
-.mini-photo::after,
-.wide-photo::before {
-  position: absolute;
-  inset: 0;
-  content: "";
-  background:
-    repeating-radial-gradient(circle at 35% 18%, rgba(0, 0, 0, 0.58) 0 0.9px, transparent 1px 4px),
-    linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.44));
-  mix-blend-mode: multiply;
-  opacity: 0.72;
+.image-plate picture,
+.wide-photo picture {
+  display: block;
+  height: 520px;
 }
 
-.image-plate::after {
-  position: absolute;
-  inset: 12px;
-  content: "";
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow:
-    inset 0 0 0 999px rgba(0, 0, 0, 0.02),
-    0 0 0 1px rgba(0, 0, 0, 0.48);
-}
-
-.image-lines {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(100deg, transparent 0 18%, rgba(255, 255, 255, 0.7) 18.2% 18.8%, transparent 19% 100%),
-    linear-gradient(85deg, transparent 0 46%, rgba(255, 255, 255, 0.7) 46.1% 47.2%, transparent 47.4% 100%),
-    repeating-linear-gradient(0deg, transparent 0 18px, rgba(255, 255, 255, 0.18) 19px, transparent 21px),
-    repeating-linear-gradient(90deg, transparent 0 42px, rgba(0, 0, 0, 0.22) 43px, transparent 45px);
-  mix-blend-mode: overlay;
-  opacity: 0.62;
-}
-
-.image-plate.business {
-  background:
-    linear-gradient(82deg, rgba(5, 5, 5, 0.92) 0 24%, rgba(255, 255, 255, 0.82) 24.5% 34%, rgba(0, 0, 0, 0.88) 34.5% 46%, transparent 46.5%),
-    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.82), transparent 16%),
-    var(--texture);
-}
-
-.image-plate.schools {
-  background:
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0 9px, rgba(255, 255, 255, 0.68) 10px 22px),
-    linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.48)),
-    var(--texture);
-}
-
-.image-plate.culture {
-  background:
-    radial-gradient(circle at 24% 34%, rgba(255, 255, 255, 0.86), transparent 10%),
-    radial-gradient(circle at 70% 42%, rgba(0, 0, 0, 0.82), transparent 24%),
-    linear-gradient(135deg, rgba(5, 5, 5, 0.9), rgba(245, 245, 245, 0.7) 52%, rgba(5, 5, 5, 0.8)),
-    var(--texture);
+.image-plate img,
+.wide-photo img,
+.mini-photo img,
+.article-inline-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.18);
 }
 
 .caption {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  left: 14px;
-  z-index: 2;
-  border-top: 1px solid rgba(255, 255, 255, 0.72);
-  padding-top: 9px;
-  color: rgba(255, 255, 255, 0.92);
+  position: static;
+  border-top: 1px solid var(--ink);
+  padding: 9px 10px;
+  color: var(--ink);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 0.72rem;
   font-weight: 800;
   line-height: 1.25;
   text-transform: uppercase;
-  text-shadow: 0 1px 2px #000;
+  text-shadow: none;
+}
+
+.caption span,
+.article-inline-image figcaption span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.66rem;
 }
 
 .mini-photo {
@@ -704,30 +659,12 @@ textarea {
   height: 180px;
   margin-bottom: 12px;
   border: 1px solid var(--ink);
-  background:
-    radial-gradient(circle at 28% 26%, rgba(255, 255, 255, 0.9), transparent 9%),
-    radial-gradient(circle at 42% 44%, rgba(0, 0, 0, 0.86), transparent 20%),
-    linear-gradient(135deg, rgba(5, 5, 5, 0.9), rgba(245, 245, 245, 0.7) 52%, rgba(5, 5, 5, 0.8)),
-    var(--texture);
-  background-size: auto, auto, auto, 620px auto;
-  filter: grayscale(1) contrast(1.5);
   overflow: hidden;
 }
 
-.mini-photo.business,
-.mini-photo.two {
-  background:
-    linear-gradient(82deg, rgba(5, 5, 5, 0.92) 0 24%, rgba(255, 255, 255, 0.82) 24.5% 34%, rgba(0, 0, 0, 0.88) 34.5% 46%, transparent 46.5%),
-    radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.82), transparent 16%),
-    var(--texture);
-}
-
-.mini-photo.schools,
-.mini-photo.three {
-  background:
-    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.8) 0 9px, rgba(255, 255, 255, 0.68) 10px 22px),
-    linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.48)),
-    var(--texture);
+.mini-photo picture {
+  display: block;
+  height: 100%;
 }
 
 .photo-band {
@@ -739,17 +676,14 @@ textarea {
 
 .wide-photo {
   position: relative;
-  min-height: 430px;
+  margin: 0;
   border: 2px solid var(--ink);
-  background:
-    linear-gradient(90deg, rgba(0, 0, 0, 0.78), transparent 20% 72%, rgba(0, 0, 0, 0.72)),
-    linear-gradient(8deg, transparent 0 44%, rgba(255, 255, 255, 0.88) 44.4% 46.3%, transparent 46.7%),
-    linear-gradient(98deg, transparent 0 62%, rgba(0, 0, 0, 0.88) 62.3% 64%, transparent 64.2%),
-    var(--texture);
-  background-size: auto, auto, auto, 1040px auto;
-  filter: grayscale(1) contrast(1.42);
   box-shadow: inset 0 0 70px rgba(0, 0, 0, 0.44);
   overflow: hidden;
+}
+
+.wide-photo picture {
+  height: 430px;
 }
 
 .quote-panel {
@@ -861,6 +795,93 @@ textarea {
   column-rule: 1px solid var(--soft-line);
   font-size: clamp(1rem, 1.5vw, 1.08rem);
   text-align: justify;
+}
+
+.article-prose h2,
+.article-prose h3 {
+  column-span: all;
+  margin: 1.5em 0 0.5em;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 0.95;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.article-card h3,
+.story h3,
+.bulletin h3,
+.photo-tile h3,
+.dining-card h3 {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.article-card h3 a,
+.story h3 a,
+.bulletin h3 a,
+.photo-tile h3 a {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.article-prose h2 {
+  font-size: clamp(1.55rem, 3vw, 2.4rem);
+}
+
+.article-prose h3 {
+  font-size: clamp(1.2rem, 2vw, 1.7rem);
+}
+
+.article-prose blockquote {
+  column-span: all;
+  margin: 1.4em 0;
+  border-top: 5px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  padding: 14px 0;
+  font-size: 1.25em;
+  font-weight: 800;
+  text-align: left;
+}
+
+.article-prose ul,
+.article-prose ol {
+  break-inside: avoid;
+  padding-left: 24px;
+  text-align: left;
+}
+
+.article-inline-image {
+  column-span: all;
+  margin: 24px 0;
+  border: 1px solid var(--ink);
+  break-inside: avoid;
+}
+
+.article-inline-image picture {
+  display: block;
+  aspect-ratio: 3 / 2;
+}
+
+.article-inline-image figcaption {
+  border-top: 1px solid var(--ink);
+  padding: 8px 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.article-load-note {
+  border: 1px solid var(--ink);
+  padding: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
 }
 
 .article-hero {
@@ -1350,9 +1371,9 @@ textarea {
     grid-template-columns: 1fr;
   }
 
-  .image-plate,
-  .wide-photo {
-    min-height: 380px;
+  .image-plate picture,
+  .wide-photo picture {
+    height: 380px;
   }
 
   .story-grid,
@@ -1471,9 +1492,9 @@ textarea {
     padding: 16px 0 0;
   }
 
-  .image-plate,
-  .wide-photo {
-    min-height: 320px;
+  .image-plate picture,
+  .wide-photo picture {
+    height: 320px;
   }
 
   .photo-essay-layout .columns {

@@ -36,6 +36,7 @@ export function HomePage() {
           <ImagePlate
             article={lead}
             caption={homePage.leadCaption}
+            priority
           />
         </div>
         <aside className="side-stack" aria-label="Top briefs">

@@ -514,9 +514,9 @@
       "leadCaption": "Front-page visual treatment for Tysons streets, reproduced with heavy halftone screens and visible ink rub.",
       "civicSections": ["civic", "business", "schools"],
       "civicLimit": 3,
-      "longReadArticleId": "schools-fields-libraries",
+      "longReadArticleId": "planning-room-after-seven",
       "photoRecord": {
-        "articleId": "parks-trails-river-edge",
+        "articleId": "stream-valley-after-rain",
         "caption": "A future photo essay space for Tysons streetscapes, parks, storefronts, school fields, and commuter edges."
       },
       "quotePanel": {
@@ -565,42 +565,42 @@
           "area": "Tysons",
           "category": "Lunch / Casual",
           "text": "A compact module for weekday lunch picks, quick service notes, and verified hours.",
-          "articleId": "small-business-notebook"
+          "articleId": "lunch-service-new-rhythm"
         },
         {
           "title": "Beltway Dinner Watch",
           "area": "Tysons",
           "category": "Dinner / Openings",
           "text": "Track new menus, reservation changes, patios, and restaurant projects near the Beltway.",
-          "articleId": "tysons-growth-watch"
+          "articleId": "cranes-return-to-westpark"
         },
         {
           "title": "Coffee and Bakeries",
           "area": "Tysons Area",
           "category": "Morning / Cafe",
           "text": "A reusable card for cafes, bakeries, counters, and neighborhood meeting spots.",
-          "articleId": "small-business-notebook"
+          "articleId": "market-morning-plaza"
         },
         {
           "title": "Family Tables",
           "area": "Tysons Area",
           "category": "Weekend / Family",
           "text": "Reader-facing notes on kid-friendly seating, parking, noise, and easy group meals.",
-          "articleId": "weekend-calendar-built-for-residents"
+          "articleId": "library-walls-local-lenses"
         },
         {
           "title": "Date-Night File",
           "area": "Northern Fairfax",
           "category": "Evening / Guide",
           "text": "A more selective guide format for service, atmosphere, dress, and reservation context.",
-          "articleId": "parks-trails-river-edge"
+          "articleId": "stream-valley-after-rain"
         },
         {
           "title": "Restaurant Changes",
           "area": "Tysons and Nearby Corridors",
           "category": "Notebook / Business",
           "text": "A standing slot for closings, moves, leases, permits, and ownership changes.",
-          "articleId": "small-business-notebook"
+          "articleId": "lunch-service-new-rhythm"
         }
       ],
       "serviceNotes": [
@@ -627,25 +627,25 @@
       "items": [
         {
           "date": "2026-07-07",
-          "articleId": "tysons-next-chapter",
+          "articleId": "tysons-crosswalk-morning",
           "text": "Template entry showing where a corrected location, date, quote attribution, or context note would appear.",
           "status": "Updated"
         },
         {
           "date": "2026-07-06",
-          "articleId": "route-7-main-thread",
+          "articleId": "bus-network-transfer-points",
           "text": "Clarification module for distinguishing agency plans from final approved work.",
           "status": "Clarified"
         },
         {
           "date": "2026-07-05",
-          "articleId": "tysons-growth-watch",
+          "articleId": "cranes-return-to-westpark",
           "text": "Follow-up note space for revised figures, changed project timing, or additional document links.",
           "status": "Appended"
         },
         {
           "date": "2026-07-04",
-          "articleId": "public-meeting-memory",
+          "articleId": "planning-room-after-seven",
           "text": "Correction log item tied to a civic story so the archive keeps the change visible.",
           "status": "Logged"
         }
@@ -713,22 +713,22 @@
           {
             "title": "Public Meetings",
             "text": "What is being decided, where the agenda lives, when public comment closes, and which follow-up documents matter.",
-            "articleId": "public-meeting-memory"
+            "articleId": "planning-room-after-seven"
           },
           {
             "title": "Getting Around",
             "text": "Lane shifts, crossings, bus links, trail access, and construction timing translated into plain local language.",
-            "articleId": "commute-notes"
+            "articleId": "bus-network-transfer-points"
           },
           {
             "title": "Weekend Planning",
             "text": "A concise path through library events, school stages, volunteer drives, concerts, markets, and civic deadlines.",
-            "articleId": "weekend-calendar-built-for-residents"
+            "articleId": "library-walls-local-lenses"
           },
           {
             "title": "Business Changes",
             "text": "Openings, closings, permits, leases, menus, and storefront moves tracked with address-level context.",
-            "articleId": "small-business-notebook"
+            "articleId": "lunch-service-new-rhythm"
           }
         ],
         "residentLinks": [
@@ -740,7 +740,7 @@
         "readerQuestion": "Guide pages can begin with a reader question and grow into a standing reference as reporting accumulates."
       },
       "photoEssay": {
-        "featureArticleId": "parks-trails-river-edge",
+        "featureArticleId": "library-walls-local-lenses",
         "galleryLimit": 6,
         "heroCaption": "Lead image plate for a Tysons photo essay with caption space and monochrome press texture."
       },
@@ -751,35 +751,35 @@
             "label": "Civic",
             "title": "Agenda watch opens",
             "text": "County and school-board agenda items are grouped for review before evening meetings.",
-            "articleId": "public-meeting-memory"
+            "articleId": "planning-room-after-seven"
           },
           {
             "time": "9:40 a.m.",
             "label": "Roads",
             "title": "Commute note added",
             "text": "Transportation notices are checked for block-by-block impact, timing, and responsible agency.",
-            "articleId": "commute-notes"
+            "articleId": "bus-network-transfer-points"
           },
           {
             "time": "11:05 a.m.",
             "label": "Business",
             "title": "Storefront file updated",
             "text": "The business desk adds confirmed openings, closings, menu changes, and lease moves to the notebook.",
-            "articleId": "small-business-notebook"
+            "articleId": "lunch-service-new-rhythm"
           },
           {
             "time": "1:30 p.m.",
             "label": "Schools",
             "title": "Calendar items queued",
             "text": "Student events, performances, athletics, and family deadlines are sorted for the weekly school file.",
-            "articleId": "schools-fields-libraries"
+            "articleId": "students-build-wind-models"
           },
           {
             "time": "3:10 p.m.",
             "label": "Culture",
             "title": "Weekend guide refresh",
             "text": "Library talks, arts listings, local history items, and volunteer events are checked for the weekend calendar.",
-            "articleId": "weekend-calendar-built-for-residents"
+            "articleId": "library-walls-local-lenses"
           }
         ],
         "fileUses": ["Public meeting nights", "Election results", "Weather closures", "Traffic incidents", "Major civic filings"]
@@ -807,7 +807,7 @@
       }
     },
     "investigationsPage": {
-      "leadArticleId": "public-meeting-memory",
+      "leadArticleId": "planning-room-after-seven",
       "relatedSections": ["civic", "business"],
       "relatedLimit": 4,
       "caseStats": [
