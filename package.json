@@ -12,7 +12,7 @@
     "preseo": "npm run content:build",
     "seo": "node scripts/generate-seo-assets.mjs",
     "prebuild": "npm run content:build && node scripts/generate-seo-assets.mjs",
-    "build": "vite build",
+    "build": "vite build && node scripts/generate-worker-entry.mjs",
     "preview": "vite preview --host 127.0.0.1",
     "check": "npm run content:check && npm run build"
   },
