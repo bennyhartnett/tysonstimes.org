@@ -36,14 +36,14 @@ export function sectionPath(id) {
   return `#/section/${encodeURIComponent(id)}`;
 }
 
-function parseHash(hash) {
+function parseHash(hash, articles) {
   const raw = (hash || "#/").replace(/^#\/?/, "");
   const [pathPart] = raw.split("?");
   const segments = pathPart.split("/").filter(Boolean).map(decodeURIComponent);
   const first = segments[0] || "home";
 
   if (first === "article") {
-    const article = getArticleById(segments[1]);
+    const article = getArticleById(segments[1], articles);
     return {
       page: "article",
       article,
@@ -69,7 +69,7 @@ function parseHash(hash) {
   };
 }
 
-export function useHashRoute() {
+export function useHashRoute(articles) {
   const [hash, setHash] = useState(() => window.location.hash || "#/");
 
   useEffect(() => {
@@ -78,5 +78,5 @@ export function useHashRoute() {
     return () => window.removeEventListener("hashchange", syncHash);
   }, []);
 
-  return useMemo(() => parseHash(hash), [hash]);
+  return useMemo(() => parseHash(hash, articles), [hash, articles]);
 }

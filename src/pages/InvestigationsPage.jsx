@@ -1,11 +1,13 @@
 import { HeadlineList } from "../components/ArticleBits.jsx";
 import { HoverLink } from "../components/HoverLink.jsx";
 import { investigationsPage } from "../data/pages.js";
-import { sortedArticles, sectionLabel } from "../data/selectors.js";
+import { useArticles } from "../data/ContentProvider.jsx";
+import { sectionLabel, sortArticles } from "../data/selectors.js";
 import { articlePath, pagePath } from "../routing.js";
 import { formatDate } from "../utils/format.js";
 
 export function InvestigationsPage() {
+  const sortedArticles = sortArticles(useArticles());
   const lead = sortedArticles.find((article) => article.id === investigationsPage.leadArticleId) || sortedArticles[0];
   const related = sortedArticles
     .filter((article) => investigationsPage.relatedSections.includes(article.section))

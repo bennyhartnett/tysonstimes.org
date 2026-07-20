@@ -1,15 +1,17 @@
 import { HoverButton, HoverLink } from "../components/HoverLink.jsx";
+import { useArticles } from "../data/ContentProvider.jsx";
 import { pageTypes } from "../data/pages.js";
+import { sortArticles } from "../data/selectors.js";
 import { articlePath, pagePath, sectionPath } from "../routing.js";
-import { sortedArticles } from "../data/selectors.js";
 
-function pathForTemplate(page) {
+function pathForTemplate(page, sortedArticles) {
   if (page === "article") return articlePath(sortedArticles[0].id);
   if (page === "section") return sectionPath("local");
   return pagePath(page);
 }
 
 export function AboutPage() {
+  const sortedArticles = sortArticles(useArticles());
   return (
     <>
       <section className="section long-read">
@@ -44,7 +46,7 @@ export function AboutPage() {
           {pageTypes.map(({ title, text, page }) => (
             <article className="classified" key={title}>
               <h3>
-                <HoverLink href={pathForTemplate(page)}>{title}</HoverLink>
+                <HoverLink href={pathForTemplate(page, sortedArticles)}>{title}</HoverLink>
               </h3>
               <p>{text}</p>
             </article>

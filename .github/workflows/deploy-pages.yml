@@ -36,16 +36,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Validate repository articles
-        run: npm run content:check
-
-      - name: Build site
+      - name: Sync content feed and build site
         run: npm run build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: dist
+          path: dist/client
 
   deploy:
     name: Deploy

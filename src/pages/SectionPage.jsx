@@ -1,10 +1,12 @@
 import { ArticleCard, HeadlineList, SectionIndex } from "../components/ArticleBits.jsx";
 import { sections } from "../data/content.js";
+import { useArticles } from "../data/ContentProvider.jsx";
 import { articlesForSection, getSectionById } from "../data/selectors.js";
 
 export function SectionPage({ route }) {
+  const contentArticles = useArticles();
   const section = route.section || getSectionById(route.sectionId);
-  const articles = articlesForSection(section.id);
+  const articles = articlesForSection(section.id, contentArticles);
   const otherSections = sections.filter((item) => item.id !== section.id);
 
   return (

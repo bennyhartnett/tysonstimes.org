@@ -2,12 +2,14 @@ import { ArticleCard, SectionIndex } from "../components/ArticleBits.jsx";
 import { HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate, MiniPhoto } from "../components/Media.jsx";
 import { sections } from "../data/content.js";
+import { useArticles } from "../data/ContentProvider.jsx";
 import { homePage } from "../data/pages.js";
-import { sortedArticles, sectionLabel } from "../data/selectors.js";
+import { sectionLabel, sortArticles } from "../data/selectors.js";
 import { articlePath } from "../routing.js";
 import { formatDate, textPreview } from "../utils/format.js";
 
 export function HomePage() {
+  const sortedArticles = sortArticles(useArticles());
   const lead = sortedArticles[0];
   const side = sortedArticles.slice(1, 3);
   const civic = sortedArticles
