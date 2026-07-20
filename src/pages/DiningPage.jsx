@@ -1,10 +1,12 @@
 import { HoverLink } from "../components/HoverLink.jsx";
 import { MiniPhoto } from "../components/Media.jsx";
 import { diningPage } from "../data/pages.js";
-import { sortedArticles } from "../data/selectors.js";
+import { useArticles } from "../data/ContentProvider.jsx";
+import { sortArticles } from "../data/selectors.js";
 import { articlePath } from "../routing.js";
 
 export function DiningPage() {
+  const sortedArticles = sortArticles(useArticles());
   return (
     <section className="section dining-layout">
       <div>

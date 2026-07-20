@@ -2,7 +2,7 @@
 
 A React/Vite local-news site built for GitHub Pages and the custom domain `tysonstimes.org`.
 
-Production articles are repository-backed Markdown files under `content/articles/`. See the [article system guide](content/README.md) and [copyable template](content/article-template.md).
+Production articles and publication images live in the separate [`bennyhartnett/tysons-times-content`](https://github.com/bennyhartnett/tysons-times-content) repository. Its GitHub Pages feed is the site's content source at build time and in the browser.
 
 ## Development
 
@@ -18,7 +18,7 @@ npm run build
 npm run preview
 ```
 
-`npm run content:check` validates article structure, text limits, dates, images, captions, and folder routing. `npm run images:optimize` normalizes publication images before they are committed.
+`npm run content:sync` refreshes the build-time article snapshot from the content feed. Article validation, image optimization, and publishing are owned by the content repository.
 
 Pushes to `main` deploy through `.github/workflows/deploy-pages.yml`.
 

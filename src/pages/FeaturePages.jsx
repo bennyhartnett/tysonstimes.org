@@ -2,8 +2,9 @@ import { HeadlineList, Tags } from "../components/ArticleBits.jsx";
 import { HoverButton, HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate, MiniPhoto } from "../components/Media.jsx";
 import { sections } from "../data/content.js";
+import { useArticles } from "../data/ContentProvider.jsx";
 import { featurePages } from "../data/pages.js";
-import { sortedArticles, sectionLabel } from "../data/selectors.js";
+import { sectionLabel, sortArticles } from "../data/selectors.js";
 import { articlePath, pagePath, sectionPath } from "../routing.js";
 import { formatDate, textPreview } from "../utils/format.js";
 
@@ -14,6 +15,7 @@ function fixtureLinkHref(link) {
 }
 
 export function BriefsPage() {
+  const sortedArticles = sortArticles(useArticles());
   const briefs = sortedArticles.slice(0, 10);
   const sectionCounts = sections.map((section) => [
     section,
@@ -64,6 +66,7 @@ export function BriefsPage() {
 }
 
 export function GuidePage() {
+  const sortedArticles = sortArticles(useArticles());
   return (
     <section className="section guide-layout">
       <div>
@@ -107,6 +110,7 @@ export function GuidePage() {
 }
 
 export function PhotoEssayPage() {
+  const sortedArticles = sortArticles(useArticles());
   const feature = sortedArticles.find((article) => article.id === featurePages.photoEssay.featureArticleId) || sortedArticles[0];
   const gallery = sortedArticles.slice(0, featurePages.photoEssay.galleryLimit);
 
@@ -145,6 +149,7 @@ export function PhotoEssayPage() {
 }
 
 export function LivePage() {
+  const sortedArticles = sortArticles(useArticles());
   return (
     <section className="section live-layout">
       <div>
@@ -188,6 +193,7 @@ export function LivePage() {
 }
 
 export function NewsletterPage() {
+  const sortedArticles = sortArticles(useArticles());
   const lead = sortedArticles[0];
   const issueArticles = sortedArticles.slice(1, 6);
 

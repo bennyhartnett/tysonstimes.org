@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import { HeadlineList, Tags } from "../components/ArticleBits.jsx";
 import { HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate } from "../components/Media.jsx";
+import { contentUrl } from "../data/content.js";
+import { useArticles } from "../data/ContentProvider.jsx";
 import { getArticleById, relatedArticlesFor, sectionLabel } from "../data/selectors.js";
 import { pagePath } from "../routing.js";
 import { formatDate } from "../utils/format.js";
 
 function articleDataUrl(id) {
-  return `${import.meta.env.BASE_URL}content/articles/${encodeURIComponent(id)}.json`;
+  return contentUrl(`articles/${encodeURIComponent(id)}.json`);
 }
 
 export function ArticlePage({ route }) {
-  const article = route.article || getArticleById(route.articleId);
-  const related = relatedArticlesFor(article);
+  const articles = useArticles();
+  const article = route.article || getArticleById(route.articleId, articles);
+  const related = relatedArticlesFor(article, 5, articles);
   const [fullArticle, setFullArticle] = useState(null);
   const [loadError, setLoadError] = useState(false);
 

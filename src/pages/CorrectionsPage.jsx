@@ -1,10 +1,12 @@
 import { HoverButton, HoverLink } from "../components/HoverLink.jsx";
 import { correctionsPage } from "../data/pages.js";
-import { sortedArticles } from "../data/selectors.js";
+import { useArticles } from "../data/ContentProvider.jsx";
+import { sortArticles } from "../data/selectors.js";
 import { articlePath } from "../routing.js";
 import { formatDate } from "../utils/format.js";
 
 export function CorrectionsPage() {
+  const sortedArticles = sortArticles(useArticles());
   return (
     <section className="section corrections-layout">
       <div>

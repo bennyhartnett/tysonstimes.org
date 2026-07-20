@@ -4,27 +4,22 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "content:build": "node scripts/build-content.mjs",
-    "content:check": "node scripts/build-content.mjs --check",
-    "images:optimize": "node scripts/optimize-source-images.mjs",
-    "predev": "npm run content:build",
+    "content:sync": "node scripts/sync-content.mjs",
+    "predev": "npm run content:sync",
     "dev": "vite --host 127.0.0.1",
-    "preseo": "npm run content:build",
+    "preseo": "npm run content:sync",
     "seo": "node scripts/generate-seo-assets.mjs",
-    "prebuild": "npm run content:build && node scripts/generate-seo-assets.mjs",
+    "prebuild": "npm run content:sync && node scripts/generate-seo-assets.mjs",
     "build": "vite build && node scripts/generate-worker-entry.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "check": "npm run content:check && npm run build"
+    "check": "npm run build"
   },
   "dependencies": {
-    "gray-matter": "^4.0.3",
-    "markdown-it": "^14.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.0.0",
-    "sharp": "^0.35.3",
     "vite": "^7.0.0"
   }
 }
