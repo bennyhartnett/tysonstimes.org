@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { NewspaperLayout } from "./components/NewspaperLayout.jsx";
+import { useArticles } from "./data/ContentProvider.jsx";
 import { useHashRoute } from "./routing.js";
 import { applyDocumentMetadata, buildRouteMeta } from "./seo.js";
 import { AboutPage } from "./pages/AboutPage.jsx";
@@ -43,9 +44,10 @@ const pages = {
 };
 
 export default function App() {
-  const route = useHashRoute();
+  const articles = useArticles();
+  const route = useHashRoute(articles);
   const Page = pages[route.page] || HomePage;
-  const meta = useMemo(() => buildRouteMeta(route), [route]);
+  const meta = useMemo(() => buildRouteMeta(route, articles), [route, articles]);
 
   useEffect(() => {
     applyDocumentMetadata(meta);

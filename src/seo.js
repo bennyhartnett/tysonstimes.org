@@ -1,6 +1,6 @@
 import { articles, sections, site } from "./data/content.js";
 import { pageDescriptions, pageSlugs, pageTitles } from "./data/pages.js";
-import { getArticleById, getSectionById, relatedArticlesFor, sectionLabel, sortedArticles } from "./data/selectors.js";
+import { getArticleById, getSectionById, relatedArticlesFor, sectionLabel, sortArticles } from "./data/selectors.js";
 
 export const siteOrigin = site.url || `https://${site.domain}`;
 export { pageDescriptions, pageSlugs };
@@ -12,6 +12,7 @@ function cleanSegment(value) {
 }
 
 export function absoluteUrl(path = "/") {
+  if (/^https?:\/\//i.test(path)) return path;
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return `${siteOrigin}${normalized}`;
 }
@@ -29,9 +30,9 @@ export function sectionCleanPath(id) {
   return `/sections/${cleanSegment(id)}/`;
 }
 
-export function routeCleanPath(route) {
+export function routeCleanPath(route, availableArticles = articles) {
   if (route?.page === "article") {
-    const article = route.article || getArticleById(route.articleId);
+    const article = route.article || getArticleById(route.articleId, availableArticles);
     return articleCleanPath(article.id);
   }
 
@@ -186,11 +187,12 @@ function articleSchema(article, meta) {
   };
 }
 
-function buildStructuredData(route, meta) {
+function buildStructuredData(route, meta, availableArticles = articles) {
   const graph = [publisherSchema(), websiteSchema()];
+  const currentArticles = sortArticles(availableArticles);
 
   if (route?.page === "article") {
-    const article = route.article || getArticleById(route.articleId);
+    const article = route.article || getArticleById(route.articleId, currentArticles);
     const section = getSectionById(article.section);
     graph.push(
       articleSchema(article, meta),
@@ -202,7 +204,7 @@ function buildStructuredData(route, meta) {
     );
   } else if (route?.page === "section") {
     const section = route.section || getSectionById(route.sectionId);
-    const sectionArticles = sortedArticles.filter((article) => article.section === section.id);
+    const sectionArticles = currentArticles.filter((article) => article.section === section.id);
     graph.push(
       pageSchema(
         meta,
@@ -218,7 +220,7 @@ function buildStructuredData(route, meta) {
       pageSchema(
         meta,
         route?.page === "home"
-          ? itemListSchema(sortedArticles.slice(0, 10).map((article) => ({ name: article.title, url: absoluteUrl(articleCleanPath(article.id)) })))
+          ? itemListSchema(currentArticles.slice(0, 10).map((article) => ({ name: article.title, url: absoluteUrl(articleCleanPath(article.id)) })))
           : undefined,
       ),
       breadcrumbSchema([
@@ -234,10 +236,12 @@ function buildStructuredData(route, meta) {
   };
 }
 
-export function buildRouteMeta(route = { page: "home" }) {
+export function buildRouteMeta(route = { page: "home" }, availableArticles = articles) {
+  const currentArticles = sortArticles(availableArticles);
+
   if (route.page === "article") {
-    const article = route.article || getArticleById(route.articleId);
-    const related = relatedArticlesFor(article, 3);
+    const article = route.article || getArticleById(route.articleId, currentArticles);
+    const related = relatedArticlesFor(article, 3, currentArticles);
     const canonicalUrl = absoluteUrl(articleCleanPath(article.id));
 
     return {
@@ -252,7 +256,7 @@ export function buildRouteMeta(route = { page: "home" }) {
       relatedUrls: related.map((item) => absoluteUrl(articleCleanPath(item.id))),
       imageUrl: article.hero ? absoluteUrl(article.hero.src) : undefined,
       imageAlt: article.hero?.alt,
-      structuredData: buildStructuredData({ ...route, article }, { canonicalUrl }),
+      structuredData: buildStructuredData({ ...route, article }, { canonicalUrl }, currentArticles),
     };
   }
 
@@ -267,7 +271,7 @@ export function buildRouteMeta(route = { page: "home" }) {
       canonicalUrl,
       type: "website",
       keywords: keywordString([section.label, section.description, ...site.coverageArea, ...site.topics]),
-      structuredData: buildStructuredData({ ...route, section }, { title, description: section.description, canonicalUrl }),
+      structuredData: buildStructuredData({ ...route, section }, { title, description: section.description, canonicalUrl }, currentArticles),
     };
   }
 
@@ -283,7 +287,7 @@ export function buildRouteMeta(route = { page: "home" }) {
     canonicalUrl,
     type: "website",
     keywords: keywordString([pageTitles[page], description, ...site.coverageArea, ...site.topics]),
-    structuredData: buildStructuredData({ page }, { title, description, canonicalUrl }),
+    structuredData: buildStructuredData({ page }, { title, description, canonicalUrl }, currentArticles),
   };
 }
 
