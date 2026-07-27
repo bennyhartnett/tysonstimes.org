@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import { ArticleCard } from "../components/ArticleBits.jsx";
 import { sections } from "../data/content.js";
-import { sortedArticles } from "../data/selectors.js";
+import { useArticles } from "../data/ContentProvider.jsx";
+import { sortArticles } from "../data/selectors.js";
 
 export function ArchivePage() {
+  const sortedArticles = sortArticles(useArticles());
   const [query, setQuery] = useState("");
   const [section, setSection] = useState("");
   const filteredArticles = useMemo(() => {
@@ -15,7 +17,7 @@ export function ArchivePage() {
       const matchesSection = !section || article.section === section;
       return matchesQuery && matchesSection;
     });
-  }, [query, section]);
+  }, [query, section, sortedArticles]);
 
   return (
     <section className="section">

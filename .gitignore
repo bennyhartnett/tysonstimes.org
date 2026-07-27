@@ -2,8 +2,6 @@ node_modules/
 dist/
 .cache/
 src/generated/article-index.json
-public/content/articles/
-public/media/articles/
 public/about/
 public/archive/
 public/articles/
