@@ -199,14 +199,6 @@ export function HomePage() {
         </section>
       ) : null}
 
-      <section className="home-newsletter">
-        <div>
-          <b>The Tysons Brief</b>
-          <h2>The local stories that matter, delivered to your inbox.</h2>
-          <p>Independent reporting from Tysons, Vienna, McLean and across Fairfax County.</p>
-        </div>
-        <HoverLink href={pagePath("newsletter")}>Sign up</HoverLink>
-      </section>
     </>
   );
 }
