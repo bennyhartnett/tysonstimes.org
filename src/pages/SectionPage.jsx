@@ -1,4 +1,4 @@
-import { ArticleCard, HeadlineList, SectionIndex } from "../components/ArticleBits.jsx";
+import { ArticleCard, EmptyArticles, HeadlineList, SectionIndex } from "../components/ArticleBits.jsx";
 import { sections } from "../data/content.js";
 import { useArticles } from "../data/ContentProvider.jsx";
 import { articlesForSection, getSectionById } from "../data/selectors.js";
@@ -15,11 +15,13 @@ export function SectionPage({ route }) {
         <div>
           <h1 className="page-title">{section.label}</h1>
           <p className="deck">{section.description}</p>
-          <div className="card-grid">
-            {articles.map((article) => (
-              <ArticleCard article={article} key={article.id} />
-            ))}
-          </div>
+          {articles.length ? (
+            <div className="card-grid">
+              {articles.map((article) => (
+                <ArticleCard article={article} key={article.id} />
+              ))}
+            </div>
+          ) : <EmptyArticles />}
         </div>
         <aside className="article-tools">
           <div className="index-box">

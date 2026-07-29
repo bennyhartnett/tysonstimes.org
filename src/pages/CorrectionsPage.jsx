@@ -1,3 +1,4 @@
+import { EmptyArticles } from "../components/ArticleBits.jsx";
 import { HoverButton, HoverLink } from "../components/HoverLink.jsx";
 import { correctionsPage } from "../data/pages.js";
 import { useArticles } from "../data/ContentProvider.jsx";
@@ -7,29 +8,32 @@ import { formatDate } from "../utils/format.js";
 
 export function CorrectionsPage() {
   const sortedArticles = sortArticles(useArticles());
+  const corrections = correctionsPage.items.flatMap((correction) => {
+    const article = sortedArticles.find((item) => item.id === correction.articleId);
+    return article ? [{ ...correction, article }] : [];
+  });
+
   return (
     <section className="section corrections-layout">
       <div>
         <h1 className="page-title">Corrections</h1>
         <p className="deck">A standards-and-corrections template that keeps the public record visible and connects updates to original coverage.</p>
         <div className="correction-log">
-          {correctionsPage.items.map(({ date, articleId, text, status }) => {
-            const article = sortedArticles.find((item) => item.id === articleId) || sortedArticles[0];
-            return (
-              <article className="correction-item" key={`${date}-${articleId}`}>
-                <div className="correction-date">
-                  {formatDate(date)}
-                  <span>{status}</span>
-                </div>
-                <div>
-                  <h3>
-                    <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
-                  </h3>
-                  <p>{text}</p>
-                </div>
-              </article>
-            );
-          })}
+          {corrections.map(({ date, articleId, text, status, article }) => (
+            <article className="correction-item" key={`${date}-${articleId}`}>
+              <div className="correction-date">
+                {formatDate(date)}
+                <span>{status}</span>
+              </div>
+              <div>
+                <h3>
+                  <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
+                </h3>
+                <p>{text}</p>
+              </div>
+            </article>
+          ))}
+          {!corrections.length ? <EmptyArticles>No corrections have been published.</EmptyArticles> : null}
         </div>
       </div>
       <aside className="article-tools">

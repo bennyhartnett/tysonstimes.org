@@ -3175,6 +3175,22 @@ html[data-site-theme="dark"] .site-footer small { color: var(--site-muted); }
   .article-page { padding-bottom: 52px; }
 }
 
+.empty-articles {
+  max-width: 46rem;
+  margin: 1.25rem 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.missing-article .button {
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
 /* Accessibility foundations shared by every newspaper route. */
 .skip-link {
   position: fixed;
