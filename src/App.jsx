@@ -15,6 +15,7 @@ import { HomePage } from "./pages/HomePage.jsx";
 import { InvestigationsPage } from "./pages/InvestigationsPage.jsx";
 import { ObituariesPage } from "./pages/ObituariesPage.jsx";
 import { OperationsDashboard } from "./pages/OperationsDashboard.jsx";
+import { PrivacyPage } from "./pages/PrivacyPage.jsx";
 import { SectionPage } from "./pages/SectionPage.jsx";
 import {
   BriefsPage,
@@ -42,6 +43,7 @@ const pages = {
   classifieds: ClassifiedsPage,
   corrections: CorrectionsPage,
   about: AboutPage,
+  privacy: PrivacyPage,
 };
 
 function PublishedApp() {

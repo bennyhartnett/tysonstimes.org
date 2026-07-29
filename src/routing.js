@@ -22,6 +22,7 @@ const aliases = {
   "classifieds.html": "classifieds",
   "corrections.html": "corrections",
   "about.html": "about",
+  "privacy.html": "privacy",
 };
 
 export function pagePath(page = "home") {
