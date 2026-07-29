@@ -1,4 +1,4 @@
-import { HeadlineList, Tags } from "../components/ArticleBits.jsx";
+import { EmptyArticles, HeadlineList, Tags } from "../components/ArticleBits.jsx";
 import { HoverButton, HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate, MiniPhoto } from "../components/Media.jsx";
 import { sections } from "../data/content.js";
@@ -67,26 +67,29 @@ export function BriefsPage() {
 
 export function GuidePage() {
   const sortedArticles = sortArticles(useArticles());
+  const guideItems = featurePages.guide.items.flatMap((item) => {
+    const article = sortedArticles.find((candidate) => candidate.id === item.articleId);
+    return article ? [{ ...item, article }] : [];
+  });
+
   return (
     <section className="section guide-layout">
       <div>
         <h1 className="page-title">Guide</h1>
         <p className="deck">Practical local explainers for residents who need dates, decisions, locations, and next steps in one place.</p>
         <div className="guide-grid">
-          {featurePages.guide.items.map(({ title, text, articleId }) => {
-            const article = sortedArticles.find((item) => item.id === articleId) || sortedArticles[0];
-            return (
-              <article className="guide-card" key={title}>
-                <div className="meta">
-                  {sectionLabel(article.section)} / {formatDate(article.date)}
-                </div>
-                <h3>
-                  <HoverLink href={articlePath(article.id)}>{title}</HoverLink>
-                </h3>
-                <p>{text}</p>
-              </article>
-            );
-          })}
+          {guideItems.map(({ title, text, article }) => (
+            <article className="guide-card" key={title}>
+              <div className="meta">
+                {sectionLabel(article.section)} / {formatDate(article.date)}
+              </div>
+              <h3>
+                <HoverLink href={articlePath(article.id)}>{title}</HoverLink>
+              </h3>
+              <p>{text}</p>
+            </article>
+          ))}
+          {!guideItems.length ? <EmptyArticles>No guide articles have been published yet.</EmptyArticles> : null}
         </div>
       </div>
       <aside className="article-tools">
@@ -111,68 +114,75 @@ export function GuidePage() {
 
 export function PhotoEssayPage() {
   const sortedArticles = sortArticles(useArticles());
-  const feature = sortedArticles.find((article) => article.id === featurePages.photoEssay.featureArticleId) || sortedArticles[0];
-  const gallery = sortedArticles.slice(0, featurePages.photoEssay.galleryLimit);
+  const feature = sortedArticles.find((article) => article.id === featurePages.photoEssay.featureArticleId);
+  const gallery = feature ? sortedArticles.slice(0, featurePages.photoEssay.galleryLimit) : [];
 
   return (
     <section className="section photo-essay-layout">
       <h1 className="page-title">Photo Essay</h1>
       <p className="deck">A visual newspaper spread for parks, storefronts, classrooms, public meetings, seasonal scenes, and neighborhood records.</p>
-      <div className="photo-essay-hero">
-        <ImagePlate article={feature} caption={featurePages.photoEssay.heroCaption} size="wide" />
-      </div>
-      <div className="columns">
-        {feature.body.map((paragraph, index) => (
-          <p className={index === 0 ? "dropcap" : undefined} key={paragraph}>
-            {paragraph}
-          </p>
-        ))}
-      </div>
-      <div className="photo-essay-grid">
-        {gallery.map((article) => (
-          <article className="photo-tile" key={article.id}>
-            <a href={articlePath(article.id)} aria-label={article.title}>
-              <MiniPhoto article={article} />
-            </a>
-            <div className="meta">
-              {sectionLabel(article.section)} / {article.location}
-            </div>
-            <h3>
-              <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
-            </h3>
-            <p>{textPreview(article.dek, 130)}</p>
-          </article>
-        ))}
-      </div>
+      {feature ? (
+        <>
+          <div className="photo-essay-hero">
+            <ImagePlate article={feature} caption={featurePages.photoEssay.heroCaption} size="wide" />
+          </div>
+          <div className="columns">
+            {feature.body.map((paragraph, index) => (
+              <p className={index === 0 ? "dropcap" : undefined} key={paragraph}>
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <div className="photo-essay-grid">
+            {gallery.map((article) => (
+              <article className="photo-tile" key={article.id}>
+                <a href={articlePath(article.id)} aria-label={article.title}>
+                  <MiniPhoto article={article} />
+                </a>
+                <div className="meta">
+                  {sectionLabel(article.section)} / {article.location}
+                </div>
+                <h3>
+                  <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
+                </h3>
+                <p>{textPreview(article.dek, 130)}</p>
+              </article>
+            ))}
+          </div>
+        </>
+      ) : <EmptyArticles>No photo essays have been published yet.</EmptyArticles>}
     </section>
   );
 }
 
 export function LivePage() {
   const sortedArticles = sortArticles(useArticles());
+  const updates = featurePages.live.updates.flatMap((update) => {
+    const article = sortedArticles.find((item) => item.id === update.articleId);
+    return article ? [{ ...update, article }] : [];
+  });
+
   return (
     <section className="section live-layout">
       <div>
         <h1 className="page-title">Live Updates</h1>
         <p className="deck">A running local file for developing stories, public meetings, traffic disruptions, election nights, and weather events.</p>
         <div className="live-feed">
-          {featurePages.live.updates.map(({ time, label, title, text, articleId }) => {
-            const article = sortedArticles.find((item) => item.id === articleId) || sortedArticles[0];
-            return (
-              <article className="live-update" key={`${time}-${title}`}>
-                <div className="live-time">
-                  {time}
-                  <span>{label}</span>
-                </div>
-                <div>
-                  <h3>
-                    <HoverLink href={articlePath(article.id)}>{title}</HoverLink>
-                  </h3>
-                  <p>{text}</p>
-                </div>
-              </article>
-            );
-          })}
+          {updates.map(({ time, label, title, text, article }) => (
+            <article className="live-update" key={`${time}-${title}`}>
+              <div className="live-time">
+                {time}
+                <span>{label}</span>
+              </div>
+              <div>
+                <h3>
+                  <HoverLink href={articlePath(article.id)}>{title}</HoverLink>
+                </h3>
+                <p>{text}</p>
+              </div>
+            </article>
+          ))}
+          {!updates.length ? <EmptyArticles>No live-update articles have been published yet.</EmptyArticles> : null}
         </div>
       </div>
       <aside className="article-tools">

@@ -1,4 +1,4 @@
-import { HeadlineList } from "../components/ArticleBits.jsx";
+import { EmptyArticles, HeadlineList } from "../components/ArticleBits.jsx";
 import { HoverLink } from "../components/HoverLink.jsx";
 import { investigationsPage } from "../data/pages.js";
 import { useArticles } from "../data/ContentProvider.jsx";
@@ -8,7 +8,7 @@ import { formatDate } from "../utils/format.js";
 
 export function InvestigationsPage() {
   const sortedArticles = sortArticles(useArticles());
-  const lead = sortedArticles.find((article) => article.id === investigationsPage.leadArticleId) || sortedArticles[0];
+  const lead = sortedArticles.find((article) => article.id === investigationsPage.leadArticleId);
   const related = sortedArticles
     .filter((article) => investigationsPage.relatedSections.includes(article.section))
     .slice(0, investigationsPage.relatedLimit);
@@ -18,38 +18,42 @@ export function InvestigationsPage() {
       <div>
         <h1 className="page-title">Investigations</h1>
         <p className="deck">A case-file template for accountability reporting, public records, timelines, source notes, and unanswered reader questions.</p>
-        <article className="case-board">
-          <div className="eyebrow">
-            {sectionLabel(lead.section)} / Case File / {formatDate(lead.date)}
-          </div>
-          <h3>
-            <HoverLink href={articlePath(lead.id)}>{lead.title}</HoverLink>
-          </h3>
-          <p>{lead.dek}</p>
-          <div className="case-strip">
-            {investigationsPage.caseStats.map((stat) => (
-              <span key={stat.label}>
-                {stat.label}: {stat.value}
-              </span>
-            ))}
-          </div>
-        </article>
-        <div className="document-grid">
-          {investigationsPage.documentRows.map(({ title, text }) => (
-            <article className="document-card" key={title}>
-              <h3>{title}</h3>
-              <p>{text}</p>
+        {lead ? (
+          <>
+            <article className="case-board">
+              <div className="eyebrow">
+                {sectionLabel(lead.section)} / Case File / {formatDate(lead.date)}
+              </div>
+              <h3>
+                <HoverLink href={articlePath(lead.id)}>{lead.title}</HoverLink>
+              </h3>
+              <p>{lead.dek}</p>
+              <div className="case-strip">
+                {investigationsPage.caseStats.map((stat) => (
+                  <span key={stat.label}>
+                    {stat.label}: {stat.value}
+                  </span>
+                ))}
+              </div>
             </article>
-          ))}
-        </div>
-        <div className="timeline-list">
-          {investigationsPage.timeline.map(({ date, text }) => (
-            <article className="timeline-item" key={`${date}-${text}`}>
-              <strong>{date}</strong>
-              <p>{text}</p>
-            </article>
-          ))}
-        </div>
+            <div className="document-grid">
+              {investigationsPage.documentRows.map(({ title, text }) => (
+                <article className="document-card" key={title}>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
+            <div className="timeline-list">
+              {investigationsPage.timeline.map(({ date, text }) => (
+                <article className="timeline-item" key={`${date}-${text}`}>
+                  <strong>{date}</strong>
+                  <p>{text}</p>
+                </article>
+              ))}
+            </div>
+          </>
+        ) : <EmptyArticles>No investigation articles have been published yet.</EmptyArticles>}
       </div>
       <aside className="article-tools">
         <div className="index-box">

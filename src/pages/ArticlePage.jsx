@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { HeadlineList, Tags } from "../components/ArticleBits.jsx";
+import { EmptyArticles, HeadlineList, Tags } from "../components/ArticleBits.jsx";
 import { HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate } from "../components/Media.jsx";
 import { contentUrl } from "../data/content.js";
@@ -15,11 +15,13 @@ function articleDataUrl(id) {
 export function ArticlePage({ route }) {
   const articles = useArticles();
   const article = route.article || getArticleById(route.articleId, articles);
-  const related = relatedArticlesFor(article, 5, articles);
+  const related = article ? relatedArticlesFor(article, 5, articles) : [];
   const [fullArticle, setFullArticle] = useState(null);
   const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
+    if (!article) return undefined;
+
     const controller = new AbortController();
     setFullArticle(null);
     setLoadError(false);
@@ -35,7 +37,17 @@ export function ArticlePage({ route }) {
       });
 
     return () => controller.abort();
-  }, [article.id]);
+  }, [article?.id]);
+
+  if (!article) {
+    return (
+      <section className="section missing-article">
+        <h1 className="page-title">Article not found</h1>
+        <EmptyArticles>This article is not available. It may have been removed or the link may be outdated.</EmptyArticles>
+        <HoverLink className="button" href={pagePath("archive")}>Browse published articles</HoverLink>
+      </section>
+    );
+  }
 
   return (
     <article className="article-page">

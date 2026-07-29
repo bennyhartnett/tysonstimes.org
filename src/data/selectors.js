@@ -13,7 +13,7 @@ export function getSectionById(id) {
 
 export function getArticleById(id, items = sortedArticles) {
   const sorted = sortArticles(items);
-  return sorted.find((article) => article.id === id) || sorted[0];
+  return sorted.find((article) => article.id === id) || null;
 }
 
 export function articlesForSection(sectionId, items = sortedArticles) {
@@ -25,6 +25,8 @@ export function sectionLabel(id) {
 }
 
 export function relatedArticlesFor(article, limit = 5, items = sortedArticles) {
+  if (!article) return [];
+
   const sorted = sortArticles(items);
   const related = sorted.filter(
     (item) =>

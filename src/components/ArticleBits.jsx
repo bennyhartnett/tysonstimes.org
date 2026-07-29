@@ -18,6 +18,8 @@ export function Tags({ article }) {
 }
 
 export function HeadlineList({ articles }) {
+  if (!articles.length) return <EmptyArticles />;
+
   return (
     <ul className="headline-list">
       {articles.map((article) => (
@@ -31,6 +33,10 @@ export function HeadlineList({ articles }) {
       ))}
     </ul>
   );
+}
+
+export function EmptyArticles({ children = "No articles have been published in this category yet." }) {
+  return <p className="empty-articles" role="status">{children}</p>;
 }
 
 export function ArticleCard({ article, includeImage = true }) {

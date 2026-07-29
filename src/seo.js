@@ -33,7 +33,7 @@ export function sectionCleanPath(id) {
 export function routeCleanPath(route, availableArticles = articles) {
   if (route?.page === "article") {
     const article = route.article || getArticleById(route.articleId, availableArticles);
-    return articleCleanPath(article.id);
+    return article ? articleCleanPath(article.id) : pageCleanPath("archive");
   }
 
   if (route?.page === "section") {
@@ -241,6 +241,27 @@ export function buildRouteMeta(route = { page: "home" }, availableArticles = art
 
   if (route.page === "article") {
     const article = route.article || getArticleById(route.articleId, currentArticles);
+
+    if (!article) {
+      const title = `Article not found | ${site.name}`;
+      const description = "This article is not available. Browse the Tysons Times archive for published coverage.";
+      const canonicalUrl = absoluteUrl(pageCleanPath("archive"));
+
+      return {
+        title,
+        description,
+        canonicalUrl,
+        type: "website",
+        robots: "noindex, follow",
+        keywords: keywordString([site.name, "article archive", ...site.coverageArea]),
+        structuredData: buildStructuredData(
+          { page: "archive" },
+          { title, description, canonicalUrl },
+          currentArticles,
+        ),
+      };
+    }
+
     const related = relatedArticlesFor(article, 3, currentArticles);
     const canonicalUrl = absoluteUrl(articleCleanPath(article.id));
 
@@ -327,7 +348,7 @@ export function applyDocumentMetadata(meta) {
 
   setMetaAttribute("name", "description", meta.description);
   setMetaAttribute("name", "keywords", meta.keywords);
-  setMetaAttribute("name", "robots", "index, follow, max-image-preview:large");
+  setMetaAttribute("name", "robots", meta.robots || "index, follow, max-image-preview:large");
   setMetaAttribute("name", "geo.region", site.region);
   setMetaAttribute("name", "geo.placename", site.location);
   setMetaAttribute("name", "geo.position", `${site.latitude};${site.longitude}`);
