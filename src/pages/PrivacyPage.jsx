@@ -1,0 +1,109 @@
+import { HoverLink } from "../components/HoverLink.jsx";
+import { pagePath } from "../routing.js";
+
+export function PrivacyPage() {
+  return (
+    <section className="section privacy-page">
+      <header className="privacy-header">
+        <p className="privacy-kicker">Reader notice</p>
+        <h1 className="page-title">Privacy Policy</h1>
+        <p className="deck">
+          The short version: this site collects as little as it reasonably can. We do not sell your personal information
+          or build advertising profiles about you.
+        </p>
+        <p className="privacy-updated">Last updated July 28, 2026</p>
+      </header>
+
+      <div className="privacy-layout">
+        <article className="privacy-copy">
+          <section>
+            <h2>What the site handles</h2>
+            <p>
+              When you visit Tysons Times, our hosting provider may process standard technical information such as your
+              IP address, browser type, device type, requested pages, and the time of the request. This information is
+              used to deliver the site, keep it reliable, and protect it from abuse.
+            </p>
+          </section>
+
+          <section>
+            <h2>Preferences stored on your device</h2>
+            <p>
+              If you change the color theme or choose whether advertisements are shown, those settings are saved in
+              your browser&apos;s local storage. They stay on your device unless you clear them. We do not use those
+              preferences to identify you across websites.
+            </p>
+          </section>
+
+          <section>
+            <h2>Third-party services</h2>
+            <p>
+              The site requests local weather from Open-Meteo and loads article content from the Tysons Times content
+              host. Those services may receive ordinary request information, including your IP address, under their own
+              privacy practices. Links to other websites are also governed by the policies of those sites.
+            </p>
+          </section>
+
+          <section>
+            <h2>Forms, cookies, and advertising</h2>
+            <p>
+              The newsletter, correction, obituary, and classified forms currently shown on this site are prototypes:
+              their buttons do not submit or retain what you type. Tysons Times does not currently set tracking cookies,
+              run behavioral analytics, or operate a targeted-advertising system. If that changes, this policy will be
+              updated before the new collection begins.
+            </p>
+          </section>
+
+          <section>
+            <h2>Sharing and retention</h2>
+            <p>
+              We do not sell or rent personal information. Technical records may be handled by service providers that
+              help deliver and secure the site, or disclosed when required by law. Tysons Times does not maintain a
+              separate database of reader profiles. Hosting providers may keep limited security and access logs under
+              their own retention schedules.
+            </p>
+          </section>
+
+          <section>
+            <h2>Your choices</h2>
+            <p>
+              You can clear this site&apos;s local storage through your browser settings and use browser privacy controls
+              to limit third-party requests. Because we do not maintain reader accounts or profiles, we generally have
+              no personal record to retrieve, correct, or delete. If you believe otherwise, use the reader contact route
+              on our <HoverLink href={pagePath("about")}>About page</HoverLink> and describe the request.
+            </p>
+          </section>
+
+          <section>
+            <h2>Children and policy changes</h2>
+            <p>
+              This general-audience news site is not designed to collect personal information from children. Material
+              changes to this policy will appear here with a new effective date.
+            </p>
+          </section>
+        </article>
+
+        <aside className="privacy-summary" aria-labelledby="privacy-summary-title">
+          <h2 id="privacy-summary-title">No fine-print ambush</h2>
+          <dl>
+            <div>
+              <dt>Sold</dt>
+              <dd>No</dd>
+            </div>
+            <div>
+              <dt>Ad tracking</dt>
+              <dd>No</dd>
+            </div>
+            <div>
+              <dt>Reader accounts</dt>
+              <dd>None</dd>
+            </div>
+            <div>
+              <dt>Saved locally</dt>
+              <dd>Theme and ad-display choices</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  );
+}

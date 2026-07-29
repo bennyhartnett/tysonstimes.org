@@ -228,6 +228,7 @@ function Footer() {
           <HoverLink href={pagePath("corrections")}>Corrections</HoverLink>
           <HoverLink href={pagePath("newsletter")}>Newsletter</HoverLink>
           <HoverLink href={pagePath("archive")}>Archive</HoverLink>
+          <HoverLink href={pagePath("privacy")}>Privacy</HoverLink>
         </nav>
         <small>{site.footer}</small>
       </div>

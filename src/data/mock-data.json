@@ -346,7 +346,8 @@
       "obituaries": "Obituaries",
       "classifieds": "Classifieds",
       "corrections": "Corrections",
-      "about": "Subscribe/About"
+      "about": "Subscribe/About",
+      "privacy": "Privacy Policy"
     },
     "pageDescriptions": {
       "home": "Tysons Times is an independent local newspaper for Tysons, Virginia, covering civic life, schools, business, dining, events, transportation, and neighborhood change across Northern Fairfax County.",
@@ -363,7 +364,8 @@
       "obituaries": "Memorial notices, service announcements, community remembrances, and obituary submission guidance for the Tysons area.",
       "classifieds": "A local classifieds board for Tysons public notices, jobs, services, real estate, sales, announcements, and community marketplace needs.",
       "corrections": "Tysons Times corrections, clarifications, editorial standards, reader review requests, and visible updates to the public record.",
-      "about": "About Tysons Times, an independent local newspaper template and reader-service hub for Tysons, Virginia."
+      "about": "About Tysons Times, an independent local newspaper template and reader-service hub for Tysons, Virginia.",
+      "privacy": "How Tysons Times handles reader data, browser preferences, third-party requests, forms, cookies, and advertising."
     },
     "pageSlugs": {
       "home": "",
@@ -380,7 +382,8 @@
       "obituaries": "obituaries",
       "classifieds": "classifieds",
       "corrections": "corrections",
-      "about": "about"
+      "about": "about",
+      "privacy": "privacy"
     },
     "pageTypes": [
       {

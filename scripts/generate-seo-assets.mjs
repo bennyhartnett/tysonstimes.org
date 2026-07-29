@@ -325,6 +325,21 @@ function renderStaticPage(page) {
   const meta = buildRouteMeta({ page });
   const title = pageTitles[page] || page;
   const related = articlesForStaticPage(page);
+  const privacyBody = page === "privacy" ? `
+      <section class="content-block">
+        <h2>What the site handles</h2>
+        <p>Our hosting provider may process standard request information such as an IP address, browser type, requested page, and request time to deliver and secure the site.</p>
+        <h2>Preferences stored on your device</h2>
+        <p>Theme and advertisement-display choices are saved in your browser's local storage. We do not use those preferences to identify you across websites.</p>
+        <h2>Third-party services</h2>
+        <p>The site requests weather from Open-Meteo and loads articles from the Tysons Times content host. Those services may receive ordinary request information under their own privacy practices.</p>
+        <h2>Forms, cookies, and advertising</h2>
+        <p>Visible newsletter, correction, obituary, and classified forms are prototypes and do not submit or retain entries. Tysons Times does not currently set tracking cookies, run behavioral analytics, or operate targeted advertising.</p>
+        <h2>Sharing, retention, and your choices</h2>
+        <p>We do not sell or rent personal information or maintain reader profiles. Service providers may keep limited security and access logs. You can clear local preferences through your browser settings. Material policy changes will appear here with a new effective date.</p>
+        <p class="meta">Last updated July 28, 2026</p>
+      </section>
+    ` : "";
   const body = `
     <section>
       <h1>${escapeHtml(title)}</h1>
@@ -335,7 +350,8 @@ function renderStaticPage(page) {
         <div><dt>Latest update</dt><dd>${escapeHtml(formatDisplayDate(sortedArticles[0].date))}</dd></div>
       </dl>
       ${page === "events" ? renderEventsBlock() : ""}
-      ${articleList(related, page === "archive" ? "All articles" : "Featured local coverage")}
+      ${privacyBody}
+      ${page === "privacy" ? "" : articleList(related, page === "archive" ? "All articles" : "Featured local coverage")}
     </section>
   `;
 

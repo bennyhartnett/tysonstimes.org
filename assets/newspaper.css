@@ -2716,6 +2716,113 @@ body:has(.page-shell)::after,
   font-size: 0.62rem;
 }
 
+.privacy-page {
+  padding-block: clamp(48px, 7vw, 84px);
+}
+
+.privacy-header {
+  max-width: 900px;
+  border-bottom: 4px solid var(--ink);
+  padding-bottom: clamp(24px, 4vw, 38px);
+}
+
+.privacy-kicker,
+.privacy-updated {
+  margin: 0 0 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.privacy-updated {
+  margin: 18px 0 0;
+  color: var(--site-muted);
+  letter-spacing: 0.04em;
+}
+
+.privacy-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.7fr) minmax(250px, 0.3fr);
+  gap: clamp(30px, 6vw, 72px);
+  align-items: start;
+  padding-top: clamp(30px, 5vw, 52px);
+}
+
+.privacy-copy {
+  display: grid;
+  gap: 30px;
+}
+
+.privacy-copy section {
+  border-top: 1px solid var(--site-line);
+  padding-top: 16px;
+}
+
+.privacy-copy section:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.privacy-copy h2,
+.privacy-summary h2 {
+  margin: 0 0 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.privacy-copy p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
+.privacy-summary {
+  position: sticky;
+  top: 24px;
+  border: 3px solid var(--ink);
+  padding: 22px;
+  background: var(--site-bg);
+}
+
+.privacy-summary dl {
+  margin: 18px 0 0;
+}
+
+.privacy-summary dl div {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 12px;
+  border-top: 1px solid var(--site-line);
+  padding: 12px 0;
+}
+
+.privacy-summary dt,
+.privacy-summary dd {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.privacy-summary dt {
+  font-weight: 900;
+}
+
+@media (max-width: 760px) {
+  .privacy-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-summary {
+    position: static;
+  }
+}
+
 /* Article pages — spacious metropolitan-news reading layout. */
 .article-page {
   border-bottom: 1px solid var(--site-line);
