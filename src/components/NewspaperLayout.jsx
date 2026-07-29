@@ -8,35 +8,23 @@ function navHref(item) {
   return item.section ? sectionPath(item.section) : pagePath(item.page);
 }
 
-function editionForHour(hour) {
-  if (hour < 12) return "Morning Edition";
-  if (hour < 17) return "Afternoon Edition";
-  return "Evening Edition";
-}
-
 function formatFullDate(date) {
-  const weekday = date.toLocaleDateString("en-US", { weekday: "long" });
-  const rest = date.toLocaleDateString("en-US", {
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
     month: "long",
     day: "numeric",
     year: "numeric",
   });
-  return `${weekday} ${rest}`;
 }
 
-// WMO weather interpretation codes -> short label
 function weatherLabel(code) {
   if (code === 0) return "Clear";
-  if (code === 1) return "Mostly Clear";
-  if (code === 2) return "Partly Cloudy";
+  if (code <= 2) return "Partly cloudy";
   if (code === 3) return "Cloudy";
   if (code === 45 || code === 48) return "Foggy";
-  if (code >= 51 && code <= 57) return "Drizzle";
-  if (code >= 61 && code <= 67) return "Raining";
-  if (code >= 71 && code <= 77) return "Snowing";
-  if (code >= 80 && code <= 82) return "Rain Showers";
-  if (code >= 85 && code <= 86) return "Snow Showers";
-  if (code >= 95) return "Thunderstorm";
+  if (code >= 51 && code <= 67) return "Rain";
+  if (code >= 71 && code <= 86) return "Snow";
+  if (code >= 95) return "Storms";
   return "";
 }
 
@@ -66,24 +54,18 @@ function useMastheadInfo() {
     return () => controller.abort();
   }, []);
 
-  return {
-    edition: editionForHour(now.getHours()),
-    dateLabel: formatFullDate(now),
-    weather,
-  };
+  return { dateLabel: formatFullDate(now), weather };
 }
 
 function isActiveLink(item, route) {
   if (item.section) {
     return route?.sectionId === item.section || route?.article?.section === item.section;
   }
-
   return route?.page === item.page;
 }
 
 function NavItem({ item, route }) {
   const isActive = isActiveLink(item, route);
-
   return (
     <HoverLink
       className={isActive ? "is-active" : undefined}
@@ -96,44 +78,82 @@ function NavItem({ item, route }) {
 }
 
 function Masthead({ route }) {
-  const indexHasActiveLink = directoryNavGroups.some((group) =>
-    group.links.some((item) => isActiveLink(item, route)),
-  );
-  const { edition, dateLabel, weather } = useMastheadInfo();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const { dateLabel, weather } = useMastheadInfo();
+
+  function submitSearch(event) {
+    event.preventDefault();
+    window.location.hash = "/archive";
+    setSearchOpen(false);
+  }
 
   return (
-    <header className="masthead">
-      <div className="kicker-row">
-        <span className="masthead-locale">
-          {site.location}
-          {weather ? (
-            <span className="masthead-weather">
-              {weather.temp}&deg;{weather.label ? ` ${weather.label}` : ""}
-            </span>
-          ) : null}
-        </span>
-        <span>{dateLabel}</span>
-        <span>{site.domain}</span>
+    <header className="site-header">
+      <div className="site-utility wide-shell">
+        <div className="site-utility-actions">
+          <button
+            className="site-icon-button"
+            type="button"
+            aria-label={menuOpen ? "Close section menu" : "Open section menu"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+          <button
+            className="site-search-button"
+            type="button"
+            aria-expanded={searchOpen}
+            onClick={() => setSearchOpen((open) => !open)}
+          >
+            Search
+          </button>
+        </div>
+        <div className="site-account-actions">
+          <HoverLink className="site-subscribe" href={pagePath("newsletter")}>Subscribe</HoverLink>
+          <HoverLink className="site-sign-in" href={pagePath("about")}>About us</HoverLink>
+        </div>
       </div>
-      <h1>
-        <HoverLink href={pagePath("home")}>{site.name}</HoverLink>
-      </h1>
-      <p className="subtitle">{site.tagline}</p>
-      <div className="meta-row">
-        <span>{site.volume}</span>
-        <span>Local, Civic, Schools, Business</span>
-        <span>{edition}</span>
+
+      <div className="site-masthead content-shell">
+        <div className="site-masthead-meta site-masthead-meta--left">
+          <span>{dateLabel}</span>
+          <span>{site.location}</span>
+        </div>
+        <div className="site-brand">
+          <h1><HoverLink href={pagePath("home")}>{site.name}</HoverLink></h1>
+          <p>Northern Virginia, clearly reported.</p>
+        </div>
+        <div className="site-masthead-meta site-masthead-meta--right">
+          <span>{site.volume}</span>
+          {weather ? <span>{weather.temp}&deg; {weather.label}</span> : <span>Independent local news</span>}
+        </div>
       </div>
-      <nav className="nav-strip" aria-label="Primary sections">
-        {primaryNavLinks.map((item) => (
-          <NavItem item={item} key={item.label} route={route} />
-        ))}
+
+      {searchOpen ? (
+        <form className="site-search-panel" onSubmit={submitSearch}>
+          <label htmlFor="site-search">Search Tysons Times</label>
+          <input id="site-search" type="search" placeholder="Search stories and topics" autoFocus />
+          <button type="submit">Search</button>
+        </form>
+      ) : null}
+
+      <nav className={menuOpen ? "site-sections is-open" : "site-sections"} aria-label="Primary sections">
+        <div className="content-shell site-section-row">
+          {primaryNavLinks.map((item) => (
+            <NavItem item={item} key={item.label} route={route} />
+          ))}
+          <HoverLink href={pagePath("archive")}>Archive</HoverLink>
+        </div>
       </nav>
-      <details className={indexHasActiveLink ? "site-index has-active" : "site-index"}>
-        <summary>Index</summary>
-        <nav className="site-index-panel" aria-label="Complete newspaper index">
+
+      {menuOpen ? (
+        <nav className="site-directory content-shell" aria-label="Complete newspaper directory">
           {directoryNavGroups.map((group) => (
-            <div className="site-index-group" key={group.title}>
+            <div className="site-directory-group" key={group.title}>
               <strong>{group.title}</strong>
               {group.links.map((item) => (
                 <NavItem item={item} key={item.label} route={route} />
@@ -141,18 +161,27 @@ function Masthead({ route }) {
             </div>
           ))}
         </nav>
-      </details>
-      <div className="issue-line">
-        <span>{site.issueLine}</span>
-      </div>
+      ) : null}
     </header>
   );
 }
 
 function Footer() {
   return (
-    <footer className="footer-note">
-      <span>{site.footer}</span>
+    <footer className="site-footer">
+      <div className="content-shell site-footer-inner">
+        <div>
+          <HoverLink className="site-footer-mark" href={pagePath("home")}>{site.name}</HoverLink>
+          <p>Northern Virginia, clearly reported.</p>
+        </div>
+        <nav aria-label="Footer">
+          <HoverLink href={pagePath("about")}>About</HoverLink>
+          <HoverLink href={pagePath("corrections")}>Corrections</HoverLink>
+          <HoverLink href={pagePath("newsletter")}>Newsletter</HoverLink>
+          <HoverLink href={pagePath("archive")}>Archive</HoverLink>
+        </nav>
+        <small>{site.footer}</small>
+      </div>
     </footer>
   );
 }
@@ -160,8 +189,9 @@ function Footer() {
 export function NewspaperLayout({ children, route }) {
   return (
     <main className="page-shell">
-      <article className="newspaper" aria-label="Tysons Times newspaper template">
+      <article className="newspaper" aria-label="Tysons Times">
         <div className="paper-content">
+          {route?.page === "home" ? <div className="site-top-ad" aria-label="Advertisement">Advertisement</div> : null}
           <Masthead route={route} />
           {children}
           <Footer />
