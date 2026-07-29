@@ -5,7 +5,7 @@ export function ObituariesPage() {
   return (
     <section className="section obituaries-layout">
       <div>
-        <h2 className="page-title">Obituaries</h2>
+        <h1 className="page-title">Obituaries</h1>
         <p className="deck">A memorial-notice template with careful typography, service details, submission guidance, and room for community remembrance.</p>
         <div className="notice-list">
           {obituariesPage.notices.map(({ title, location, text }) => (
@@ -24,9 +24,9 @@ export function ObituariesPage() {
         <form className="search-panel">
           <h3>Notice Submission</h3>
           <div className="form-grid">
-            <input className="subscribe-input" type="text" placeholder="Contact name" />
-            <input className="subscribe-input" type="email" placeholder="email@example.com" />
-            <textarea className="subscribe-textarea" placeholder="Service details, family contact, and preferred publication date" />
+            <label className="form-field"><span>Contact name</span><input className="subscribe-input" type="text" autoComplete="name" placeholder="Contact name" /></label>
+            <label className="form-field"><span>Email address</span><input className="subscribe-input" type="email" autoComplete="email" placeholder="email@example.com" /></label>
+            <label className="form-field"><span>Notice details</span><textarea className="subscribe-textarea" placeholder="Service details, family contact, and preferred publication date" /></label>
             <HoverButton className="button" type="button">
               Prepare Notice
             </HoverButton>

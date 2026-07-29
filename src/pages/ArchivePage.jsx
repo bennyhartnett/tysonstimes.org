@@ -24,32 +24,39 @@ export function ArchivePage() {
 
   return (
     <section className="section">
-      <h2 className="page-title">Archive</h2>
-      <div className="search-panel">
+      <h1 className="page-title">Archive</h1>
+      <div className="search-panel" role="search">
         <h3>Search Tysons Times</h3>
         <div className="archive-controls">
+          <label className="form-field">
+            <span>Search stories</span>
           <input
             className="search-input"
             type="search"
-            aria-label="Search headlines, tags, and locations"
             placeholder="Search headlines, tags, locations"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
-          <select className="section-select" value={section} onChange={(event) => setSection(event.target.value)}>
+          </label>
+          <label className="form-field">
+            <span>Filter by section</span>
+            <select className="section-select" value={section} onChange={(event) => setSection(event.target.value)}>
             <option value="">All sections</option>
             {sections.map((item) => (
               <option value={item.id} key={item.id}>
                 {item.label}
               </option>
             ))}
-          </select>
+            </select>
+          </label>
         </div>
+        <p className="archive-result-count" role="status">{filteredArticles.length} {filteredArticles.length === 1 ? "story" : "stories"} found</p>
       </div>
       <div className="card-grid" id="archiveGrid">
         {filteredArticles.map((article) => (
           <ArticleCard article={article} key={article.id} />
         ))}
+        {filteredArticles.length === 0 ? <p>No stories match those filters.</p> : null}
       </div>
     </section>
   );

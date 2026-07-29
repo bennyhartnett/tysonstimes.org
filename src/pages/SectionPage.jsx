@@ -13,7 +13,7 @@ export function SectionPage({ route }) {
     <section className="section">
       <div className="section-layout">
         <div>
-          <h2 className="page-title">{section.label}</h2>
+          <h1 className="page-title">{section.label}</h1>
           <p className="deck">{section.description}</p>
           <div className="card-grid">
             {articles.map((article) => (
