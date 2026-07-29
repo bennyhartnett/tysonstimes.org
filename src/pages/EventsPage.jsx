@@ -3,7 +3,7 @@ import { events } from "../data/content.js";
 export function EventsPage() {
   return (
     <section className="section">
-      <h2 className="page-title">Events</h2>
+      <h1 className="page-title">Events</h1>
       <p className="deck">Calendar listings, public meetings, school events, arts notices, and recurring community deadlines.</p>
       <div className="event-grid">
         {events.map((event) => (

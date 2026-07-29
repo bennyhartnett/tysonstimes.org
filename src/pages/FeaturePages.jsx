@@ -25,7 +25,7 @@ export function BriefsPage() {
   return (
     <section className="section briefs-layout">
       <div>
-        <h2 className="page-title">Briefs</h2>
+        <h1 className="page-title">Briefs</h1>
         <p className="deck">Short verified items from across Tysons, built for quick reading without losing source context.</p>
         <div className="brief-list">
           {briefs.map((article, index) => (
@@ -70,7 +70,7 @@ export function GuidePage() {
   return (
     <section className="section guide-layout">
       <div>
-        <h2 className="page-title">Guide</h2>
+        <h1 className="page-title">Guide</h1>
         <p className="deck">Practical local explainers for residents who need dates, decisions, locations, and next steps in one place.</p>
         <div className="guide-grid">
           {featurePages.guide.items.map(({ title, text, articleId }) => {
@@ -116,7 +116,7 @@ export function PhotoEssayPage() {
 
   return (
     <section className="section photo-essay-layout">
-      <h2 className="page-title">Photo Essay</h2>
+      <h1 className="page-title">Photo Essay</h1>
       <p className="deck">A visual newspaper spread for parks, storefronts, classrooms, public meetings, seasonal scenes, and neighborhood records.</p>
       <div className="photo-essay-hero">
         <ImagePlate article={feature} caption={featurePages.photoEssay.heroCaption} size="wide" />
@@ -153,7 +153,7 @@ export function LivePage() {
   return (
     <section className="section live-layout">
       <div>
-        <h2 className="page-title">Live Updates</h2>
+        <h1 className="page-title">Live Updates</h1>
         <p className="deck">A running local file for developing stories, public meetings, traffic disruptions, election nights, and weather events.</p>
         <div className="live-feed">
           {featurePages.live.updates.map(({ time, label, title, text, articleId }) => {
@@ -202,7 +202,7 @@ export function NewsletterPage() {
       <section className="section newsletter-layout">
         <div className="newsletter-preview">
           <div className="eyebrow">Email Edition / Tysons Morning</div>
-          <h2>{lead.title}</h2>
+          <h1 className="page-title">{lead.title}</h1>
           <p className="deck">{lead.dek}</p>
           <ol className="newsletter-list">
             {issueArticles.map((article) => (
@@ -219,12 +219,12 @@ export function NewsletterPage() {
           <form className="search-panel">
             <h3>Subscribe Interest</h3>
             <div className="form-grid">
-              <input className="subscribe-input" type="email" placeholder="email@example.com" />
-              <select className="section-select">
+              <label className="form-field"><span>Email address</span><input className="subscribe-input" type="email" autoComplete="email" placeholder="email@example.com" /></label>
+              <label className="form-field"><span>Newsletter frequency</span><select className="section-select">
                 {featurePages.newsletter.options.map((option) => (
                   <option key={option}>{option}</option>
                 ))}
-              </select>
+              </select></label>
               <HoverButton className="button" type="button">
                 Join The List
               </HoverButton>

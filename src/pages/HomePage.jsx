@@ -61,7 +61,7 @@ export function HomePage() {
       <section className="home-top-package">
         <article className="home-lead-copy">
           <span className="home-eyebrow">{sectionLabel(lead.section)}</span>
-          <h2><StoryLink article={lead}>{lead.homeTitle || lead.title}</StoryLink></h2>
+          <h1><StoryLink article={lead}>{lead.homeTitle || lead.title}</StoryLink></h1>
           <p>{lead.dek}</p>
           <Byline article={lead} showDate />
         </article>
@@ -199,6 +199,14 @@ export function HomePage() {
         </section>
       ) : null}
 
+      <section className="home-newsletter">
+        <div>
+          <b>The Tysons Brief</b>
+          <h2>The local stories that matter, delivered to your inbox.</h2>
+          <p>Independent reporting from Tysons, Vienna, McLean and across Fairfax County.</p>
+        </div>
+        <HoverLink href={pagePath("newsletter")}>Sign up</HoverLink>
+      </section>
     </>
   );
 }

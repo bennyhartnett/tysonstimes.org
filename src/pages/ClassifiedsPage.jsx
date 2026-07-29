@@ -6,7 +6,7 @@ export function ClassifiedsPage() {
   return (
     <>
       <section className="section">
-        <h2 className="page-title">Classifieds</h2>
+        <h1 className="page-title">Classifieds</h1>
         <p className="deck">A dense local marketplace template for public notices, jobs, services, real estate, sales, announcements, and community needs.</p>
         <div className="classifieds-board">
           {classifiedsPage.ads.map(({ title, text }, index) => (
@@ -28,12 +28,12 @@ export function ClassifiedsPage() {
         <form className="search-panel">
           <h3>Submission Shell</h3>
           <div className="form-grid">
-            <select className="section-select">
+            <label className="form-field"><span>Notice category</span><select className="section-select">
               {classifiedsPage.submissionCategories.map((category) => (
                 <option key={category}>{category}</option>
               ))}
-            </select>
-            <textarea className="subscribe-textarea" placeholder="Notice text" />
+            </select></label>
+            <label className="form-field"><span>Notice text</span><textarea className="subscribe-textarea" placeholder="Enter the notice text" /></label>
             <HoverButton className="button" type="button">
               Review Notice
             </HoverButton>

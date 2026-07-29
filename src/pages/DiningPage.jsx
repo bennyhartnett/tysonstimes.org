@@ -10,7 +10,7 @@ export function DiningPage() {
   return (
     <section className="section dining-layout">
       <div>
-        <h2 className="page-title">Dining Guide</h2>
+        <h1 className="page-title">Dining Guide</h1>
         <p className="deck">A local restaurant template for neighborhood picks, openings, closings, service notes, and business-desk context.</p>
         <div className="dining-list">
           {diningPage.listings.map(({ title, area, category, text, articleId }) => {

@@ -10,7 +10,7 @@ export function CorrectionsPage() {
   return (
     <section className="section corrections-layout">
       <div>
-        <h2 className="page-title">Corrections</h2>
+        <h1 className="page-title">Corrections</h1>
         <p className="deck">A standards-and-corrections template that keeps the public record visible and connects updates to original coverage.</p>
         <div className="correction-log">
           {correctionsPage.items.map(({ date, articleId, text, status }) => {
@@ -48,8 +48,8 @@ export function CorrectionsPage() {
         <form className="search-panel">
           <h3>Request Review</h3>
           <div className="form-grid">
-            <input className="subscribe-input" type="text" placeholder="Article headline or URL" />
-            <textarea className="subscribe-textarea" placeholder="What should be reviewed? Include source material when possible." />
+            <label className="form-field"><span>Article headline or URL</span><input className="subscribe-input" type="text" placeholder="Article headline or URL" /></label>
+            <label className="form-field"><span>Correction details</span><textarea className="subscribe-textarea" placeholder="What should be reviewed? Include source material when possible." /></label>
             <HoverButton className="button" type="button">
               Send Request
             </HoverButton>

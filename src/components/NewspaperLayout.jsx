@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { directoryNavGroups, primaryNavLinks } from "../data/pages.js";
 import { site } from "../data/content.js";
 import { pagePath, sectionPath } from "../routing.js";
@@ -81,8 +81,28 @@ function NavItem({ item, route }) {
 function Masthead({ preferences, route }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const menuButtonRef = useRef(null);
+  const searchButtonRef = useRef(null);
   const { dateLabel, weather } = useMastheadInfo();
   const isArticle = route?.page === "article";
+
+  useEffect(() => {
+    if (!menuOpen && !searchOpen) return undefined;
+
+    function closeOnEscape(event) {
+      if (event.key !== "Escape") return;
+      if (searchOpen) {
+        setSearchOpen(false);
+        searchButtonRef.current?.focus();
+      } else if (menuOpen) {
+        setMenuOpen(false);
+        menuButtonRef.current?.focus();
+      }
+    }
+
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [menuOpen, searchOpen]);
 
   function submitSearch(event) {
     event.preventDefault();
@@ -96,21 +116,31 @@ function Masthead({ preferences, route }) {
       <div className="site-utility wide-shell">
         <div className="site-utility-actions">
           <button
+            ref={menuButtonRef}
             className="site-icon-button"
             type="button"
             aria-label={menuOpen ? "Close section menu" : "Open section menu"}
             aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((open) => !open)}
+            aria-controls="site-navigation site-directory"
+            onClick={() => {
+              setMenuOpen((open) => !open);
+              setSearchOpen(false);
+            }}
           >
             <span />
             <span />
             <span />
           </button>
           <button
+            ref={searchButtonRef}
             className="site-search-button"
             type="button"
             aria-expanded={searchOpen}
-            onClick={() => setSearchOpen((open) => !open)}
+            aria-controls="site-search-panel"
+            onClick={() => {
+              setSearchOpen((open) => !open);
+              setMenuOpen(false);
+            }}
           >
             Search
           </button>
@@ -144,7 +174,7 @@ function Masthead({ preferences, route }) {
           <span>{site.location}</span>
         </div>
         <div className="site-brand">
-          <h1><HoverLink href={pagePath("home")}>{site.name}</HoverLink></h1>
+          <div className="site-name"><HoverLink href={pagePath("home")}>{site.name}</HoverLink></div>
           <p>Whats Happening Around the Corner</p>
         </div>
         <div className="site-masthead-meta site-masthead-meta--right">
@@ -154,14 +184,14 @@ function Masthead({ preferences, route }) {
       </div> : null}
 
       {searchOpen ? (
-        <form className="site-search-panel" onSubmit={submitSearch}>
+        <form className="site-search-panel" id="site-search-panel" role="search" onSubmit={submitSearch}>
           <label htmlFor="site-search">Search Tysons Times</label>
           <input id="site-search" name="query" type="search" placeholder="Search stories and topics" autoFocus />
           <button type="submit">Search</button>
         </form>
       ) : null}
 
-      {!isArticle || menuOpen ? <nav className={menuOpen ? "site-sections is-open" : "site-sections"} aria-label="Primary sections">
+      {!isArticle || menuOpen ? <nav id="site-navigation" className={menuOpen ? "site-sections is-open" : "site-sections"} aria-label="Primary sections">
         <div className="content-shell site-section-row">
           {primaryNavLinks.map((item) => (
             <NavItem item={item} key={item.label} route={route} />
@@ -170,7 +200,7 @@ function Masthead({ preferences, route }) {
       </nav> : null}
 
       {menuOpen ? (
-        <nav className="site-directory content-shell" aria-label="Complete newspaper directory">
+        <nav id="site-directory" className="site-directory content-shell" aria-label="Complete newspaper directory">
           {directoryNavGroups.map((group) => (
             <div className="site-directory-group" key={group.title}>
               <strong>{group.title}</strong>
@@ -188,28 +218,18 @@ function Masthead({ preferences, route }) {
 function Footer() {
   return (
     <footer className="site-footer">
-      <div className="content-shell site-footer-content">
-        <section className="site-footer-newsletter" aria-labelledby="footer-newsletter-title">
-          <div>
-            <b>The Tysons Brief</b>
-            <h2 id="footer-newsletter-title">The local stories that matter, delivered to your inbox.</h2>
-            <p>Independent reporting from Tysons, Vienna, McLean and across Fairfax County.</p>
-          </div>
-          <HoverLink href={pagePath("newsletter")}>Sign up</HoverLink>
-        </section>
-        <div className="site-footer-inner">
-          <div>
-            <HoverLink className="site-footer-mark" href={pagePath("home")}>{site.name}</HoverLink>
-            <p>Northern Virginia, clearly reported.</p>
-          </div>
-          <nav aria-label="Footer">
-            <HoverLink href={pagePath("about")}>About</HoverLink>
-            <HoverLink href={pagePath("corrections")}>Corrections</HoverLink>
-            <HoverLink href={pagePath("newsletter")}>Newsletter</HoverLink>
-            <HoverLink href={pagePath("archive")}>Archive</HoverLink>
-          </nav>
-          <small>{site.footer}</small>
+      <div className="content-shell site-footer-inner">
+        <div>
+          <HoverLink className="site-footer-mark" href={pagePath("home")}>{site.name}</HoverLink>
+          <p>Northern Virginia, clearly reported.</p>
         </div>
+        <nav aria-label="Footer">
+          <HoverLink href={pagePath("about")}>About</HoverLink>
+          <HoverLink href={pagePath("corrections")}>Corrections</HoverLink>
+          <HoverLink href={pagePath("newsletter")}>Newsletter</HoverLink>
+          <HoverLink href={pagePath("archive")}>Archive</HoverLink>
+        </nav>
+        <small>{site.footer}</small>
       </div>
     </footer>
   );
@@ -217,18 +237,29 @@ function Footer() {
 
 export function NewspaperLayout({ children, route }) {
   const preferences = usePublicationPreferences();
+  const contentRef = useRef(null);
+  const previousRouteKey = useRef(route?.key);
   const showAd = preferences.showAdvertisements && (route?.page === "home" || route?.page === "article");
 
+  useEffect(() => {
+    if (previousRouteKey.current === route?.key) return;
+    previousRouteKey.current = route?.key;
+    contentRef.current?.focus({ preventScroll: true });
+  }, [route?.key]);
+
   return (
-    <main className={route?.page === "article" ? "page-shell page-shell--article" : "page-shell"}>
-      <article className="newspaper" aria-label="Tysons Times">
+    <div className={route?.page === "article" ? "page-shell page-shell--article" : "page-shell"}>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <div className="newspaper">
         <div className="paper-content">
           <Masthead route={route} preferences={preferences} />
           {showAd ? <div className="site-top-ad" aria-label="Advertisement">Advertisement</div> : null}
-          {children}
+          <main id="main-content" ref={contentRef} tabIndex="-1">
+            {children}
+          </main>
           <Footer />
         </div>
-      </article>
-    </main>
+      </div>
+    </div>
   );
 }

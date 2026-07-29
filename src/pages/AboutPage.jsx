@@ -16,7 +16,7 @@ export function AboutPage() {
     <>
       <section className="section long-read">
         <div>
-          <h2 className="page-title">About Tysons Times</h2>
+          <h1 className="page-title">About Tysons Times</h1>
           <p className="deck">An independent local newspaper template system for Tysons, Virginia.</p>
           <div className="columns">
             <p className="dropcap">Tysons Times is designed to feel like a serious black-and-white newspaper while still working as a modern article system.</p>
@@ -29,8 +29,8 @@ export function AboutPage() {
           <form className="search-panel">
             <h3>Subscribe Interest</h3>
             <div className="form-grid">
-              <input className="subscribe-input" type="email" placeholder="email@example.com" />
-              <textarea className="subscribe-textarea" placeholder="Neighborhood, coverage tip, or section interest" />
+              <label className="form-field"><span>Email address</span><input className="subscribe-input" type="email" autoComplete="email" placeholder="email@example.com" /></label>
+              <label className="form-field"><span>Neighborhood or coverage interest</span><textarea className="subscribe-textarea" placeholder="Neighborhood, coverage tip, or section interest" /></label>
               <HoverButton className="button" type="button">
                 Join The List
               </HoverButton>

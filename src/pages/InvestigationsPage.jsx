@@ -16,7 +16,7 @@ export function InvestigationsPage() {
   return (
     <section className="section investigations-layout">
       <div>
-        <h2 className="page-title">Investigations</h2>
+        <h1 className="page-title">Investigations</h1>
         <p className="deck">A case-file template for accountability reporting, public records, timelines, source notes, and unanswered reader questions.</p>
         <article className="case-board">
           <div className="eyebrow">

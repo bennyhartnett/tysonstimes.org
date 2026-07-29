@@ -6,7 +6,7 @@ export function ElectionPage() {
   return (
     <section className="section election-layout">
       <div>
-        <h2 className="page-title">Election Results</h2>
+        <h1 className="page-title">Election Results</h1>
         <p className="deck">A live-results template for local races, precinct returns, turnout notes, ballot questions, and context from the civic desk.</p>
         <div className="results-grid">
           {electionPage.races.map(({ title, label, value, note }) => (
@@ -23,18 +23,19 @@ export function ElectionPage() {
         </div>
         <div className="returns-table">
           <table>
+            <caption>Precinct ballot and turnout status</caption>
             <thead>
               <tr>
-                <th>Precinct</th>
-                <th>Ballots</th>
-                <th>Turnout</th>
-                <th>Status</th>
+                <th scope="col">Precinct</th>
+                <th scope="col">Ballots</th>
+                <th scope="col">Turnout</th>
+                <th scope="col">Status</th>
               </tr>
             </thead>
             <tbody>
               {electionPage.precincts.map(({ name, ballots, turnout, status }) => (
                 <tr key={name}>
-                  <td>{name}</td>
+                  <th scope="row">{name}</th>
                   <td>{ballots}</td>
                   <td>{turnout}</td>
                   <td>{status}</td>
