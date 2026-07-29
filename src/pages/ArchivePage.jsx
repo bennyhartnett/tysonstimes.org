@@ -6,7 +6,10 @@ import { sortArticles } from "../data/selectors.js";
 
 export function ArchivePage() {
   const sortedArticles = sortArticles(useArticles());
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(() => {
+    const hashQuery = window.location.hash.split("?")[1] || "";
+    return new URLSearchParams(hashQuery).get("q") || "";
+  });
   const [section, setSection] = useState("");
   const filteredArticles = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -28,6 +31,7 @@ export function ArchivePage() {
           <input
             className="search-input"
             type="search"
+            aria-label="Search headlines, tags, and locations"
             placeholder="Search headlines, tags, locations"
             value={query}
             onChange={(event) => setQuery(event.target.value)}

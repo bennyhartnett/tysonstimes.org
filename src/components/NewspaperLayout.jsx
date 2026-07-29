@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { directoryNavGroups, primaryNavLinks } from "../data/pages.js";
 import { site } from "../data/content.js";
 import { pagePath, sectionPath } from "../routing.js";
+import { usePublicationPreferences } from "../hooks/usePublicationPreferences.js";
 import { HoverLink } from "./HoverLink.jsx";
 
 function navHref(item) {
@@ -77,14 +78,16 @@ function NavItem({ item, route }) {
   );
 }
 
-function Masthead({ route }) {
+function Masthead({ preferences, route }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const { dateLabel, weather } = useMastheadInfo();
+  const isArticle = route?.page === "article";
 
   function submitSearch(event) {
     event.preventDefault();
-    window.location.hash = "/archive";
+    const query = new FormData(event.currentTarget).get("query")?.toString().trim();
+    window.location.hash = query ? `/archive?q=${encodeURIComponent(query)}` : "/archive";
     setSearchOpen(false);
   }
 
@@ -112,13 +115,30 @@ function Masthead({ route }) {
             Search
           </button>
         </div>
+        {isArticle ? <HoverLink className="site-utility-brand" href={pagePath("home")}>{site.name}</HoverLink> : null}
         <div className="site-account-actions">
+          <button
+            className="site-preference-button"
+            type="button"
+            aria-label={`Color theme: ${preferences.theme}. Activate to change theme.`}
+            onClick={preferences.cycleTheme}
+          >
+            Theme: {preferences.theme === "system" ? "System" : preferences.theme === "dark" ? "Dark" : "Light"}
+          </button>
+          <button
+            className="site-preference-button site-ad-preference"
+            type="button"
+            aria-pressed={preferences.showAdvertisements}
+            onClick={() => preferences.setShowAdvertisements(!preferences.showAdvertisements)}
+          >
+            Ads: {preferences.showAdvertisements ? "Shown" : "Hidden"}
+          </button>
           <HoverLink className="site-subscribe" href={pagePath("newsletter")}>Subscribe</HoverLink>
           <HoverLink className="site-sign-in" href={pagePath("about")}>About us</HoverLink>
         </div>
       </div>
 
-      <div className="site-masthead content-shell">
+      {!isArticle ? <div className="site-masthead content-shell">
         <div className="site-masthead-meta site-masthead-meta--left">
           <span>{dateLabel}</span>
           <span>{site.location}</span>
@@ -131,24 +151,23 @@ function Masthead({ route }) {
           <span>{site.volume}</span>
           {weather ? <span>{weather.temp}&deg; {weather.label}</span> : <span>Independent local news</span>}
         </div>
-      </div>
+      </div> : null}
 
       {searchOpen ? (
         <form className="site-search-panel" onSubmit={submitSearch}>
           <label htmlFor="site-search">Search Tysons Times</label>
-          <input id="site-search" type="search" placeholder="Search stories and topics" autoFocus />
+          <input id="site-search" name="query" type="search" placeholder="Search stories and topics" autoFocus />
           <button type="submit">Search</button>
         </form>
       ) : null}
 
-      <nav className={menuOpen ? "site-sections is-open" : "site-sections"} aria-label="Primary sections">
+      {!isArticle || menuOpen ? <nav className={menuOpen ? "site-sections is-open" : "site-sections"} aria-label="Primary sections">
         <div className="content-shell site-section-row">
           {primaryNavLinks.map((item) => (
             <NavItem item={item} key={item.label} route={route} />
           ))}
-          <HoverLink href={pagePath("archive")}>Archive</HoverLink>
         </div>
-      </nav>
+      </nav> : null}
 
       {menuOpen ? (
         <nav className="site-directory content-shell" aria-label="Complete newspaper directory">
@@ -187,12 +206,15 @@ function Footer() {
 }
 
 export function NewspaperLayout({ children, route }) {
+  const preferences = usePublicationPreferences();
+  const showAd = preferences.showAdvertisements && (route?.page === "home" || route?.page === "article");
+
   return (
-    <main className="page-shell">
+    <main className={route?.page === "article" ? "page-shell page-shell--article" : "page-shell"}>
       <article className="newspaper" aria-label="Tysons Times">
         <div className="paper-content">
-          {route?.page === "home" ? <div className="site-top-ad" aria-label="Advertisement">Advertisement</div> : null}
-          <Masthead route={route} />
+          <Masthead route={route} preferences={preferences} />
+          {showAd ? <div className="site-top-ad" aria-label="Advertisement">Advertisement</div> : null}
           {children}
           <Footer />
         </div>

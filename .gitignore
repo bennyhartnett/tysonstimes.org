@@ -25,6 +25,7 @@ public/robots.txt
 public/sitemap.xml
 .playwright-cli/
 screenshots/
+output/playwright/
 .DS_Store
 *.local
 .env
