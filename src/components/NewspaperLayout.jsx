@@ -188,18 +188,28 @@ function Masthead({ preferences, route }) {
 function Footer() {
   return (
     <footer className="site-footer">
-      <div className="content-shell site-footer-inner">
-        <div>
-          <HoverLink className="site-footer-mark" href={pagePath("home")}>{site.name}</HoverLink>
-          <p>Northern Virginia, clearly reported.</p>
+      <div className="content-shell site-footer-content">
+        <section className="site-footer-newsletter" aria-labelledby="footer-newsletter-title">
+          <div>
+            <b>The Tysons Brief</b>
+            <h2 id="footer-newsletter-title">The local stories that matter, delivered to your inbox.</h2>
+            <p>Independent reporting from Tysons, Vienna, McLean and across Fairfax County.</p>
+          </div>
+          <HoverLink href={pagePath("newsletter")}>Sign up</HoverLink>
+        </section>
+        <div className="site-footer-inner">
+          <div>
+            <HoverLink className="site-footer-mark" href={pagePath("home")}>{site.name}</HoverLink>
+            <p>Northern Virginia, clearly reported.</p>
+          </div>
+          <nav aria-label="Footer">
+            <HoverLink href={pagePath("about")}>About</HoverLink>
+            <HoverLink href={pagePath("corrections")}>Corrections</HoverLink>
+            <HoverLink href={pagePath("newsletter")}>Newsletter</HoverLink>
+            <HoverLink href={pagePath("archive")}>Archive</HoverLink>
+          </nav>
+          <small>{site.footer}</small>
         </div>
-        <nav aria-label="Footer">
-          <HoverLink href={pagePath("about")}>About</HoverLink>
-          <HoverLink href={pagePath("corrections")}>Corrections</HoverLink>
-          <HoverLink href={pagePath("newsletter")}>Newsletter</HoverLink>
-          <HoverLink href={pagePath("archive")}>Archive</HoverLink>
-        </nav>
-        <small>{site.footer}</small>
       </div>
     </footer>
   );
