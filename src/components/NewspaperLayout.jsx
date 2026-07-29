@@ -125,7 +125,7 @@ function Masthead({ route }) {
         </div>
         <div className="site-brand">
           <h1><HoverLink href={pagePath("home")}>{site.name}</HoverLink></h1>
-          <p>Northern Virginia, clearly reported.</p>
+          <p>Whats Happening Around the Corner</p>
         </div>
         <div className="site-masthead-meta site-masthead-meta--right">
           <span>{site.volume}</span>
