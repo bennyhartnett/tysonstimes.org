@@ -2996,6 +2996,7 @@ html[data-site-theme="dark"] .home-secondary-package .mini-photo,
 html[data-site-theme="dark"] .home-category .mini-photo,
 html[data-site-theme="dark"] .home-more-stories .mini-photo,
 html[data-site-theme="dark"] .home-visual-section .mini-photo { background: var(--site-subtle); }
+html[data-site-theme="dark"] .home-newsletter { background: var(--site-subtle); }
 html[data-site-theme="dark"] .site-footer { color: var(--site-footer-text); }
 html[data-site-theme="dark"] .site-footer p,
 html[data-site-theme="dark"] .site-footer small { color: var(--site-muted); }
