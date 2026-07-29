@@ -1821,7 +1821,7 @@ body:has(.page-shell)::after,
   text-align: center;
 }
 
-.site-brand h1 {
+.page-shell .site-brand h1 {
   margin: 0;
   font-family: var(--site-masthead);
   font-size: clamp(3.9rem, 7.7vw, 6.4rem);
