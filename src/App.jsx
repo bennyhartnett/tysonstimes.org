@@ -14,6 +14,7 @@ import { EventsPage } from "./pages/EventsPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
 import { InvestigationsPage } from "./pages/InvestigationsPage.jsx";
 import { ObituariesPage } from "./pages/ObituariesPage.jsx";
+import { OperationsDashboard } from "./pages/OperationsDashboard.jsx";
 import { SectionPage } from "./pages/SectionPage.jsx";
 import {
   BriefsPage,
@@ -43,7 +44,7 @@ const pages = {
   about: AboutPage,
 };
 
-export default function App() {
+function PublishedApp() {
   const articles = useArticles();
   const route = useHashRoute(articles);
   const Page = pages[route.page] || HomePage;
@@ -62,4 +63,12 @@ export default function App() {
       <Page route={route} />
     </NewspaperLayout>
   );
+}
+
+export default function App() {
+  const isLocalDashboard =
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") &&
+    new URLSearchParams(window.location.search).get("view") !== "site";
+
+  return isLocalDashboard ? <OperationsDashboard /> : <PublishedApp />;
 }

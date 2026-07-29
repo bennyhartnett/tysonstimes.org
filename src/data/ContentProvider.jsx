@@ -39,3 +39,7 @@ export function ContentProvider({ children }) {
 export function useArticles() {
   return useContext(ContentContext).articles;
 }
+
+export function useContentStatus() {
+  return useContext(ContentContext);
+}
