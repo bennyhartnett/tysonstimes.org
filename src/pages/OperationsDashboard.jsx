@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { articles as localArticles, site } from "../data/content.js";
 import { useContentStatus } from "../data/ContentProvider.jsx";
+import { OperationsSettings } from "../components/OperationsSettings.jsx";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -142,6 +143,7 @@ function ActivityChart({ articles }) {
 
 export function OperationsDashboard() {
   const { articles: deployedArticles, source } = useContentStatus();
+  const [panel, setPanel] = useState(() => new URLSearchParams(window.location.search).get("panel") === "settings" ? "settings" : "overview");
   const newestDate = deployedArticles
     .map(articleDate)
     .filter((date) => !Number.isNaN(date.getTime()))
@@ -155,6 +157,15 @@ export function OperationsDashboard() {
     };
   }, []);
 
+  function showPanel(nextPanel) {
+    const url = new URL(window.location.href);
+    if (nextPanel === "settings") url.searchParams.set("panel", "settings");
+    else url.searchParams.delete("panel");
+    window.history.replaceState({}, "", url);
+    setPanel(nextPanel);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   return (
     <main className="ops-shell">
       <header className="ops-topbar">
@@ -165,13 +176,17 @@ export function OperationsDashboard() {
             <small>Operations</small>
           </span>
         </a>
+        <nav className="ops-app-nav" aria-label="Operations navigation">
+          <button type="button" className={panel === "overview" ? "is-active" : ""} aria-current={panel === "overview" ? "page" : undefined} onClick={() => showPanel("overview")}>Overview</button>
+          <button type="button" className={panel === "settings" ? "is-active" : ""} aria-current={panel === "settings" ? "page" : undefined} onClick={() => showPanel("settings")}>Settings</button>
+        </nav>
         <div className="ops-topbar-actions">
           <span className="ops-local-status"><i /> Local workspace</span>
           <a className="ops-site-link" href="?view=site#/">View newspaper <span aria-hidden="true">↗</span></a>
         </div>
       </header>
 
-      <div className="ops-content">
+      {panel === "settings" ? <OperationsSettings /> : <div className="ops-content">
         <section className="ops-intro">
           <div>
             <p className="ops-eyebrow">Content pipeline</p>
@@ -200,7 +215,7 @@ export function OperationsDashboard() {
         </section>
 
         <ActivityChart articles={deployedArticles} />
-      </div>
+      </div>}
     </main>
   );
 }

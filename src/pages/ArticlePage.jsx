@@ -5,7 +5,7 @@ import { ImagePlate } from "../components/Media.jsx";
 import { contentUrl } from "../data/content.js";
 import { useArticles } from "../data/ContentProvider.jsx";
 import { getArticleById, relatedArticlesFor, sectionLabel } from "../data/selectors.js";
-import { pagePath } from "../routing.js";
+import { pagePath, sectionPath } from "../routing.js";
 import { formatDate } from "../utils/format.js";
 
 function articleDataUrl(id) {
@@ -38,47 +38,46 @@ export function ArticlePage({ route }) {
   }, [article.id]);
 
   return (
-    <section className="section article-layout">
-      <article>
-        <div className="eyebrow">
-          {sectionLabel(article.section)} / {article.type.replaceAll("-", " ")} / {article.location} / {formatDate(article.date)}
-        </div>
-        <h2 className="article-headline">{article.title}</h2>
+    <article className="article-page">
+      <header className="article-topper">
+        <HoverLink className="article-section-link" href={sectionPath(article.section)}>{sectionLabel(article.section)}</HoverLink>
+        <h1 className="article-headline">{article.title}</h1>
         <p className="deck">{article.dek}</p>
-        <div className="byline">
-          By {article.author}
-          {article.updated !== article.date ? ` / Updated ${formatDate(article.updated)}` : ""}
-        </div>
-        <div className="article-hero">
-          <ImagePlate article={article} priority />
-        </div>
-        {fullArticle ? (
-          <div className="article-body article-prose" dangerouslySetInnerHTML={{ __html: fullArticle.bodyHtml }} />
-        ) : loadError ? (
-          <div className="article-body article-prose">
-            {article.body.map((paragraph, index) => (
-              <p className={index === 0 ? "dropcap" : undefined} key={paragraph}>
-                {paragraph}
-              </p>
-            ))}
-            <p className="article-load-note">The complete article could not be loaded. Please refresh the page.</p>
+        <time dateTime={article.date}>{formatDate(article.date)}</time>
+      </header>
+
+      <div className="article-hero">
+        <ImagePlate article={article} size="wide" priority />
+      </div>
+
+      <div className="article-reading-layout">
+        <div className="article-main">
+          <div className="article-byline-block">
+            <span>By</span>
+            <strong>{article.author}</strong>
+            {article.updated !== article.date ? <small>Updated {formatDate(article.updated)}</small> : null}
           </div>
-        ) : (
-          <p className="article-load-note" role="status">Loading complete article…</p>
-        )}
-        <Tags article={article} />
-      </article>
-      <aside className="article-tools">
-        <div className="index-box">
-          <h3>Article File</h3>
-          <p>{article.wordCount.toLocaleString()} words / {article.type.replaceAll("-", " ")}</p>
+          {fullArticle ? (
+            <div className="article-body article-prose" dangerouslySetInnerHTML={{ __html: fullArticle.bodyHtml }} />
+          ) : loadError ? (
+            <div className="article-body article-prose">
+              {article.body.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              <p className="article-load-note">The complete article could not be loaded. Please refresh the page.</p>
+            </div>
+          ) : (
+            <p className="article-load-note" role="status">Loading complete article…</p>
+          )}
+          <Tags article={article} />
         </div>
-        <div className="index-box">
-          <h3>Related Coverage</h3>
+        <aside className="article-related" aria-labelledby="related-coverage-title">
+          <span className="article-file">{article.wordCount.toLocaleString()} words · {article.type.replaceAll("-", " ")} · {article.location}</span>
+          <h2 id="related-coverage-title">Related coverage</h2>
           <HeadlineList articles={related} />
-        </div>
-        <HoverLink className="button" href={pagePath("archive")}>Search Archive</HoverLink>
-      </aside>
-    </section>
+          <HoverLink className="article-archive-link" href={pagePath("archive")}>Search the archive</HoverLink>
+        </aside>
+      </div>
+    </article>
   );
 }
