@@ -241,6 +241,7 @@ export function NewspaperLayout({ children, route }) {
   const contentRef = useRef(null);
   const previousRouteKey = useRef(route?.key);
   const showAd = preferences.showAdvertisements && (route?.page === "home" || route?.page === "article");
+  const pageName = route?.page || "home";
 
   useEffect(() => {
     if (previousRouteKey.current === route?.key) return;
@@ -249,13 +250,13 @@ export function NewspaperLayout({ children, route }) {
   }, [route?.key]);
 
   return (
-    <div className={route?.page === "article" ? "page-shell page-shell--article" : "page-shell"}>
+    <div className={`page-shell page-shell--${pageName}`}>
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <div className="newspaper">
         <div className="paper-content">
           <Masthead route={route} preferences={preferences} />
           {showAd ? <div className="site-top-ad" aria-label="Advertisement">Advertisement</div> : null}
-          <main id="main-content" ref={contentRef} tabIndex="-1">
+          <main id="main-content" className={`page-main page-main--${pageName}`} ref={contentRef} tabIndex="-1">
             {children}
           </main>
           <Footer />
