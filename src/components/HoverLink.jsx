@@ -1,10 +1,14 @@
+const BREAKABLE_WORD_LENGTH = 14;
+
 function HoverText({ text }) {
   return text.split(/(\s+)/).map((token, tokenIndex) => {
     if (!token) return null;
     if (/^\s+$/.test(token)) return token;
 
+    const wordClassName = token.length >= BREAKABLE_WORD_LENGTH ? "hw-word hw-word--breakable" : "hw-word";
+
     return (
-      <span className="hw-word" key={`${token}-${tokenIndex}`}>
+      <span className={wordClassName} key={`${token}-${tokenIndex}`}>
         {Array.from(token).map((character, characterIndex) => (
           <span className="hw-cell" key={`${character}-${characterIndex}`}>
             <span className="hw-spacer" data-character={character} aria-hidden="true" />

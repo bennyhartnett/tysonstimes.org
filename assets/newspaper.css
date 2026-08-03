@@ -71,6 +71,11 @@ a:focus-visible {
   white-space: nowrap;
 }
 
+.hw-word--breakable {
+  max-width: 100%;
+  white-space: normal;
+}
+
 .hw-cell {
   position: relative;
   display: inline-block;
@@ -86,7 +91,7 @@ a:focus-visible {
 
 .hw-spacer {
   visibility: hidden;
-  font-weight: var(--hw-hover-weight);
+  font-weight: inherit;
 }
 
 .hw-spacer::before {
@@ -135,8 +140,27 @@ button,
 input,
 select,
 textarea {
+  min-width: 0;
+  max-width: 100%;
   color: inherit;
   font: inherit;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+/* Keep shared layout items and unpredictable editorial copy inside their columns. */
+.page-shell :where(main, section, article, aside, figure, nav, form, header, footer, div) {
+  min-width: 0;
+}
+
+.page-shell :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, figcaption) {
+  overflow-wrap: anywhere;
 }
 
 .page-shell {
@@ -2172,7 +2196,7 @@ body:has(.page-shell)::after,
 
 .home-top-package {
   display: grid;
-  grid-template-columns: 25% 50% 25%;
+  grid-template-columns: 28% 47% 25%;
   padding-block: 28px 30px;
   border-bottom: 1px solid var(--site-ink);
 }
@@ -2286,7 +2310,7 @@ body:has(.page-shell)::after,
 
 .home-secondary-package {
   display: grid;
-  grid-template-columns: 25% 50% 25%;
+  grid-template-columns: 28% 47% 25%;
   padding-block: 29px;
   border-bottom: 1px solid var(--site-ink);
 }
