@@ -147,7 +147,7 @@ export function HomePage() {
           <h2>News that starts with where you live.</h2>
           <p>A clear, independent view of the people and decisions shaping Northern Virginia.</p>
         </div>
-        <HoverLink href={pagePath("newsletter")}>Get the newsletter</HoverLink>
+        <HoverLink href={pagePath("archive")}>Browse latest coverage</HoverLink>
       </section>
 
       <section className="home-latest-stream">
@@ -201,11 +201,11 @@ export function HomePage() {
 
       <section className="home-newsletter">
         <div>
-          <b>The Tysons Brief</b>
-          <h2>The local stories that matter, delivered to your inbox.</h2>
-          <p>Independent reporting from Tysons, Vienna, McLean and across Fairfax County.</p>
+          <b>Independent Local News</b>
+          <h2>Reporting for Tysons and the communities around it.</h2>
+          <p>Learn what we cover and how we approach the local record.</p>
         </div>
-        <HoverLink href={pagePath("newsletter")}>Sign up</HoverLink>
+        <HoverLink href={pagePath("about")}>About Tysons Times</HoverLink>
       </section>
     </>
   );

@@ -28,9 +28,8 @@ export function PrivacyPage() {
           <section>
             <h2>Preferences stored on your device</h2>
             <p>
-              If you change the color theme or choose whether advertisements are shown, those settings are saved in
-              your browser&apos;s local storage. They stay on your device unless you clear them. We do not use those
-              preferences to identify you across websites.
+              If you change the color theme, that preference is saved in your browser&apos;s local storage. It stays on
+              your device unless you clear it. We do not use that preference to identify you across websites.
             </p>
           </section>
 
@@ -46,10 +45,9 @@ export function PrivacyPage() {
           <section>
             <h2>Forms, cookies, and advertising</h2>
             <p>
-              The newsletter, correction, obituary, and classified forms currently shown on this site are prototypes:
-              their buttons do not submit or retain what you type. Tysons Times does not currently set tracking cookies,
-              run behavioral analytics, or operate a targeted-advertising system. If that changes, this policy will be
-              updated before the new collection begins.
+              Tysons Times does not maintain reader accounts or collect personal information through on-site submission
+              forms. We do not set tracking cookies, run behavioral analytics, or operate a targeted-advertising system.
+              If that changes, this policy will be updated before the new collection begins.
             </p>
           </section>
 
@@ -68,8 +66,8 @@ export function PrivacyPage() {
             <p>
               You can clear this site&apos;s local storage through your browser settings and use browser privacy controls
               to limit third-party requests. Because we do not maintain reader accounts or profiles, we generally have
-              no personal record to retrieve, correct, or delete. If you believe otherwise, use the reader contact route
-              on our <HoverLink href={pagePath("about")}>About page</HoverLink> and describe the request.
+              no personal record to retrieve, correct, or delete. Our <HoverLink href={pagePath("about")}>About page</HoverLink>
+              explains the publication&apos;s coverage and editorial priorities.
             </p>
           </section>
 
@@ -99,7 +97,7 @@ export function PrivacyPage() {
             </div>
             <div>
               <dt>Saved locally</dt>
-              <dd>Theme and ad-display choices</dd>
+              <dd>Color theme</dd>
             </div>
           </dl>
         </aside>

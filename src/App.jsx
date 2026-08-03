@@ -6,41 +6,18 @@ import { applyDocumentMetadata, buildRouteMeta } from "./seo.js";
 import { AboutPage } from "./pages/AboutPage.jsx";
 import { ArchivePage } from "./pages/ArchivePage.jsx";
 import { ArticlePage } from "./pages/ArticlePage.jsx";
-import { ClassifiedsPage } from "./pages/ClassifiedsPage.jsx";
 import { CorrectionsPage } from "./pages/CorrectionsPage.jsx";
-import { DiningPage } from "./pages/DiningPage.jsx";
-import { ElectionPage } from "./pages/ElectionPage.jsx";
-import { EventsPage } from "./pages/EventsPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
-import { InvestigationsPage } from "./pages/InvestigationsPage.jsx";
-import { ObituariesPage } from "./pages/ObituariesPage.jsx";
-import { OperationsDashboard } from "./pages/OperationsDashboard.jsx";
 import { PrivacyPage } from "./pages/PrivacyPage.jsx";
 import { SectionPage } from "./pages/SectionPage.jsx";
-import {
-  BriefsPage,
-  GuidePage,
-  LivePage,
-  NewsletterPage,
-  PhotoEssayPage,
-} from "./pages/FeaturePages.jsx";
+import { BriefsPage } from "./pages/BriefsPage.jsx";
 
 const pages = {
   home: HomePage,
   section: SectionPage,
   article: ArticlePage,
   archive: ArchivePage,
-  events: EventsPage,
   briefs: BriefsPage,
-  guide: GuidePage,
-  photo: PhotoEssayPage,
-  live: LivePage,
-  newsletter: NewsletterPage,
-  investigations: InvestigationsPage,
-  election: ElectionPage,
-  dining: DiningPage,
-  obituaries: ObituariesPage,
-  classifieds: ClassifiedsPage,
   corrections: CorrectionsPage,
   about: AboutPage,
   privacy: PrivacyPage,
@@ -48,8 +25,11 @@ const pages = {
 
 function PublishedApp() {
   const articles = useArticles();
-  const route = useHashRoute(articles);
-  const Page = pages[route.page] || HomePage;
+  const requestedRoute = useHashRoute(articles);
+  const route = pages[requestedRoute.page]
+    ? requestedRoute
+    : { page: "home", key: `home:${requestedRoute.key}` };
+  const Page = pages[route.page];
   const meta = useMemo(() => buildRouteMeta(route, articles), [route, articles]);
 
   useEffect(() => {
@@ -68,9 +48,5 @@ function PublishedApp() {
 }
 
 export default function App() {
-  const isLocalDashboard =
-    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") &&
-    new URLSearchParams(window.location.search).get("view") !== "site";
-
-  return isLocalDashboard ? <OperationsDashboard /> : <PublishedApp />;
+  return <PublishedApp />;
 }

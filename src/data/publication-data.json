@@ -1,0 +1,151 @@
+{
+  "content": {
+    "site": {
+      "name": "Tysons Times",
+      "domain": "tysonstimes.org",
+      "url": "https://tysonstimes.org",
+      "location": "Tysons, Virginia",
+      "region": "US-VA",
+      "latitude": "38.9187",
+      "longitude": "-77.2311",
+      "edition": "Morning Edition",
+      "volume": "Vol. 1, No. 1",
+      "description": "Tysons Times is an independent local newspaper for Tysons, Virginia, covering civic life, schools, business, dining, events, transportation, and neighborhood change across Northern Fairfax County.",
+      "coverageArea": ["Tysons", "Vienna", "McLean", "Dunn Loring", "Falls Church", "Fairfax County", "Silver Line corridor"],
+      "topics": [
+        "Tysons local news",
+        "Fairfax County civic coverage",
+        "Northern Virginia schools",
+        "Tysons business",
+        "Tysons dining",
+        "local events",
+        "transportation",
+        "public meetings"
+      ],
+      "tagline": "Local reporting for Tysons, Vienna, McLean, Dunn Loring, Falls Church, and the Silver Line corridor",
+      "issueLine": "A black-and-white broadsheet for the neighborhoods between Route 7, Route 123, the Beltway, and the Silver Line",
+      "footer": "Tysons Times - Independent local newspaper for Tysons, Virginia"
+    },
+    "sections": [
+      {
+        "id": "local",
+        "label": "Local",
+        "description": "Neighborhood coverage from Tysons Corner to Vienna, McLean, Dunn Loring, and Falls Church."
+      },
+      {
+        "id": "civic",
+        "label": "Civic Desk",
+        "description": "Public meetings, planning, transportation, county notes, and local accountability."
+      },
+      {
+        "id": "schools",
+        "label": "Schools",
+        "description": "Students, classrooms, athletics, arts, calendars, and family-facing decisions."
+      },
+      {
+        "id": "business",
+        "label": "Business",
+        "description": "Storefronts, restaurants, offices, development, and the local economy."
+      },
+      {
+        "id": "culture",
+        "label": "Culture",
+        "description": "Arts, libraries, history, weekend listings, and community traditions."
+      },
+      {
+        "id": "sports",
+        "label": "Sports",
+        "description": "Youth sports, school teams, recreation leagues, and local results."
+      },
+      {
+        "id": "opinion",
+        "label": "Opinion",
+        "description": "Letters, columns, reader questions, and editorials rooted in Tysons."
+      }
+    ]
+  },
+  "pages": {
+    "pageTitles": {
+      "home": "Front Page",
+      "section": "Section",
+      "article": "Article",
+      "archive": "Archive",
+      "briefs": "Briefs",
+      "corrections": "Corrections",
+      "about": "About",
+      "privacy": "Privacy Policy"
+    },
+    "pageDescriptions": {
+      "home": "Tysons Times is an independent local newspaper for Tysons, Virginia, covering civic life, schools, business, dining, events, transportation, and neighborhood change across Northern Fairfax County.",
+      "archive": "Search the Tysons Times archive for Tysons-area local news, civic coverage, schools, business, dining, events, transportation, and neighborhood reporting.",
+      "briefs": "Short verified local-news briefs from Tysons, Vienna, McLean, Dunn Loring, Falls Church, Fairfax County, and the Silver Line corridor.",
+      "corrections": "Tysons Times corrections, clarifications, editorial standards, and visible updates to the public record.",
+      "about": "About Tysons Times, an independent local newspaper serving Tysons and nearby Northern Virginia communities.",
+      "privacy": "How Tysons Times handles reader data, browser preferences, third-party requests, cookies, and advertising."
+    },
+    "pageSlugs": {
+      "home": "",
+      "archive": "archive",
+      "briefs": "briefs",
+      "corrections": "corrections",
+      "about": "about",
+      "privacy": "privacy"
+    },
+    "primaryNavLinks": [
+      { "label": "Front Page", "page": "home" },
+      { "label": "Local", "section": "local" },
+      { "label": "Civic", "section": "civic" },
+      { "label": "Schools", "section": "schools" },
+      { "label": "Business", "section": "business" },
+      { "label": "Culture", "section": "culture" },
+      { "label": "Sports", "section": "sports" },
+      { "label": "Opinion", "section": "opinion" },
+      { "label": "Archive", "page": "archive" }
+    ],
+    "directoryNavGroups": [
+      {
+        "title": "Coverage",
+        "links": [
+          { "label": "Local", "section": "local" },
+          { "label": "Civic", "section": "civic" },
+          { "label": "Schools", "section": "schools" },
+          { "label": "Business", "section": "business" },
+          { "label": "Culture", "section": "culture" },
+          { "label": "Sports", "section": "sports" },
+          { "label": "Opinion", "section": "opinion" }
+        ]
+      },
+      {
+        "title": "Reader Services",
+        "links": [
+          { "label": "Latest Briefs", "page": "briefs" },
+          { "label": "Corrections", "page": "corrections" },
+          { "label": "Archive", "page": "archive" },
+          { "label": "About", "page": "about" },
+          { "label": "Privacy", "page": "privacy" }
+        ]
+      }
+    ],
+    "correctionsPage": {
+      "items": [],
+      "standards": [
+        {
+          "title": "Corrections",
+          "text": "Material errors are corrected in the story and listed on this page with the date and relevant context."
+        },
+        {
+          "title": "Clarifications",
+          "text": "Language may be clarified when additional context improves accuracy without changing the underlying reporting."
+        },
+        {
+          "title": "Updates",
+          "text": "Developing stories carry clear update notes when new reporting materially changes the record."
+        },
+        {
+          "title": "Transparency",
+          "text": "Tysons Times distinguishes corrections from routine copy edits and preserves a visible record of substantive changes."
+        }
+      ]
+    }
+  }
+}
