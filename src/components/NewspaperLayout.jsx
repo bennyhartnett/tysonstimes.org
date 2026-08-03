@@ -155,15 +155,6 @@ function Masthead({ preferences, route }) {
           >
             Theme: {preferences.theme === "system" ? "System" : preferences.theme === "dark" ? "Dark" : "Light"}
           </button>
-          <button
-            className="site-preference-button site-ad-preference"
-            type="button"
-            aria-pressed={preferences.showAdvertisements}
-            onClick={() => preferences.setShowAdvertisements(!preferences.showAdvertisements)}
-          >
-            Ads: {preferences.showAdvertisements ? "Shown" : "Hidden"}
-          </button>
-          <HoverLink className="site-subscribe" href={pagePath("newsletter")}>Subscribe</HoverLink>
           <HoverLink className="site-sign-in" href={pagePath("about")}>About us</HoverLink>
         </div>
       </div>
@@ -175,7 +166,7 @@ function Masthead({ preferences, route }) {
         </div>
         <div className="site-brand">
           <div className="site-name"><HoverLink href={pagePath("home")}>{site.name}</HoverLink></div>
-          <p>Whats Happening Around the Corner</p>
+          <p>What’s Happening Around the Corner</p>
         </div>
         <div className="site-masthead-meta site-masthead-meta--right">
           <span>{site.volume}</span>
@@ -226,7 +217,6 @@ function Footer() {
         <nav aria-label="Footer">
           <HoverLink href={pagePath("about")}>About</HoverLink>
           <HoverLink href={pagePath("corrections")}>Corrections</HoverLink>
-          <HoverLink href={pagePath("newsletter")}>Newsletter</HoverLink>
           <HoverLink href={pagePath("archive")}>Archive</HoverLink>
           <HoverLink href={pagePath("privacy")}>Privacy</HoverLink>
         </nav>
@@ -240,7 +230,6 @@ export function NewspaperLayout({ children, route }) {
   const preferences = usePublicationPreferences();
   const contentRef = useRef(null);
   const previousRouteKey = useRef(route?.key);
-  const showAd = preferences.showAdvertisements && (route?.page === "home" || route?.page === "article");
   const pageName = route?.page || "home";
 
   useEffect(() => {
@@ -255,7 +244,6 @@ export function NewspaperLayout({ children, route }) {
       <div className="newspaper">
         <div className="paper-content">
           <Masthead route={route} preferences={preferences} />
-          {showAd ? <div className="site-top-ad" aria-label="Advertisement">Advertisement</div> : null}
           <main id="main-content" className={`page-main page-main--${pageName}`} ref={contentRef} tabIndex="-1">
             {children}
           </main>

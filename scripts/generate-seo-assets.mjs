@@ -1,7 +1,7 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { articles, events, sections, site } from "../src/data/content.js";
+import { articles, sections, site } from "../src/data/content.js";
 import { pageTitles } from "../src/data/pages.js";
 import {
   absoluteUrl,
@@ -21,9 +21,22 @@ const fullArticles = JSON.parse(await readFile(path.join(rootDir, ".cache", "con
 const fullArticleMap = new Map(fullArticles.map((article) => [article.id, article]));
 
 const generatedFiles = ["robots.txt", "sitemap.xml", "feed.xml", "llms.txt", "llms-full.txt"];
+const retiredGeneratedDirs = [
+  "classifieds",
+  "dining",
+  "election",
+  "events",
+  "guide",
+  "investigations",
+  "live",
+  "newsletter",
+  "obituaries",
+  "photo-essay",
+];
 const generatedDirs = [
   "articles",
   "sections",
+  ...retiredGeneratedDirs,
   ...indexedPages.map((page) => pageCleanPath(page).replace(/^\/|\/$/g, "")),
 ].filter(Boolean);
 
@@ -300,27 +313,6 @@ function articlesForStaticPage(page) {
   return sortedArticles.slice(0, 6);
 }
 
-function renderEventsBlock() {
-  return `
-    <section class="content-block">
-      <h2>Calendar Items</h2>
-      <ol class="story-list">
-        ${events
-          .map(
-            (event) => `
-              <li>
-                <strong>${escapeHtml(event.title)}</strong>
-                <p>${escapeHtml(event.summary)}</p>
-                <span>${escapeHtml(event.date)} / ${escapeHtml(event.location)} / ${escapeHtml(event.category)}</span>
-              </li>
-            `,
-          )
-          .join("")}
-      </ol>
-    </section>
-  `;
-}
-
 function renderStaticPage(page) {
   const meta = buildRouteMeta({ page });
   const title = pageTitles[page] || page;
@@ -330,11 +322,11 @@ function renderStaticPage(page) {
         <h2>What the site handles</h2>
         <p>Our hosting provider may process standard request information such as an IP address, browser type, requested page, and request time to deliver and secure the site.</p>
         <h2>Preferences stored on your device</h2>
-        <p>Theme and advertisement-display choices are saved in your browser's local storage. We do not use those preferences to identify you across websites.</p>
+        <p>Your color-theme choice is saved in your browser's local storage. We do not use that preference to identify you across websites.</p>
         <h2>Third-party services</h2>
         <p>The site requests weather from Open-Meteo and loads articles from the Tysons Times content host. Those services may receive ordinary request information under their own privacy practices.</p>
         <h2>Forms, cookies, and advertising</h2>
-        <p>Visible newsletter, correction, obituary, and classified forms are prototypes and do not submit or retain entries. Tysons Times does not currently set tracking cookies, run behavioral analytics, or operate targeted advertising.</p>
+        <p>Tysons Times does not maintain reader accounts or collect personal information through on-site submission forms. We do not set tracking cookies, run behavioral analytics, or operate targeted advertising.</p>
         <h2>Sharing, retention, and your choices</h2>
         <p>We do not sell or rent personal information or maintain reader profiles. Service providers may keep limited security and access logs. You can clear local preferences through your browser settings. Material policy changes will appear here with a new effective date.</p>
         <p class="meta">Last updated July 28, 2026</p>
@@ -349,7 +341,6 @@ function renderStaticPage(page) {
         <div><dt>Primary topics</dt><dd>${escapeHtml(site.topics.slice(0, 5).join(", "))}</dd></div>
         <div><dt>Latest update</dt><dd>${escapeHtml(formatDisplayDate(sortedArticles[0].date))}</dd></div>
       </dl>
-      ${page === "events" ? renderEventsBlock() : ""}
       ${privacyBody}
       ${page === "privacy" ? "" : articleList(related, page === "archive" ? "All articles" : "Featured local coverage")}
     </section>
@@ -459,7 +450,7 @@ Primary topics: ${site.topics.join(", ")}
 
 ## Preferred citation
 
-Use the article title, author, publication date, section, location, and canonical URL. Articles are written as local-news templates for Tysons, Virginia and nearby Fairfax County neighborhoods.
+Use the article title, author, publication date, section, location, and canonical URL. Articles cover Tysons, Virginia and nearby Fairfax County communities.
 
 ## Sections
 

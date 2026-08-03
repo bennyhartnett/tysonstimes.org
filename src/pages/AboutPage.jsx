@@ -1,54 +1,36 @@
-import { HoverButton, HoverLink } from "../components/HoverLink.jsx";
-import { useArticles } from "../data/ContentProvider.jsx";
-import { pageTypes } from "../data/pages.js";
-import { sortArticles } from "../data/selectors.js";
-import { articlePath, pagePath, sectionPath } from "../routing.js";
-
-function pathForTemplate(page, sortedArticles) {
-  if (page === "article") return articlePath(sortedArticles[0].id);
-  if (page === "section") return sectionPath("local");
-  return pagePath(page);
-}
+import { HoverLink } from "../components/HoverLink.jsx";
+import { sections, site } from "../data/content.js";
+import { pagePath, sectionPath } from "../routing.js";
 
 export function AboutPage() {
-  const sortedArticles = sortArticles(useArticles());
   return (
     <>
       <section className="section long-read">
         <div>
           <h1 className="page-title">About Tysons Times</h1>
-          <p className="deck">An independent local newspaper template system for Tysons, Virginia.</p>
+          <p className="deck">Independent local reporting for Tysons and nearby Northern Virginia communities.</p>
           <div className="columns">
-            <p className="dropcap">Tysons Times is designed to feel like a serious black-and-white newspaper while still working as a modern article system.</p>
-            <p>The structure separates presentation from content: pages share the same masthead, texture, article cards, photo treatments, search controls, and sidebars.</p>
-            <p>That means the site can grow from a prototype into hundreds of articles without losing the newspaper identity that makes the front page distinctive.</p>
-            <p>Future development can connect the same templates to a CMS, static-site generator, newsletter pipeline, or searchable article database.</p>
+            <p className="dropcap">Tysons Times covers the people, institutions, businesses, schools, and public decisions shaping the Tysons area.</p>
+            <p>Our coverage follows Tysons, Vienna, McLean, Dunn Loring, Falls Church, Fairfax County, and the communities connected by the Silver Line.</p>
+            <p>We focus on useful, clearly written local journalism: what changed, why it matters, who is responsible, and what readers should watch next.</p>
+            <p>Tysons Times is independently published and maintains a visible corrections record for substantive updates to its reporting.</p>
           </div>
         </div>
         <aside className="article-tools">
-          <form className="search-panel">
-            <h3>Subscribe Interest</h3>
-            <div className="form-grid">
-              <label className="form-field"><span>Email address</span><input className="subscribe-input" type="email" autoComplete="email" placeholder="email@example.com" /></label>
-              <label className="form-field"><span>Neighborhood or coverage interest</span><textarea className="subscribe-textarea" placeholder="Neighborhood, coverage tip, or section interest" /></label>
-              <HoverButton className="button" type="button">
-                Join The List
-              </HoverButton>
-            </div>
-          </form>
+          <div className="index-box">
+            <h3>Coverage Area</h3>
+            <ol>{site.coverageArea.map((place) => <li key={place}>{place}</li>)}</ol>
+          </div>
+          <HoverLink className="button" href={pagePath("archive")}>Browse the Archive</HoverLink>
         </aside>
       </section>
       <section className="section">
-        <h2 className="section-title">
-          <span>Template Library</span>
-        </h2>
+        <h2 className="section-title"><span>Our News Desks</span></h2>
         <div className="template-list">
-          {pageTypes.map(({ title, text, page }) => (
-            <article className="classified" key={title}>
-              <h3>
-                <HoverLink href={pathForTemplate(page, sortedArticles)}>{title}</HoverLink>
-              </h3>
-              <p>{text}</p>
+          {sections.map((section) => (
+            <article className="classified" key={section.id}>
+              <h3><HoverLink href={sectionPath(section.id)}>{section.label}</HoverLink></h3>
+              <p>{section.description}</p>
             </article>
           ))}
         </div>
