@@ -39,7 +39,7 @@ export function sectionPath(id) {
 
 function parseHash(hash, articles) {
   const raw = (hash || "#/").replace(/^#\/?/, "");
-  const [pathPart] = raw.split("?");
+  const [pathPart, queryString = ""] = raw.split("?");
   const segments = pathPart.split("/").filter(Boolean).map(decodeURIComponent);
   const first = segments[0] || "home";
 
@@ -49,6 +49,7 @@ function parseHash(hash, articles) {
       page: "article",
       article,
       articleId: segments[1],
+      queryString,
       key: `article:${article?.id || segments[1] || "missing"}`,
     };
   }
@@ -59,6 +60,7 @@ function parseHash(hash, articles) {
       page: "section",
       section,
       sectionId: segments[1],
+      queryString,
       key: `section:${section?.id || segments[1] || "local"}`,
     };
   }
@@ -66,6 +68,7 @@ function parseHash(hash, articles) {
   const page = aliases[first] || first;
   return {
     page,
+    queryString,
     key: page,
   };
 }
