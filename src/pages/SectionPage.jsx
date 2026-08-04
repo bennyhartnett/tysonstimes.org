@@ -1,4 +1,5 @@
-import { ArticleCard, EmptyArticles, HeadlineList, SectionIndex } from "../components/ArticleBits.jsx";
+import { EmptyArticles, HeadlineList, SectionIndex } from "../components/ArticleBits.jsx";
+import { StoryBrowser } from "../components/StoryBrowser.jsx";
 import { sections } from "../data/content.js";
 import { useArticles } from "../data/ContentProvider.jsx";
 import { articlesForSection, getSectionById } from "../data/selectors.js";
@@ -16,11 +17,7 @@ export function SectionPage({ route }) {
           <h1 className="page-title">{section.label}</h1>
           <p className="deck">{section.description}</p>
           {articles.length ? (
-            <div className="card-grid">
-              {articles.map((article) => (
-                <ArticleCard article={article} key={article.id} />
-              ))}
-            </div>
+            <StoryBrowser articles={articles} route={route} title={`Browse ${section.label}`} key={section.id} />
           ) : <EmptyArticles />}
         </div>
         <aside className="article-tools">

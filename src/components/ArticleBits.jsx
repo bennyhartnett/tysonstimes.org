@@ -1,4 +1,4 @@
-import { articlePath, sectionPath } from "../routing.js";
+import { articlePath, pagePath, sectionPath } from "../routing.js";
 import { sectionLabel } from "../data/selectors.js";
 import { formatDate, textPreview } from "../utils/format.js";
 import { HoverLink } from "./HoverLink.jsx";
@@ -7,11 +7,11 @@ import { MiniPhoto } from "./Media.jsx";
 export function Tags({ article }) {
   return (
     <div className="tag-row">
-      <span className="tag">{sectionLabel(article.section)}</span>
+      <HoverLink className="tag" href={sectionPath(article.section)}>{sectionLabel(article.section)}</HoverLink>
       {article.tags.map((tag) => (
-        <span className="tag" key={tag}>
+        <HoverLink className="tag" href={`${pagePath("archive")}?q=${encodeURIComponent(tag)}`} key={tag}>
           {tag}
-        </span>
+        </HoverLink>
       ))}
     </div>
   );

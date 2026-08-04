@@ -18,6 +18,7 @@ export function ArticlePage({ route }) {
   const related = article ? relatedArticlesFor(article, 5, articles) : [];
   const [fullArticle, setFullArticle] = useState(null);
   const [loadError, setLoadError] = useState(false);
+  const [shareStatus, setShareStatus] = useState("");
 
   useEffect(() => {
     if (!article) return undefined;
@@ -49,8 +50,38 @@ export function ArticlePage({ route }) {
     );
   }
 
+  const articleUrl = `${window.location.origin}/articles/${encodeURIComponent(article.id)}/`;
+  const readingMinutes = Math.max(1, Math.ceil(article.wordCount / 220));
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(articleUrl);
+      setShareStatus("Link copied");
+    } catch {
+      setShareStatus("Copy the link from your address bar");
+    }
+  }
+
+  async function shareArticle() {
+    if (!navigator.share) {
+      await copyLink();
+      return;
+    }
+    try {
+      await navigator.share({ title: article.title, text: article.dek, url: articleUrl });
+      setShareStatus("Article shared");
+    } catch (error) {
+      if (error.name !== "AbortError") setShareStatus("Sharing was unavailable");
+    }
+  }
+
   return (
     <article className="article-page">
+      <nav className="article-breadcrumbs" aria-label="Breadcrumb">
+        <HoverLink href={pagePath("home")}>Front Page</HoverLink>
+        <span aria-hidden="true">/</span>
+        <HoverLink href={sectionPath(article.section)}>{sectionLabel(article.section)}</HoverLink>
+      </nav>
       <header className="article-topper">
         <HoverLink className="article-section-link" href={sectionPath(article.section)}>{sectionLabel(article.section)}</HoverLink>
         <h1 className="article-headline">{article.title}</h1>
@@ -66,8 +97,15 @@ export function ArticlePage({ route }) {
         <div className="article-main">
           <div className="article-byline-block">
             <span>By</span>
-            <strong>{article.author}</strong>
+            <HoverLink className="article-author" href={`${pagePath("archive")}?q=${encodeURIComponent(article.author)}`}>{article.author}</HoverLink>
             {article.updated !== article.date ? <small>Updated {formatDate(article.updated)}</small> : null}
+          </div>
+          <div className="article-actions" aria-label="Article tools">
+            <button type="button" onClick={shareArticle}>Share</button>
+            <button type="button" onClick={copyLink}>Copy link</button>
+            <a href={`mailto:?subject=${encodeURIComponent(article.title)}&body=${encodeURIComponent(`${article.dek}\n\n${articleUrl}`)}`}>Email</a>
+            <button type="button" onClick={() => window.print()}>Print</button>
+            <span className="article-share-status" role="status">{shareStatus}</span>
           </div>
           {fullArticle ? (
             <div className="article-body article-prose" dangerouslySetInnerHTML={{ __html: fullArticle.bodyHtml }} />
@@ -84,7 +122,7 @@ export function ArticlePage({ route }) {
           <Tags article={article} />
         </div>
         <aside className="article-related" aria-labelledby="related-coverage-title">
-          <span className="article-file">{article.wordCount.toLocaleString()} words · {article.type.replaceAll("-", " ")} · {article.location}</span>
+          <span className="article-file">{readingMinutes} min read · {article.wordCount.toLocaleString()} words · {article.type.replaceAll("-", " ")} · {article.location}</span>
           <h2 id="related-coverage-title">Related coverage</h2>
           <HeadlineList articles={related} />
           <HoverLink className="article-archive-link" href={pagePath("archive")}>Search the archive</HoverLink>
