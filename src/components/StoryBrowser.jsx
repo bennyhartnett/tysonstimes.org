@@ -10,11 +10,13 @@ function filtersFromQuery(queryString, includeSection) {
   const from = params.get("from") || "";
   const to = params.get("to") || "";
   const exactDate = params.get("date") || "";
+  const month = params.get("month") || "";
+  const year = params.get("year") || "";
 
   return {
     query: params.get("q") || "",
     section: includeSection ? params.get("section") || "" : "",
-    dateChoice: exactDate || (from || to ? "custom" : ""),
+    dateChoice: exactDate || (month ? `month:${month}` : year ? `year:${year}` : from || to ? "custom" : ""),
     from,
     to,
     sort: params.get("sort") === "oldest" ? "oldest" : "newest",
@@ -28,6 +30,10 @@ function updateHashQuery(filters, includeSection) {
   if (filters.dateChoice === "custom") {
     if (filters.from) params.set("from", filters.from);
     if (filters.to) params.set("to", filters.to);
+  } else if (filters.dateChoice.startsWith("month:")) {
+    params.set("month", filters.dateChoice.slice(6));
+  } else if (filters.dateChoice.startsWith("year:")) {
+    params.set("year", filters.dateChoice.slice(5));
   } else if (filters.dateChoice) {
     params.set("date", filters.dateChoice);
   }
@@ -40,6 +46,10 @@ function updateHashQuery(filters, includeSection) {
 
 function storyTimestamp(article) {
   return new Date(`${article.date}T12:00:00`).getTime();
+}
+
+function formatMonth(month) {
+  return new Date(`${month}-01T12:00:00`).toLocaleDateString("en-US", { month: "long", year: "numeric" });
 }
 
 export function StoryBrowser({ articles, route, includeSection = false, title = "Find stories" }) {
@@ -59,10 +69,22 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
     () => [...new Set(articles.map((article) => article.date))].sort().reverse(),
     [articles],
   );
+  const availableMonths = useMemo(
+    () => [...new Set(articles.map((article) => article.date.slice(0, 7)))].sort().reverse(),
+    [articles],
+  );
+  const availableYears = useMemo(
+    () => [...new Set(articles.map((article) => article.date.slice(0, 4)))].sort().reverse(),
+    [articles],
+  );
 
   const filteredArticles = useMemo(() => {
     const normalizedQuery = filters.query.trim().toLowerCase();
-    const exactDate = filters.dateChoice !== "custom" ? filters.dateChoice : "";
+    const exactDate = filters.dateChoice && filters.dateChoice !== "custom" && !filters.dateChoice.includes(":")
+      ? filters.dateChoice
+      : "";
+    const selectedMonth = filters.dateChoice.startsWith("month:") ? filters.dateChoice.slice(6) : "";
+    const selectedYear = filters.dateChoice.startsWith("year:") ? filters.dateChoice.slice(5) : "";
 
     return articles
       .filter((article) => {
@@ -71,6 +93,8 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
           (!normalizedQuery || haystack.includes(normalizedQuery)) &&
           (!includeSection || !filters.section || article.section === filters.section) &&
           (!exactDate || article.date === exactDate) &&
+          (!selectedMonth || article.date.startsWith(`${selectedMonth}-`)) &&
+          (!selectedYear || article.date.startsWith(`${selectedYear}-`)) &&
           (filters.dateChoice !== "custom" || !filters.from || article.date >= filters.from) &&
           (filters.dateChoice !== "custom" || !filters.to || article.date <= filters.to)
         );
@@ -130,7 +154,15 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
             <span>Published</span>
             <select className="date-select" value={filters.dateChoice} onChange={(event) => setFilter("dateChoice", event.target.value)}>
               <option value="">Any date</option>
-              {availableDates.map((date) => <option value={date} key={date}>{formatDate(date)}</option>)}
+              <optgroup label="Browse by month">
+                {availableMonths.map((month) => <option value={`month:${month}`} key={month}>{formatMonth(month)}</option>)}
+              </optgroup>
+              <optgroup label="Browse by year">
+                {availableYears.map((year) => <option value={`year:${year}`} key={year}>{year}</option>)}
+              </optgroup>
+              <optgroup label="Exact publication date">
+                {availableDates.map((date) => <option value={date} key={date}>{formatDate(date)}</option>)}
+              </optgroup>
               <option value="custom">Custom range…</option>
             </select>
           </label>
