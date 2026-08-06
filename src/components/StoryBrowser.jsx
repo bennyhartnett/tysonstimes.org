@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { sections } from "../data/content.js";
 import { formatDate } from "../utils/format.js";
+import { useSavedArticles } from "../hooks/useSavedArticles.js";
 import { ArticleCard } from "./ArticleBits.jsx";
 
 const PAGE_SIZE = 12;
@@ -20,6 +21,7 @@ function filtersFromQuery(queryString, includeSection) {
     from,
     to,
     sort: params.get("sort") === "oldest" ? "oldest" : "newest",
+    savedOnly: params.get("saved") === "1",
   };
 }
 
@@ -38,6 +40,7 @@ function updateHashQuery(filters, includeSection) {
     params.set("date", filters.dateChoice);
   }
   if (filters.sort === "oldest") params.set("sort", "oldest");
+  if (filters.savedOnly) params.set("saved", "1");
 
   const path = window.location.hash.replace(/^#/, "").split("?")[0] || "/";
   const query = params.toString();
@@ -55,6 +58,8 @@ function formatMonth(month) {
 export function StoryBrowser({ articles, route, includeSection = false, title = "Find stories" }) {
   const [filters, setFilters] = useState(() => filtersFromQuery(route?.queryString, includeSection));
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const { savedArticleIds } = useSavedArticles();
+  const savedArticleIdSet = useMemo(() => new Set(savedArticleIds), [savedArticleIds]);
 
   useEffect(() => {
     setFilters(filtersFromQuery(route?.queryString, includeSection));
@@ -91,6 +96,7 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
         const haystack = `${article.title} ${article.dek} ${article.author} ${article.tags.join(" ")} ${article.location}`.toLowerCase();
         return (
           (!normalizedQuery || haystack.includes(normalizedQuery)) &&
+          (!filters.savedOnly || savedArticleIdSet.has(article.id)) &&
           (!includeSection || !filters.section || article.section === filters.section) &&
           (!exactDate || article.date === exactDate) &&
           (!selectedMonth || article.date.startsWith(`${selectedMonth}-`)) &&
@@ -104,11 +110,11 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
         const direction = filters.sort === "oldest" ? -1 : 1;
         return dateDifference ? dateDifference * direction : a.priority - b.priority;
       });
-  }, [articles, filters, includeSection]);
+  }, [articles, filters, includeSection, savedArticleIdSet]);
 
   const visibleArticles = filteredArticles.slice(0, visibleCount);
   const hasFilters = Boolean(
-    filters.query || filters.section || filters.dateChoice || filters.from || filters.to || filters.sort === "oldest",
+    filters.query || filters.section || filters.dateChoice || filters.from || filters.to || filters.sort === "oldest" || filters.savedOnly,
   );
 
   function setFilter(name, value) {
@@ -120,7 +126,7 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
   }
 
   function clearFilters() {
-    setFilters({ query: "", section: "", dateChoice: "", from: "", to: "", sort: "newest" });
+    setFilters({ query: "", section: "", dateChoice: "", from: "", to: "", sort: "newest", savedOnly: false });
   }
 
   return (
@@ -186,6 +192,17 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
             </label>
           </div>
         ) : null}
+        {includeSection ? (
+          <label className="saved-stories-filter">
+            <input
+              type="checkbox"
+              checked={filters.savedOnly}
+              onChange={(event) => setFilter("savedOnly", event.target.checked)}
+            />
+            <span>Saved stories only</span>
+            <small>{savedArticleIds.length}</small>
+          </label>
+        ) : null}
         <p className="archive-result-count" role="status">
           {filteredArticles.length} {filteredArticles.length === 1 ? "story" : "stories"}
           {filteredArticles.length > visibleArticles.length ? ` · showing ${visibleArticles.length}` : ""}
@@ -197,8 +214,12 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
       </div>
       {filteredArticles.length === 0 ? (
         <div className="archive-empty" role="status">
-          <h2>No stories found</h2>
-          <p>Try a broader date range, another section, or fewer search terms.</p>
+          <h2>{filters.savedOnly && savedArticleIds.length === 0 ? "No saved stories yet" : "No stories found"}</h2>
+          <p>
+            {filters.savedOnly && savedArticleIds.length === 0
+              ? "Open any article and choose Save to keep it in your on-device reading list."
+              : "Try a broader date range, another section, or fewer search terms."}
+          </p>
           {hasFilters ? <button className="button" type="button" onClick={clearFilters}>Reset filters</button> : null}
         </div>
       ) : null}

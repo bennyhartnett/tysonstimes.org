@@ -109,7 +109,7 @@ export function HomePage() {
         </div>
 
         <aside className="home-most-read">
-          <h2>Most Read</h2>
+          <h2>More to Read</h2>
           {mostRead.map((article, index) => (
             <a href={articlePath(article.id)} key={article.id}>
               <b>{index + 1}</b>
