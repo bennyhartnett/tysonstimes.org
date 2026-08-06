@@ -3006,6 +3006,42 @@ body:has(.page-shell)::after,
   font-size: 0.66rem;
 }
 
+.article-actions button[aria-pressed="true"] {
+  border-color: var(--site-blue);
+  color: var(--site-surface);
+  background: var(--site-blue);
+}
+
+.saved-stories-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  width: fit-content;
+  margin-top: 16px;
+  color: var(--site-ink);
+  font-family: var(--site-sans);
+  font-size: 0.72rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.saved-stories-filter input {
+  width: 17px;
+  height: 17px;
+  margin: 0;
+  accent-color: var(--site-blue);
+}
+
+.saved-stories-filter small {
+  min-width: 22px;
+  border-radius: 999px;
+  padding: 2px 7px;
+  color: var(--site-muted);
+  background: var(--site-subtle);
+  font-size: 0.64rem;
+  text-align: center;
+}
+
 .page-shell .article-reading-layout .article-body {
   column-count: 1;
   column-gap: 0;

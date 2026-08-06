@@ -6,6 +6,7 @@ import { contentUrl } from "../data/content.js";
 import { useArticles } from "../data/ContentProvider.jsx";
 import { getArticleById, relatedArticlesFor, sectionLabel } from "../data/selectors.js";
 import { pagePath, sectionPath } from "../routing.js";
+import { useSavedArticles } from "../hooks/useSavedArticles.js";
 import { formatDate } from "../utils/format.js";
 
 function articleDataUrl(id) {
@@ -19,6 +20,7 @@ export function ArticlePage({ route }) {
   const [fullArticle, setFullArticle] = useState(null);
   const [loadError, setLoadError] = useState(false);
   const [shareStatus, setShareStatus] = useState("");
+  const { isSaved, toggleSaved } = useSavedArticles();
 
   useEffect(() => {
     if (!article) return undefined;
@@ -52,6 +54,12 @@ export function ArticlePage({ route }) {
 
   const articleUrl = `${window.location.origin}/articles/${encodeURIComponent(article.id)}/`;
   const readingMinutes = Math.max(1, Math.ceil(article.wordCount / 220));
+  const articleIsSaved = isSaved(article.id);
+
+  function saveArticle() {
+    toggleSaved(article.id);
+    setShareStatus(articleIsSaved ? "Removed from saved stories" : "Saved for later");
+  }
 
   async function copyLink() {
     try {
@@ -101,6 +109,9 @@ export function ArticlePage({ route }) {
             {article.updated !== article.date ? <small>Updated {formatDate(article.updated)}</small> : null}
           </div>
           <div className="article-actions" aria-label="Article tools">
+            <button type="button" aria-pressed={articleIsSaved} onClick={saveArticle}>
+              {articleIsSaved ? "Saved" : "Save"}
+            </button>
             <button type="button" onClick={shareArticle}>Share</button>
             <button type="button" onClick={copyLink}>Copy link</button>
             <a href={`mailto:?subject=${encodeURIComponent(article.title)}&body=${encodeURIComponent(`${article.dek}\n\n${articleUrl}`)}`}>Email</a>

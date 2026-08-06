@@ -218,6 +218,7 @@ function Footer() {
           <HoverLink href={pagePath("about")}>About</HoverLink>
           <HoverLink href={pagePath("corrections")}>Corrections</HoverLink>
           <HoverLink href={pagePath("archive")}>Archive</HoverLink>
+          <HoverLink href={`${pagePath("archive")}?saved=1`}>Saved stories</HoverLink>
           <a href="/feed.xml">RSS</a>
           <HoverLink href={pagePath("privacy")}>Privacy</HoverLink>
         </nav>
