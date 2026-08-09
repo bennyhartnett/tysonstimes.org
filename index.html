@@ -3,6 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (() => {
+        try {
+          const stored = JSON.parse(localStorage.getItem("tysons-times-publication-preferences") || "{}");
+          const theme = stored.theme === "dark" || stored.theme === "light"
+            ? stored.theme
+            : matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          document.documentElement.dataset.siteTheme = theme;
+          document.documentElement.style.colorScheme = theme;
+        } catch {}
+      })();
+    </script>
     <meta
       name="description"
       content="Tysons Times is an independent local newspaper for Tysons, Virginia, covering civic life, schools, business, dining, events, transportation, and neighborhood change across Northern Fairfax County."

@@ -68,7 +68,11 @@ export function HomePage() {
 
         <figure className="home-lead-visual">
           <a href={articlePath(lead.id)} aria-label={lead.title}>
-            <MiniPhoto article={lead} />
+            <MiniPhoto
+              article={lead}
+              priority
+              sizes="(max-width: 600px) calc(100vw - 24px), (max-width: 850px) 58vw, 540px"
+            />
           </a>
           <figcaption>{lead.hero?.caption || `${lead.location} · Tysons Times`}</figcaption>
         </figure>

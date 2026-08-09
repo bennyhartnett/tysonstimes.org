@@ -36,10 +36,10 @@ export function ImagePlate({ article, caption, size = "large", priority = false 
   );
 }
 
-export function MiniPhoto({ article }) {
+export function MiniPhoto({ article, priority = false, sizes = "(max-width: 640px) 100vw, 360px" }) {
   return (
     <div className="mini-photo" aria-hidden="true">
-      <ResponsiveImage image={article?.hero} alt="" sizes="(max-width: 640px) 100vw, 360px" />
+      <ResponsiveImage image={article?.hero} alt="" eager={priority} sizes={sizes} />
     </div>
   );
 }

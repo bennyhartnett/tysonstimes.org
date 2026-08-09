@@ -81,6 +81,8 @@ function NavItem({ item, route }) {
 function Masthead({ preferences, route }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [readingProgress, setReadingProgress] = useState(0);
+  const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
   const searchButtonRef = useRef(null);
   const { dateLabel, weather } = useMastheadInfo();
@@ -104,6 +106,50 @@ function Masthead({ preferences, route }) {
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [menuOpen, searchOpen]);
 
+  useEffect(() => {
+    setMenuOpen(false);
+    setSearchOpen(false);
+  }, [route?.key]);
+
+  useEffect(() => {
+    if (!menuOpen && !searchOpen) return undefined;
+
+    function closeOnOutsidePress(event) {
+      if (headerRef.current?.contains(event.target)) return;
+      setMenuOpen(false);
+      setSearchOpen(false);
+    }
+
+    document.addEventListener("pointerdown", closeOnOutsidePress);
+    return () => document.removeEventListener("pointerdown", closeOnOutsidePress);
+  }, [menuOpen, searchOpen]);
+
+  useEffect(() => {
+    if (!isArticle) {
+      setReadingProgress(0);
+      return undefined;
+    }
+
+    let animationFrame = 0;
+    function updateReadingProgress() {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(() => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+        const nextProgress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+        setReadingProgress(Math.min(100, Math.max(0, Math.round(nextProgress))));
+      });
+    }
+
+    updateReadingProgress();
+    window.addEventListener("scroll", updateReadingProgress, { passive: true });
+    window.addEventListener("resize", updateReadingProgress);
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", updateReadingProgress);
+      window.removeEventListener("resize", updateReadingProgress);
+    };
+  }, [isArticle, route?.key]);
+
   function submitSearch(event) {
     event.preventDefault();
     const query = new FormData(event.currentTarget).get("query")?.toString().trim();
@@ -112,7 +158,7 @@ function Masthead({ preferences, route }) {
   }
 
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef}>
       <div className="site-utility wide-shell">
         <div className="site-utility-actions">
           <button
@@ -203,6 +249,18 @@ function Masthead({ preferences, route }) {
             </div>
           ))}
         </nav>
+      ) : null}
+      {isArticle ? (
+        <div
+          className="article-reading-progress"
+          role="progressbar"
+          aria-label="Article reading progress"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow={readingProgress}
+        >
+          <span style={{ transform: `scaleX(${readingProgress / 100})` }} />
+        </div>
       ) : null}
     </header>
   );

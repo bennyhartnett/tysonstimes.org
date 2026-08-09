@@ -3577,6 +3577,128 @@ html[data-site-theme="dark"] .site-footer small { color: var(--site-muted); }
   }
 }
 
+/* Reader polish — compact article chrome, stable imagery, and quieter depth. */
+@media screen {
+  .page-shell--article .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--site-bg) 94%, transparent);
+    box-shadow: 0 1px 0 var(--site-line), 0 8px 24px rgb(16 19 24 / 5%);
+  }
+
+  @supports (backdrop-filter: blur(12px)) {
+    .page-shell--article .site-header {
+      background: color-mix(in srgb, var(--site-bg) 84%, transparent);
+      backdrop-filter: blur(14px) saturate(1.15);
+    }
+  }
+
+  .article-reading-progress {
+    position: absolute;
+    right: 0;
+    bottom: -2px;
+    left: 0;
+    z-index: 2;
+    height: 3px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .article-reading-progress span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--site-blue);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 90ms linear;
+  }
+
+  .home-lead-visual .mini-photo,
+  .home-center-feature .mini-photo,
+  .home-category-lead .mini-photo,
+  .home-compact-lead .mini-photo,
+  .home-four-grid .mini-photo,
+  .home-visual-grid .mini-photo {
+    border-radius: 2px;
+  }
+
+  .home-opinion-item,
+  .home-most-read > a,
+  .home-headline-list article,
+  .home-compact-list a {
+    transition: border-color 160ms ease, transform 160ms ease;
+  }
+
+  .home-opinion-item:has(a:hover),
+  .home-opinion-item:has(a:focus-visible),
+  .home-headline-list article:has(a:hover),
+  .home-headline-list article:has(a:focus-visible) {
+    border-bottom-color: color-mix(in srgb, var(--site-blue) 42%, var(--site-line));
+  }
+
+  .home-most-read > a:hover,
+  .home-most-read > a:focus-visible,
+  .home-compact-list a:hover,
+  .home-compact-list a:focus-visible {
+    border-bottom-color: color-mix(in srgb, var(--site-blue) 42%, var(--site-line));
+    transform: translateX(3px);
+  }
+
+  .article-actions :is(button, a),
+  .page-shell .button {
+    transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+
+  .article-actions :is(button, a):hover,
+  .article-actions :is(button, a):focus-visible,
+  .page-shell .button:hover,
+  .page-shell .button:focus-visible {
+    transform: translateY(-1px);
+  }
+
+  .article-byline-block,
+  .article-actions {
+    scroll-margin-top: 76px;
+  }
+
+  html[data-site-theme="dark"] .page-shell--article .site-header {
+    box-shadow: 0 1px 0 var(--site-line), 0 10px 28px rgb(0 0 0 / 22%);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .page-shell--article .site-utility {
+    height: 56px;
+  }
+
+  .page-shell--article .site-header::before {
+    height: 56px;
+  }
+
+  .page-shell--article .site-utility-actions,
+  .page-shell--article .site-account-actions {
+    gap: 4px;
+  }
+
+  .page-shell--article .site-search-button {
+    padding-inline: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-reading-progress span,
+  .home-opinion-item,
+  .home-most-read > a,
+  .home-headline-list article,
+  .home-compact-list a,
+  .article-actions :is(button, a),
+  .page-shell .button {
+    transition: none;
+  }
+}
+
 @media (forced-colors: active) {
   .skip-link,
   .site-subscribe,
