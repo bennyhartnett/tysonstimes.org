@@ -147,11 +147,11 @@ export function HomePage() {
 
       <section className="home-briefing-band">
         <div>
-          <span>THE LOCAL BRIEFING</span>
-          <h2>News that starts with where you live.</h2>
-          <p>A clear, independent view of the people and decisions shaping Northern Virginia.</p>
+          <span>THE TYSONS BRIEFING</span>
+          <h2>What changed. Who decided. Why it matters.</h2>
+          <p>Your concise read on the people and decisions shaping Northern Virginia.</p>
         </div>
-        <HoverLink href={pagePath("archive")}>Browse latest coverage</HoverLink>
+        <HoverLink href={pagePath("briefs")}>Read the briefing</HoverLink>
       </section>
 
       <section className="home-latest-stream">
@@ -205,11 +205,11 @@ export function HomePage() {
 
       <section className="home-newsletter">
         <div>
-          <b>Independent Local News</b>
-          <h2>Reporting for Tysons and the communities around it.</h2>
-          <p>Learn what we cover and how we approach the local record.</p>
+          <b>Independent by design</b>
+          <h2>Know your corner of Northern Virginia.</h2>
+          <p>Local reporting from Tysons to the Silver Line—and the decisions connecting them.</p>
         </div>
-        <HoverLink href={pagePath("about")}>About Tysons Times</HoverLink>
+        <HoverLink href={pagePath("about")}>Our mission</HoverLink>
       </section>
     </>
   );

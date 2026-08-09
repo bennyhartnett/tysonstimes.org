@@ -4906,3 +4906,193 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
     transform: none;
   }
 }
+
+/* Brand system — one voice, one accent, and a more distinctive local signature. */
+@media screen {
+  .page-shell {
+    --site-blue: #0b57c7;
+    --site-soft-blue: #edf4ff;
+    --site-bg: #fbfaf7;
+    --site-surface: #ffffff;
+    --site-subtle: #f3f1ec;
+    --site-line: #d9d7d1;
+    background: var(--site-bg);
+  }
+
+  body:has(.page-shell),
+  .newspaper,
+  .site-header {
+    background: var(--site-bg);
+  }
+
+  .site-wordmark {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.08em;
+    color: inherit;
+    font-family: var(--site-masthead);
+    letter-spacing: -0.055em;
+    line-height: 0.82;
+  }
+
+  .site-wordmark-accent {
+    color: var(--site-blue);
+  }
+
+  .site-wordmark--compact {
+    font-size: 2rem;
+  }
+
+  .site-brand::before {
+    display: block;
+    margin-bottom: 13px;
+    color: var(--site-blue);
+    content: "INDEPENDENT  ·  EST. 2026";
+    font-family: var(--site-sans);
+    font-size: 0.56rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+  }
+
+  .site-brand p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.24em;
+    font-size: 0.78rem;
+  }
+
+  .site-brand p::before,
+  .site-brand p::after {
+    width: 32px;
+    height: 1px;
+    background: var(--site-line);
+    content: "";
+  }
+
+  .site-brand p strong {
+    color: var(--site-blue);
+    font-weight: 650;
+  }
+
+  .site-masthead-meta {
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-transform: uppercase;
+  }
+
+  .site-section-row > a.is-active::after {
+    position: absolute;
+    right: 0;
+    bottom: -4px;
+    left: 0;
+    height: 3px;
+    background: var(--site-blue);
+    content: "";
+  }
+
+  .home-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--site-blue);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .home-eyebrow::before {
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .home-section-heading {
+    position: relative;
+  }
+
+  .home-section-heading::before {
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 72px;
+    height: 4px;
+    background: var(--site-blue);
+    content: "";
+  }
+
+  .home-rail-title,
+  .home-most-read h2 {
+    text-decoration: none;
+  }
+
+  .home-rail-title::after {
+    color: var(--site-blue);
+    content: "  /  Viewpoint";
+    font-family: var(--site-sans);
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .home-briefing-band {
+    border: 0;
+    border-left: 4px solid var(--site-blue);
+    border-radius: 0;
+    background:
+      linear-gradient(90deg, color-mix(in srgb, var(--site-blue) 5%, transparent), transparent 42%),
+      var(--site-soft-blue);
+  }
+
+  .home-briefing-band > a::after,
+  .home-newsletter > a::after {
+    padding-left: 8px;
+    content: "→";
+  }
+
+  .home-newsletter {
+    border-top: 1px solid color-mix(in srgb, var(--site-blue) 35%, var(--site-line));
+    background:
+      linear-gradient(115deg, var(--site-soft-blue), color-mix(in srgb, var(--site-bg) 82%, var(--site-soft-blue)));
+  }
+
+  .home-newsletter b {
+    color: var(--site-blue);
+    font-family: var(--site-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  .site-footer-mark .site-wordmark {
+    color: #ffffff;
+  }
+
+  .site-footer-mark .site-wordmark-accent {
+    color: #8eb9ff;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .site-wordmark--compact {
+    font-size: 1.6rem;
+  }
+
+  .site-brand::before {
+    margin-bottom: 10px;
+    font-size: 0.48rem;
+  }
+
+  .site-brand p {
+    font-size: 0.61rem;
+  }
+
+  .site-brand p::before,
+  .site-brand p::after {
+    width: 18px;
+  }
+}

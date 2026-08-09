@@ -192,7 +192,7 @@ function Masthead({ preferences, route }) {
             Search
           </button>
         </div>
-        {isArticle ? <HoverLink className="site-utility-brand" href={pagePath("home")}>{site.name}</HoverLink> : null}
+        {isArticle ? <Wordmark compact /> : null}
         <div className="site-account-actions">
           <button
             className="site-preference-button"
@@ -213,11 +213,11 @@ function Masthead({ preferences, route }) {
           <span>{site.location}</span>
         </div>
         <div className="site-brand">
-          <div className="site-name"><HoverLink href={pagePath("home")}>{site.name}</HoverLink></div>
-          <p>What’s Happening Around the Corner</p>
+          <div className="site-name"><Wordmark /></div>
+          <p>Northern Virginia, <strong>clearly reported.</strong></p>
         </div>
         <div className="site-masthead-meta site-masthead-meta--right">
-          <span>{site.volume}</span>
+          <span>{site.edition}</span>
           {weather ? <span>{weather.temp}&deg; {weather.label}</span> : <span>Independent local news</span>}
         </div>
       </div> : null}
@@ -271,8 +271,8 @@ function Footer() {
     <footer className="site-footer">
       <div className="content-shell site-footer-inner">
         <div>
-          <HoverLink className="site-footer-mark" href={pagePath("home")}>{site.name}</HoverLink>
-          <p>Northern Virginia, clearly reported.</p>
+          <div className="site-footer-mark"><Wordmark /></div>
+          <p>{site.tagline}</p>
         </div>
         <nav aria-label="Footer">
           <HoverLink href={pagePath("about")}>About</HoverLink>
@@ -313,5 +313,18 @@ export function NewspaperLayout({ children, route }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function Wordmark({ compact = false }) {
+  return (
+    <HoverLink
+      className={compact ? "site-utility-brand site-wordmark site-wordmark--compact" : "site-wordmark"}
+      href={pagePath("home")}
+      aria-label={site.name}
+    >
+      <span>Tysons</span>
+      <span className="site-wordmark-accent">Times</span>
+    </HoverLink>
   );
 }

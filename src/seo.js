@@ -299,7 +299,7 @@ export function buildRouteMeta(route = { page: "home" }, availableArticles = art
   const page = route.page || "home";
   const isHome = page === "home";
   const canonicalUrl = absoluteUrl(pageCleanPath(page));
-  const title = isHome ? `${site.name} | Local News for Tysons, Virginia` : `${pageTitles[page] || "Page"} | ${site.name}`;
+  const title = isHome ? `${site.name} | Northern Virginia, Clearly Reported` : `${pageTitles[page] || "Page"} | ${site.name}`;
   const description = pageDescriptions[page] || site.description;
 
   return {
@@ -307,6 +307,8 @@ export function buildRouteMeta(route = { page: "home" }, availableArticles = art
     description,
     canonicalUrl,
     type: "website",
+    imageUrl: absoluteUrl("/og.png"),
+    imageAlt: "Tysons Times — Northern Virginia, clearly reported.",
     keywords: keywordString([pageTitles[page], description, ...site.coverageArea, ...site.topics]),
     structuredData: buildStructuredData({ page }, { title, description, canonicalUrl }, currentArticles),
   };
