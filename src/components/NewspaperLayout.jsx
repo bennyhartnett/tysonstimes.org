@@ -135,6 +135,7 @@ function Masthead({ preferences, route }) {
             ref={searchButtonRef}
             className="site-search-button"
             type="button"
+            aria-label={searchOpen ? "Close search" : "Open search"}
             aria-expanded={searchOpen}
             aria-controls="site-search-panel"
             onClick={() => {
@@ -151,6 +152,7 @@ function Masthead({ preferences, route }) {
             className="site-preference-button"
             type="button"
             aria-label={`Color theme: ${preferences.theme}. Activate to change theme.`}
+            title="Change color theme"
             onClick={preferences.cycleTheme}
           >
             Theme: {preferences.theme === "system" ? "System" : preferences.theme === "dark" ? "Dark" : "Light"}
