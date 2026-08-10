@@ -238,13 +238,7 @@ function Masthead({ preferences, route }) {
         </div>
         {compact || isArticle ? <Wordmark compact inactive={compact && !headerCondensed} /> : null}
         <div className="site-account-actions">
-          <button
-            className="site-preference-button"
-            type="button"
-            aria-label={`Color theme: ${preferences.theme}. Activate to change theme.`}
-            title="Change color theme"
-            onClick={preferences.cycleTheme}
-          >
+          <button className="site-preference-button" type="button" aria-label={`Color theme: ${preferences.theme}. Activate to change theme.`} title="Change color theme" onClick={preferences.cycleTheme}>
             Theme: {preferences.theme === "system" ? "System" : preferences.theme === "dark" ? "Dark" : "Light"}
           </button>
           <HoverLink className="site-sign-in" href={pagePath("about")}>About us</HoverLink>
