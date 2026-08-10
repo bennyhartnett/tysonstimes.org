@@ -3824,6 +3824,61 @@ html[data-site-theme="dark"] .site-footer small { color: var(--site-muted); }
   font-weight: 700;
 }
 
+.page-shell #main-content .index-pagination {
+  margin-top: 14px;
+  font-family: var(--site-sans);
+}
+
+.page-shell #main-content .index-pagination-status {
+  margin: 0 0 9px;
+  color: var(--site-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.page-shell #main-content .index-pagination-actions {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.page-shell #main-content .index-pagination-actions span {
+  color: var(--site-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.page-shell #main-content .index-pagination-actions button {
+  min-height: 36px;
+  border: 1px solid var(--site-ink);
+  padding: 7px 10px;
+  color: var(--site-ink);
+  background: transparent;
+  font: 700 0.68rem/1 var(--site-sans);
+  cursor: pointer;
+}
+
+.page-shell #main-content .index-pagination-actions button:last-child {
+  justify-self: stretch;
+}
+
+.page-shell #main-content .index-pagination-actions button:hover:not(:disabled),
+.page-shell #main-content .index-pagination-actions button:focus-visible {
+  color: var(--site-paper);
+  background: var(--site-ink);
+}
+
+.page-shell #main-content .index-pagination-actions button:disabled {
+  border-color: var(--site-line);
+  color: var(--site-muted);
+  cursor: default;
+  opacity: 0.55;
+}
+
 .page-shell #main-content .form-grid {
   gap: 14px;
 }

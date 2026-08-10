@@ -23,7 +23,7 @@ export function SectionPage({ route }) {
         <aside className="article-tools">
           <div className="index-box">
             <h3>Section Index</h3>
-            <HeadlineList articles={articles} />
+            <HeadlineList articles={articles} pageSize={10} />
           </div>
           <div className="ad-box">
             <h3>More Desks</h3>

@@ -1,3 +1,4 @@
+import { useEffect, useId, useState } from "react";
 import { articlePath, pagePath, sectionPath } from "../routing.js";
 import { sectionLabel } from "../data/selectors.js";
 import { formatDate, textPreview } from "../utils/format.js";
@@ -17,21 +18,62 @@ export function Tags({ article }) {
   );
 }
 
-export function HeadlineList({ articles }) {
+export function HeadlineList({ articles, pageSize }) {
+  const [page, setPage] = useState(1);
+  const listId = useId();
+  const paginationEnabled = Number.isInteger(pageSize) && pageSize > 0;
+  const effectivePageSize = paginationEnabled ? pageSize : Math.max(articles.length, 1);
+  const totalPages = Math.max(1, Math.ceil(articles.length / effectivePageSize));
+  const currentPage = Math.min(page, totalPages);
+  const startIndex = (currentPage - 1) * effectivePageSize;
+  const visibleArticles = articles.slice(startIndex, startIndex + effectivePageSize);
+
+  useEffect(() => {
+    setPage(1);
+  }, [articles]);
+
   if (!articles.length) return <EmptyArticles />;
 
   return (
-    <ul className="headline-list">
-      {articles.map((article) => (
-        <li key={article.id}>
-          <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
-          <br />
-          <span>
-            {sectionLabel(article.section)} / {formatDate(article.date)}
-          </span>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className="headline-list" id={listId}>
+        {visibleArticles.map((article) => (
+          <li key={article.id}>
+            <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
+            <br />
+            <span>
+              {sectionLabel(article.section)} / {formatDate(article.date)}
+            </span>
+          </li>
+        ))}
+      </ul>
+      {paginationEnabled && totalPages > 1 ? (
+        <nav className="index-pagination" aria-label="Section index pages">
+          <p className="index-pagination-status" aria-live="polite">
+            {startIndex + 1}–{Math.min(startIndex + effectivePageSize, articles.length)} of {articles.length}
+          </p>
+          <div className="index-pagination-actions">
+            <button
+              type="button"
+              aria-controls={listId}
+              disabled={currentPage === 1}
+              onClick={() => setPage((value) => Math.max(1, value - 1))}
+            >
+              Previous
+            </button>
+            <span aria-hidden="true">{currentPage} / {totalPages}</span>
+            <button
+              type="button"
+              aria-controls={listId}
+              disabled={currentPage === totalPages}
+              onClick={() => setPage((value) => Math.min(totalPages, value + 1))}
+            >
+              Next
+            </button>
+          </div>
+        </nav>
+      ) : null}
+    </>
   );
 }
 
