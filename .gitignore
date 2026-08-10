@@ -2,6 +2,7 @@ node_modules/
 dist/
 .cache/
 src/generated/article-index.json
+src/generated/initial-article-index.json
 public/about/
 public/archive/
 public/articles/

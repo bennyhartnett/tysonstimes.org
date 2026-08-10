@@ -81,44 +81,25 @@ function NavItem({ item, route }) {
 function Masthead({ preferences, route }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [readingProgress, setReadingProgress] = useState(0);
   const [headerCondensed, setHeaderCondensed] = useState(false);
   const headerRef = useRef(null);
+  const compactHeaderRef = useRef(null);
+  const progressRef = useRef(null);
   const menuButtonRef = useRef(null);
   const searchButtonRef = useRef(null);
   const { dateLabel, weather } = useMastheadInfo();
   const isArticle = route?.page === "article";
 
   useEffect(() => {
-    const header = headerRef.current;
-    if (!header) return undefined;
-
     let animationFrame = 0;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     function updateHeader() {
-      cancelAnimationFrame(animationFrame);
+      if (animationFrame) return;
       animationFrame = requestAnimationFrame(() => {
-        const isSmallScreen = window.innerWidth <= 600;
-        const isMediumScreen = window.innerWidth <= 900;
-        const mastheadHeight = isSmallScreen ? 116 : isMediumScreen ? 140 : 164;
-        const utilityHeight = isSmallScreen ? 52 : 58;
-        const compactUtilityHeight = isSmallScreen ? 48 : 50;
-        const rawProgress = isArticle ? 1 : Math.min(1, Math.max(0, (window.scrollY - 8) / 144));
-        const progress = reducedMotion.matches ? (rawProgress > 0.5 ? 1 : 0) : rawProgress;
-
-        setHeaderCondensed(isArticle || progress > 0.18);
-        header.style.setProperty("--header-collapse", progress.toFixed(3));
-        header.style.setProperty("--header-masthead-height", `${Math.round(mastheadHeight * (1 - progress))}px`);
-        header.style.setProperty(
-          "--header-utility-height",
-          `${(utilityHeight - (utilityHeight - compactUtilityHeight) * progress).toFixed(2)}px`,
-        );
-        header.style.setProperty("--header-section-height", `${(51 - 6 * progress).toFixed(2)}px`);
-        header.style.setProperty("--header-main-logo-scale", (1 - 0.3 * progress).toFixed(3));
-        header.style.setProperty("--header-main-logo-shift", `${(-14 * progress).toFixed(2)}px`);
-        header.style.setProperty("--header-compact-logo-scale", (0.82 + 0.18 * progress).toFixed(3));
-        header.style.setProperty("--header-compact-logo-opacity", progress.toFixed(3));
+        animationFrame = 0;
+        const shouldCondense = isArticle || window.scrollY > (reducedMotion.matches ? 80 : 112);
+        setHeaderCondensed((current) => (current === shouldCondense ? current : shouldCondense));
       });
     }
 
@@ -161,7 +142,7 @@ function Masthead({ preferences, route }) {
     if (!menuOpen && !searchOpen) return undefined;
 
     function closeOnOutsidePress(event) {
-      if (headerRef.current?.contains(event.target)) return;
+      if (headerRef.current?.contains(event.target) || compactHeaderRef.current?.contains(event.target)) return;
       setMenuOpen(false);
       setSearchOpen(false);
     }
@@ -172,7 +153,7 @@ function Masthead({ preferences, route }) {
 
   useEffect(() => {
     if (!isArticle) {
-      setReadingProgress(0);
+      progressRef.current?.style.setProperty("--article-progress", "0");
       return undefined;
     }
 
@@ -180,9 +161,12 @@ function Masthead({ preferences, route }) {
     function updateReadingProgress() {
       cancelAnimationFrame(animationFrame);
       animationFrame = requestAnimationFrame(() => {
+        const progress = progressRef.current;
+        if (!progress) return;
         const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-        const nextProgress = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
-        setReadingProgress(Math.min(100, Math.max(0, Math.round(nextProgress))));
+        const nextProgress = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+        progress.style.setProperty("--article-progress", nextProgress.toFixed(4));
+        progress.setAttribute("aria-valuenow", String(Math.round(nextProgress * 100)));
       });
     }
 
@@ -203,18 +187,18 @@ function Masthead({ preferences, route }) {
     setSearchOpen(false);
   }
 
-  return (
-    <header className={headerCondensed ? "site-header is-condensed" : "site-header"} ref={headerRef}>
+  function renderUtility(compact = false) {
+    return (
       <div className="site-utility wide-shell">
         <div className="site-utility-actions">
           <button
-            ref={menuButtonRef}
             className="site-icon-button"
             type="button"
             aria-label={menuOpen ? "Close section menu" : "Open section menu"}
             aria-expanded={menuOpen}
-            aria-controls="site-navigation site-directory"
-            onClick={() => {
+            aria-controls={compact ? "site-compact-navigation site-directory" : "site-navigation site-directory"}
+            onClick={(event) => {
+              menuButtonRef.current = event.currentTarget;
               setMenuOpen((open) => !open);
               setSearchOpen(false);
             }}
@@ -224,13 +208,13 @@ function Masthead({ preferences, route }) {
             <span />
           </button>
           <button
-            ref={searchButtonRef}
             className="site-search-button"
             type="button"
             aria-label={searchOpen ? "Close search" : "Open search"}
             aria-expanded={searchOpen}
             aria-controls="site-search-panel"
-            onClick={() => {
+            onClick={(event) => {
+              searchButtonRef.current = event.currentTarget;
               setSearchOpen((open) => !open);
               setMenuOpen(false);
             }}
@@ -238,20 +222,54 @@ function Masthead({ preferences, route }) {
             Search
           </button>
         </div>
-        <Wordmark compact inactive={!headerCondensed} />
+        {compact || isArticle ? <Wordmark compact inactive={compact && !headerCondensed} /> : null}
         <div className="site-account-actions">
-          <button
-            className="site-preference-button"
-            type="button"
-            aria-label={`Color theme: ${preferences.theme}. Activate to change theme.`}
-            title="Change color theme"
-            onClick={preferences.cycleTheme}
-          >
+          <button className="site-preference-button" type="button" aria-label={`Color theme: ${preferences.theme}. Activate to change theme.`} title="Change color theme" onClick={preferences.cycleTheme}>
             Theme: {preferences.theme === "system" ? "System" : preferences.theme === "dark" ? "Dark" : "Light"}
           </button>
           <HoverLink className="site-sign-in" href={pagePath("about")}>About us</HoverLink>
         </div>
       </div>
+    );
+  }
+
+  function renderSearchPanel() {
+    return (
+      <form className="site-search-panel" id="site-search-panel" role="search" onSubmit={submitSearch}>
+        <label htmlFor="site-search">Search Tysons Times</label>
+        <input id="site-search" name="query" type="search" placeholder="Search stories and topics" autoFocus />
+        <button type="submit">Search</button>
+      </form>
+    );
+  }
+
+  function renderSectionNavigation(id) {
+    return (
+      <nav id={id} className={menuOpen ? "site-sections is-open" : "site-sections"} aria-label="Primary sections">
+        <div className="content-shell site-section-row">
+          {primaryNavLinks.map((item) => <NavItem item={item} key={item.label} route={route} />)}
+        </div>
+      </nav>
+    );
+  }
+
+  function renderDirectory() {
+    return (
+      <nav id="site-directory" className="site-directory content-shell" aria-label="Complete newspaper directory">
+        {directoryNavGroups.map((group) => (
+          <div className="site-directory-group" key={group.title}>
+            <strong>{group.title}</strong>
+            {group.links.map((item) => <NavItem item={item} key={item.label} route={route} />)}
+          </div>
+        ))}
+      </nav>
+    );
+  }
+
+  return (
+    <>
+    <header className={isArticle ? "site-header site-header--article" : "site-header"} ref={headerRef}>
+      {renderUtility(false)}
 
       {!isArticle ? <div className="site-masthead content-shell">
         <div className="site-masthead-meta site-masthead-meta--left">
@@ -268,47 +286,34 @@ function Masthead({ preferences, route }) {
         </div>
       </div> : null}
 
-      {searchOpen ? (
-        <form className="site-search-panel" id="site-search-panel" role="search" onSubmit={submitSearch}>
-          <label htmlFor="site-search">Search Tysons Times</label>
-          <input id="site-search" name="query" type="search" placeholder="Search stories and topics" autoFocus />
-          <button type="submit">Search</button>
-        </form>
-      ) : null}
+      {!headerCondensed && searchOpen ? renderSearchPanel() : null}
 
-      {!isArticle || menuOpen ? <nav id="site-navigation" className={menuOpen ? "site-sections is-open" : "site-sections"} aria-label="Primary sections">
-        <div className="content-shell site-section-row">
-          {primaryNavLinks.map((item) => (
-            <NavItem item={item} key={item.label} route={route} />
-          ))}
-        </div>
-      </nav> : null}
+      {!isArticle || menuOpen ? renderSectionNavigation("site-navigation") : null}
 
-      {menuOpen ? (
-        <nav id="site-directory" className="site-directory content-shell" aria-label="Complete newspaper directory">
-          {directoryNavGroups.map((group) => (
-            <div className="site-directory-group" key={group.title}>
-              <strong>{group.title}</strong>
-              {group.links.map((item) => (
-                <NavItem item={item} key={item.label} route={route} />
-              ))}
-            </div>
-          ))}
-        </nav>
-      ) : null}
+      {!headerCondensed && menuOpen ? renderDirectory() : null}
       {isArticle ? (
         <div
           className="article-reading-progress"
+          ref={progressRef}
           role="progressbar"
           aria-label="Article reading progress"
           aria-valuemin="0"
           aria-valuemax="100"
-          aria-valuenow={readingProgress}
+          aria-valuenow="0"
         >
-          <span style={{ transform: `scaleX(${readingProgress / 100})` }} />
+          <span />
         </div>
       ) : null}
     </header>
+    {!isArticle ? (
+      <div className={headerCondensed ? "site-compact-header is-visible" : "site-compact-header"} ref={compactHeaderRef} aria-hidden={!headerCondensed} inert={!headerCondensed}>
+        {renderUtility(true)}
+        {headerCondensed && searchOpen ? renderSearchPanel() : null}
+        {renderSectionNavigation("site-compact-navigation")}
+        {headerCondensed && menuOpen ? renderDirectory() : null}
+      </div>
+    ) : null}
+    </>
   );
 }
 

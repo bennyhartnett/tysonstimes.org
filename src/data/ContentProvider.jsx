@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, startTransition, useContext, useEffect, useMemo, useState } from "react";
 import { articles as initialArticles, contentUrl } from "./content.js";
 
 const ContentContext = createContext({
@@ -15,21 +15,35 @@ export function ContentProvider({ children }) {
 
   useEffect(() => {
     const controller = new AbortController();
+    let idleHandle = 0;
+    let timeoutHandle = 0;
 
-    fetch(contentUrl("index.json"), { cache: "no-cache", signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) throw new Error(`Content request failed with ${response.status}`);
-        return response.json();
-      })
-      .then((articles) => {
-        if (!validArticleIndex(articles)) throw new Error("Content feed returned an invalid article index");
-        setState({ articles, source: "live" });
-      })
-      .catch((error) => {
-        if (error.name !== "AbortError") console.warn("Using the build-time article snapshot.", error);
-      });
+    function refreshContent() {
+      fetch(contentUrl("index.json"), { cache: "default", signal: controller.signal })
+        .then((response) => {
+          if (!response.ok) throw new Error(`Content request failed with ${response.status}`);
+          return response.json();
+        })
+        .then((articles) => {
+          if (!validArticleIndex(articles)) throw new Error("Content feed returned an invalid article index");
+          startTransition(() => setState({ articles, source: "live" }));
+        })
+        .catch((error) => {
+          if (error.name !== "AbortError") console.warn("Using the build-time article snapshot.", error);
+        });
+    }
 
-    return () => controller.abort();
+    if ("requestIdleCallback" in window) {
+      idleHandle = window.requestIdleCallback(refreshContent, { timeout: 8000 });
+    } else {
+      timeoutHandle = window.setTimeout(refreshContent, 2500);
+    }
+
+    return () => {
+      controller.abort();
+      if (idleHandle) window.cancelIdleCallback?.(idleHandle);
+      if (timeoutHandle) window.clearTimeout(timeoutHandle);
+    };
   }, []);
 
   const value = useMemo(() => state, [state]);
