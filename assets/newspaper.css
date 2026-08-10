@@ -5008,16 +5008,7 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.24em;
     font-size: 0.78rem;
-  }
-
-  .site-brand p::before,
-  .site-brand p::after {
-    width: 32px;
-    height: 1px;
-    background: var(--site-line);
-    content: "";
   }
 
   .site-brand p strong {
@@ -5141,10 +5132,6 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
     font-size: 0.61rem;
   }
 
-  .site-brand p::before,
-  .site-brand p::after {
-    width: 18px;
-  }
 }
 
 /* Scroll-responsive masthead: the full edition folds into compact sticky chrome. */
@@ -5402,22 +5389,6 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
     letter-spacing: 0.018em;
   }
 
-  .site-brand p strong {
-    position: relative;
-  }
-
-  .site-brand p strong::after {
-    display: inline-block;
-    width: 11px;
-    height: 9px;
-    margin: 0 0 0.08em 0.42em;
-    border-right: 1px solid currentColor;
-    border-bottom: 1px solid currentColor;
-    background: transparent;
-    content: "";
-    transform: none;
-  }
-
   .site-section-row > a.is-active::after {
     background: linear-gradient(90deg, var(--brand-civic) 0 74%, var(--brand-civic-bright) 74%);
   }
@@ -5457,20 +5428,9 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
     position: relative;
     overflow: hidden;
     background:
-      linear-gradient(90deg, transparent 0 58%, rgb(255 255 255 / 3%) 58% 59%, transparent 59%),
-      repeating-linear-gradient(135deg, transparent 0 68px, rgb(255 255 255 / 3%) 69px 70px),
-      var(--site-footer-bg);
-  }
-
-  .site-footer::after {
-    position: absolute;
-    right: -95px;
-    bottom: -150px;
-    width: 410px;
-    height: 300px;
-    border: 1px solid rgb(255 255 255 / 9%);
-    content: "";
-    transform: rotate(-34deg);
+      linear-gradient(180deg, rgb(3 12 22 / 28%), rgb(3 8 13 / 72%)),
+      url("/tysons-night-footer.png") center / cover no-repeat,
+      #07111c;
   }
 }
 

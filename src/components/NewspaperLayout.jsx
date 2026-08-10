@@ -295,11 +295,6 @@ function Masthead({ preferences, route }) {
           <span>{site.location}</span>
         </div>
         <div className="site-brand">
-          <div className="site-brand-kicker">
-            <BrandMark />
-            <span>Independent local journalism</span>
-            <span aria-hidden="true">Est. 2026</span>
-          </div>
           <div className="site-name"><Wordmark /></div>
           <p className="site-brand-tagline">What’s happening <strong>around the corner?</strong></p>
         </div>
