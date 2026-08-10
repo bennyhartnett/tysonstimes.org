@@ -82,11 +82,57 @@ function Masthead({ preferences, route }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [readingProgress, setReadingProgress] = useState(0);
+  const [headerCondensed, setHeaderCondensed] = useState(false);
   const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
   const searchButtonRef = useRef(null);
   const { dateLabel, weather } = useMastheadInfo();
   const isArticle = route?.page === "article";
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return undefined;
+
+    let animationFrame = 0;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    function updateHeader() {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(() => {
+        const isSmallScreen = window.innerWidth <= 600;
+        const isMediumScreen = window.innerWidth <= 900;
+        const mastheadHeight = isSmallScreen ? 116 : isMediumScreen ? 140 : 164;
+        const utilityHeight = isSmallScreen ? 52 : 58;
+        const compactUtilityHeight = isSmallScreen ? 48 : 50;
+        const rawProgress = isArticle ? 1 : Math.min(1, Math.max(0, (window.scrollY - 8) / 144));
+        const progress = reducedMotion.matches ? (rawProgress > 0.5 ? 1 : 0) : rawProgress;
+
+        setHeaderCondensed(isArticle || progress > 0.18);
+        header.style.setProperty("--header-collapse", progress.toFixed(3));
+        header.style.setProperty("--header-masthead-height", `${Math.round(mastheadHeight * (1 - progress))}px`);
+        header.style.setProperty(
+          "--header-utility-height",
+          `${(utilityHeight - (utilityHeight - compactUtilityHeight) * progress).toFixed(2)}px`,
+        );
+        header.style.setProperty("--header-section-height", `${(51 - 6 * progress).toFixed(2)}px`);
+        header.style.setProperty("--header-main-logo-scale", (1 - 0.3 * progress).toFixed(3));
+        header.style.setProperty("--header-main-logo-shift", `${(-14 * progress).toFixed(2)}px`);
+        header.style.setProperty("--header-compact-logo-scale", (0.82 + 0.18 * progress).toFixed(3));
+        header.style.setProperty("--header-compact-logo-opacity", progress.toFixed(3));
+      });
+    }
+
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    window.addEventListener("resize", updateHeader);
+    reducedMotion.addEventListener?.("change", updateHeader);
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      window.removeEventListener("scroll", updateHeader);
+      window.removeEventListener("resize", updateHeader);
+      reducedMotion.removeEventListener?.("change", updateHeader);
+    };
+  }, [isArticle, route?.key]);
 
   useEffect(() => {
     if (!menuOpen && !searchOpen) return undefined;
@@ -158,7 +204,7 @@ function Masthead({ preferences, route }) {
   }
 
   return (
-    <header className="site-header" ref={headerRef}>
+    <header className={headerCondensed ? "site-header is-condensed" : "site-header"} ref={headerRef}>
       <div className="site-utility wide-shell">
         <div className="site-utility-actions">
           <button
@@ -192,7 +238,7 @@ function Masthead({ preferences, route }) {
             Search
           </button>
         </div>
-        {isArticle ? <Wordmark compact /> : null}
+        <Wordmark compact inactive={!headerCondensed} />
         <div className="site-account-actions">
           <button
             className="site-preference-button"
@@ -316,12 +362,14 @@ export function NewspaperLayout({ children, route }) {
   );
 }
 
-function Wordmark({ compact = false }) {
+function Wordmark({ compact = false, inactive = false }) {
   return (
     <HoverLink
       className={compact ? "site-utility-brand site-wordmark site-wordmark--compact" : "site-wordmark"}
       href={pagePath("home")}
       aria-label={site.name}
+      aria-hidden={inactive || undefined}
+      tabIndex={inactive ? -1 : undefined}
     >
       <span>Tysons</span>
       <span className="site-wordmark-accent">Times</span>
