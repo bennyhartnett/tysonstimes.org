@@ -78,7 +78,7 @@ export function HomePage() {
         </figure>
 
         <aside className="home-opinions" aria-label="Opinion and analysis">
-          <div className="home-rail-title">Opinions <span aria-hidden="true">›</span></div>
+          <h2 className="home-rail-title">Opinions <span aria-hidden="true">›</span></h2>
           {opinionRail.map((article) => (
             <article className="home-opinion-item" key={article.id}>
               <span>{article.author || "Tysons Times Staff"}</span>
@@ -148,8 +148,8 @@ export function HomePage() {
       <section className="home-briefing-band">
         <div>
           <span>THE TYSONS BRIEFING</span>
-          <h2>What changed. Who decided. Why it matters.</h2>
-          <p>Your concise read on the people and decisions shaping Northern Virginia.</p>
+          <h2>See what’s coming around the corner.</h2>
+          <p>What changed, who decided, and what it means for Northern Virginia next.</p>
         </div>
         <HoverLink href={pagePath("briefs")}>Read the briefing</HoverLink>
       </section>
@@ -206,8 +206,8 @@ export function HomePage() {
       <section className="home-newsletter">
         <div>
           <b>Independent by design</b>
-          <h2>Know your corner of Northern Virginia.</h2>
-          <p>Local reporting from Tysons to the Silver Line—and the decisions connecting them.</p>
+          <h2>Every corner has a story.</h2>
+          <p>Your corner of Northern Virginia, covered—from Tysons to the Silver Line.</p>
         </div>
         <HoverLink href={pagePath("about")}>Our mission</HoverLink>
       </section>

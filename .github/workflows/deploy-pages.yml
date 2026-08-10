@@ -39,6 +39,18 @@ jobs:
       - name: Sync content feed and build site
         run: npm run build
 
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run browser regression tests
+        run: npm run test:e2e
+
+      - name: Validate generated publication
+        run: npm run validate
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:

@@ -22,6 +22,8 @@ const aliases = {
   "classifieds.html": "classifieds",
   "corrections.html": "corrections",
   "about.html": "about",
+  "standards.html": "standards",
+  "contact.html": "contact",
   "privacy.html": "privacy",
 };
 

@@ -28,7 +28,7 @@ export function CorrectionsPage() {
               </div>
             </article>
           ))}
-          {!corrections.length ? <EmptyArticles>No corrections have been published.</EmptyArticles> : null}
+          {!corrections.length ? <EmptyArticles>No substantive corrections have been published as of this edition.</EmptyArticles> : null}
         </div>
       </div>
       <aside className="article-tools">
@@ -41,6 +41,7 @@ export function CorrectionsPage() {
           </ol>
         </div>
         <HoverLink className="button" href={pagePath("archive")}>Search Published Coverage</HoverLink>
+        <HoverLink className="button" href={pagePath("contact")}>Request a Correction</HoverLink>
       </aside>
     </section>
   );

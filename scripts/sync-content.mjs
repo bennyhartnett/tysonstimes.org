@@ -1,11 +1,13 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { validateArticleHtml } from "./content-safety.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceConfig = JSON.parse(await readFile(path.join(rootDir, "src", "data", "content-source.json"), "utf8"));
 const contentBaseUrl = String(process.env.CONTENT_BASE_URL || sourceConfig.baseUrl).replace(/\/+$/, "");
 const generatedIndexPath = path.join(rootDir, "src", "generated", "article-index.json");
+const initialIndexPath = path.join(rootDir, "src", "generated", "initial-article-index.json");
 const cachePath = path.join(rootDir, ".cache", "content", "articles-full.json");
 const fetchConcurrency = Math.max(1, Number.parseInt(process.env.CONTENT_FETCH_CONCURRENCY || "8", 10));
 
@@ -51,6 +53,22 @@ async function writeJson(target, value) {
   await writeFile(target, `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
+function initialArticleIndex(articles) {
+  const selectedIds = new Set(articles.slice(0, 24).map((article) => article.id));
+  const sections = [...new Set(articles.map((article) => article.section).filter(Boolean))];
+
+  for (const section of sections) {
+    articles
+      .filter((article) => article.section === section)
+      .slice(0, 8)
+      .forEach((article) => selectedIds.add(article.id));
+  }
+
+  return articles
+    .filter((article) => selectedIds.has(article.id))
+    .map((article) => ({ ...article, body: article.body.slice(0, 2) }));
+}
+
 const articles = await fetchJson("index.json");
 if (!Array.isArray(articles) || !articles.length) throw new Error("The content feed did not return any articles.");
 
@@ -61,10 +79,12 @@ const fullArticles = await mapWithConcurrency(
     if (!article?.id || !article?.title || !article?.hero) throw new Error("The content feed contains an invalid article summary.");
     const fullArticle = await fetchJson(`articles/${encodeURIComponent(article.id)}.json`);
     if (fullArticle.id !== article.id || !fullArticle.bodyHtml) throw new Error(`The full article '${article.id}' is invalid.`);
+    validateArticleHtml(fullArticle.bodyHtml, article.id);
     return fullArticle;
   },
 );
 
 await writeJson(generatedIndexPath, articles);
+await writeJson(initialIndexPath, initialArticleIndex(articles));
 await writeJson(cachePath, fullArticles);
 console.log(`Synced ${articles.length} articles from ${sourceConfig.repository}.`);
