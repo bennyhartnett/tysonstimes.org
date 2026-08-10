@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#0b57c7" />
-  <path
-    fill="#ffffff"
-    d="M14 18h36v8H36v26h-8V26H14z"
-  />
+  <rect width="64" height="64" rx="10" fill="#124f9d" />
+  <path d="M8 48 48 8h8L16 48z" fill="#78aee9" opacity=".45" />
+  <path d="M8 18h48M8 46h48" stroke="#f7f2e8" stroke-width="2" opacity=".85" />
+  <text x="32" y="43" fill="#fffdf8" font-family="Georgia,serif" font-size="34" font-weight="700" letter-spacing="-6" text-anchor="middle">TT</text>
 </svg>

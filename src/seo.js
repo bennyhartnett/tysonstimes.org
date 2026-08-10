@@ -92,7 +92,17 @@ function publisherSchema() {
     description: site.description,
     foundingLocation: localPlaceSchema(),
     areaServed: site.coverageArea.map(placeSchema),
-    publishingPrinciples: absoluteUrl(pageCleanPath("corrections")),
+    founder: {
+      "@type": "Person",
+      name: site.publisher.name,
+    },
+    publishingPrinciples: absoluteUrl(pageCleanPath("standards")),
+    correctionsPolicy: absoluteUrl(pageCleanPath("corrections")),
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "newsroom",
+      url: absoluteUrl(pageCleanPath("contact")),
+    },
     knowsAbout: site.topics,
   };
 }
@@ -298,8 +308,9 @@ export function buildRouteMeta(route = { page: "home" }, availableArticles = art
 
   const page = route.page || "home";
   const isHome = page === "home";
+  const isKnownPage = Object.hasOwn(pageSlugs, page);
   const canonicalUrl = absoluteUrl(pageCleanPath(page));
-  const title = isHome ? `${site.name} | Northern Virginia, Clearly Reported` : `${pageTitles[page] || "Page"} | ${site.name}`;
+  const title = isHome ? `${site.name} | What’s Happening Around the Corner?` : `${pageTitles[page] || "Page"} | ${site.name}`;
   const description = pageDescriptions[page] || site.description;
 
   return {
@@ -307,8 +318,9 @@ export function buildRouteMeta(route = { page: "home" }, availableArticles = art
     description,
     canonicalUrl,
     type: "website",
-    imageUrl: absoluteUrl("/og.png"),
-    imageAlt: "Tysons Times — Northern Virginia, clearly reported.",
+    robots: isKnownPage ? undefined : "noindex, follow",
+    imageUrl: absoluteUrl("/og-corner.png"),
+    imageAlt: "Tysons Times — What’s happening around the corner?",
     keywords: keywordString([pageTitles[page], description, ...site.coverageArea, ...site.topics]),
     structuredData: buildStructuredData({ page }, { title, description, canonicalUrl }, currentArticles),
   };

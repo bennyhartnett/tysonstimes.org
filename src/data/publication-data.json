@@ -22,9 +22,15 @@
         "transportation",
         "public meetings"
       ],
-      "tagline": "Northern Virginia, clearly reported.",
-      "issueLine": "Independent reporting for Tysons and the Silver Line corridor",
-      "footer": "Tysons Times · Independent local journalism for Northern Virginia"
+      "tagline": "What’s happening around the corner?",
+      "issueLine": "Your corner of Northern Virginia, covered.",
+      "footer": "Tysons Times · What’s happening around the corner?",
+      "publisher": {
+        "name": "Tysons Times Editorial Desk",
+        "role": "Publisher and editor",
+        "repositoryUrl": "https://tysonstimes.org",
+        "publicContactUrl": "https://tysonstimes.org/contact"
+      }
     },
     "sections": [
       {
@@ -73,6 +79,8 @@
       "briefs": "Briefs",
       "corrections": "Corrections",
       "about": "About",
+      "standards": "Editorial Standards",
+      "contact": "Contact",
       "privacy": "Privacy Policy"
     },
     "pageDescriptions": {
@@ -81,6 +89,8 @@
       "briefs": "Short verified local-news briefs from Tysons, Vienna, McLean, Dunn Loring, Falls Church, Fairfax County, and the Silver Line corridor.",
       "corrections": "Tysons Times corrections, clarifications, editorial standards, and visible updates to the public record.",
       "about": "About Tysons Times, an independent local newspaper serving Tysons and nearby Northern Virginia communities.",
+      "standards": "The sourcing, corrections, automation, byline, image, and editorial-independence standards used by Tysons Times.",
+      "contact": "Contact Tysons Times with corrections, public feedback, story ideas, and questions about published coverage.",
       "privacy": "How Tysons Times handles reader data, browser preferences, third-party requests, cookies, and advertising."
     },
     "pageSlugs": {
@@ -89,6 +99,8 @@
       "briefs": "briefs",
       "corrections": "corrections",
       "about": "about",
+      "standards": "standards",
+      "contact": "contact",
       "privacy": "privacy"
     },
     "primaryNavLinks": [
@@ -122,6 +134,8 @@
           { "label": "Corrections", "page": "corrections" },
           { "label": "Archive", "page": "archive" },
           { "label": "About", "page": "about" },
+          { "label": "Standards", "page": "standards" },
+          { "label": "Contact", "page": "contact" },
           { "label": "Privacy", "page": "privacy" }
         ]
       }

@@ -11,7 +11,7 @@ export function PrivacyPage() {
           The short version: this site collects as little as it reasonably can. We do not sell your personal information
           or build advertising profiles about you.
         </p>
-        <p className="privacy-updated">Last updated July 28, 2026</p>
+        <p className="privacy-updated">Last updated August 9, 2026</p>
       </header>
 
       <div className="privacy-layout">
@@ -28,17 +28,19 @@ export function PrivacyPage() {
           <section>
             <h2>Preferences stored on your device</h2>
             <p>
-              If you change the color theme, that preference is saved in your browser&apos;s local storage. It stays on
-              your device unless you clear it. We do not use that preference to identify you across websites.
+              Your color-theme choice, publication display preferences, and saved-story IDs are stored in your
+              browser&apos;s local storage. They stay on your device unless you clear them. Tysons Times does not receive
+              those values or use them to identify you across websites.
             </p>
           </section>
 
           <section>
             <h2>Third-party services</h2>
             <p>
-              The site requests local weather from Open-Meteo and loads article content from the Tysons Times content
-              host. Those services may receive ordinary request information, including your IP address, under their own
-              privacy practices. Links to other websites are also governed by the policies of those sites.
+              The site is delivered by its hosting provider, requests local weather from Open-Meteo, loads article
+              content and images from the Tysons Times content host. The site&apos;s typefaces are packaged with the site.
+              External content services may receive ordinary request information, including your IP address, under
+              their own privacy practices. Links to other websites are governed by the policies of those sites.
             </p>
           </section>
 
@@ -67,7 +69,8 @@ export function PrivacyPage() {
               You can clear this site&apos;s local storage through your browser settings and use browser privacy controls
               to limit third-party requests. Because we do not maintain reader accounts or profiles, we generally have
               no personal record to retrieve, correct, or delete. Our <HoverLink href={pagePath("about")}>About page</HoverLink>
-              explains the publication&apos;s coverage and editorial priorities.
+              explains the publication&apos;s coverage and editorial priorities, and the <HoverLink href={pagePath("contact")}>contact page</HoverLink>
+              provides a public feedback channel.
             </p>
           </section>
 
@@ -97,7 +100,7 @@ export function PrivacyPage() {
             </div>
             <div>
               <dt>Saved locally</dt>
-              <dd>Color theme</dd>
+              <dd>Theme, display preferences, saved-story IDs</dd>
             </div>
           </dl>
         </aside>

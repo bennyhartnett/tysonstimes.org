@@ -1,7 +1,8 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { articles, sections, site } from "../src/data/content.js";
+import { sections, site } from "../src/data/content.js";
+import articleIndex from "../src/generated/article-index.json" with { type: "json" };
 import { pageTitles } from "../src/data/pages.js";
 import {
   absoluteUrl,
@@ -13,12 +14,16 @@ import {
   sectionCleanPath,
   siteOrigin,
 } from "../src/seo.js";
-import { relatedArticlesFor, sectionLabel, sortedArticles } from "../src/data/selectors.js";
+import { relatedArticlesFor, sectionLabel, sortArticles } from "../src/data/selectors.js";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(rootDir, "public");
 const fullArticles = JSON.parse(await readFile(path.join(rootDir, ".cache", "content", "articles-full.json"), "utf8"));
 const fullArticleMap = new Map(fullArticles.map((article) => [article.id, article]));
+const articles = articleIndex;
+const sortedArticles = sortArticles(articles);
+const feedArticles = sortedArticles.slice(0, 100);
+const llmIndexArticles = sortedArticles.slice(0, 100);
 
 const generatedFiles = ["robots.txt", "sitemap.xml", "feed.xml", "llms.txt", "llms-full.txt"];
 const retiredGeneratedDirs = [
@@ -149,6 +154,7 @@ function layout(meta, body, appHref) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
     <title>${escapeHtml(meta.title)}</title>
     <meta name="description" content="${escapeHtml(meta.description)}" />
     <meta name="keywords" content="${escapeHtml(meta.keywords)}" />
@@ -175,6 +181,7 @@ function layout(meta, body, appHref) {
     ${meta.imageUrl ? `<meta property="og:image" content="${escapeHtml(meta.imageUrl)}" />` : ""}
     ${meta.imageAlt ? `<meta property="og:image:alt" content="${escapeHtml(meta.imageAlt)}" />` : ""}
     <link rel="canonical" href="${escapeHtml(meta.canonicalUrl)}" />
+    <link rel="preconnect" href="https://content.tysonstimes.org" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" href="/feed.xml" title="Tysons Times RSS" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="Tysons Times LLM index" />
@@ -184,12 +191,9 @@ function layout(meta, body, appHref) {
       body { margin: 0; }
       a { color: inherit; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
       .shell { width: min(980px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 44px; }
-      .masthead { --static-header-progress: 0; --static-logo-scale: 1; --static-compact-opacity: 0; position: sticky; top: 0; z-index: 20; box-sizing: border-box; overflow: hidden; border-bottom: 3px double #151515; padding: 18px 0; margin-bottom: 28px; background: rgba(245, 242, 234, 0.96); text-align: center; }
-      .masthead.is-condensed { box-shadow: 0 10px 28px rgba(21, 21, 21, 0.1); }
-      .masthead-full { opacity: calc(1 - var(--static-header-progress)); }
-      .masthead h1 { transform: scale(var(--static-logo-scale)); transform-origin: center; }
-      .masthead-compact { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: var(--static-compact-opacity); pointer-events: none; font-size: 28px; font-weight: 700; line-height: 1; text-decoration: none; transform: scale(var(--static-compact-scale, 0.84)); transform-origin: center; }
-      .masthead.is-condensed .masthead-compact { pointer-events: auto; }
+      .masthead { position: relative; border-bottom: 3px double #151515; padding: 18px 0; margin-bottom: 28px; background: #f5f2ea; text-align: center; }
+      .masthead-compact { position: fixed; top: 0; right: 0; left: 0; z-index: 30; display: flex; height: 52px; align-items: center; justify-content: center; color: #151515; background: #f5f2ea; box-shadow: 0 1px 0 #c7c1b6, 0 10px 28px rgba(21, 21, 21, 0.1); opacity: 0; pointer-events: none; font-size: 28px; font-weight: 700; line-height: 1; text-decoration: none; transform: translate3d(0, -105%, 0) scale(0.96); visibility: hidden; transition: transform 220ms cubic-bezier(0.2, 0.75, 0.25, 1), opacity 160ms ease, visibility 0s linear 220ms; will-change: transform, opacity; }
+      .masthead.is-condensed .masthead-compact { opacity: 1; pointer-events: auto; transform: translate3d(0, 0, 0) scale(1); visibility: visible; transition-delay: 0s; }
       .masthead-compact-accent { color: #0b57c7; }
       .kicker { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; font: 700 12px/1.3 Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
       h1 { font-size: clamp(36px, 8vw, 76px); line-height: 0.95; margin: 12px 0 8px; letter-spacing: 0; }
@@ -219,9 +223,10 @@ function layout(meta, body, appHref) {
       .article-inline-image figcaption span { display: block; margin-top: 4px; font-size: 11px; }
       .open-app { display: inline-block; margin-top: 18px; border: 1px solid #151515; padding: 9px 12px; font: 700 13px/1 Arial, sans-serif; text-transform: uppercase; text-decoration: none; }
       footer { border-top: 3px double #151515; margin-top: 36px; padding-top: 14px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
-      @supports (backdrop-filter: blur(14px)) { .masthead { background: rgba(245, 242, 234, 0.88); backdrop-filter: blur(14px) saturate(1.1); } }
+      @keyframes static-masthead-exit { from { opacity: 1; transform: translate3d(0, 0, 0) scale(1); } to { opacity: 0.35; transform: translate3d(0, -10px, 0) scale(0.86); } }
+      @supports (animation-timeline: scroll()) { .masthead-full { animation: static-masthead-exit linear both; animation-range: 0 128px; animation-timeline: scroll(root block); transform-origin: center; } }
       @media (max-width: 600px) { .masthead-compact { font-size: 24px; } }
-      @media (prefers-reduced-motion: reduce) { .masthead, .masthead-full, .masthead h1, .masthead-compact { transition: none; } }
+      @media (prefers-reduced-motion: reduce) { .masthead-full { animation: none; } .masthead-compact { transition: none; will-change: auto; } }
     </style>
   </head>
   <body>
@@ -255,36 +260,18 @@ function layout(meta, body, appHref) {
         const header = document.querySelector(".masthead");
         if (!header) return;
 
-        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-        let frame = 0;
-        let expandedHeight = header.offsetHeight;
-
-        const update = () => {
-          cancelAnimationFrame(frame);
-          frame = requestAnimationFrame(() => {
-            const rawProgress = Math.min(1, Math.max(0, (window.scrollY - 8) / 144));
-            const progress = reducedMotion.matches ? (rawProgress > 0.5 ? 1 : 0) : rawProgress;
-            const compactHeight = window.innerWidth <= 600 ? 48 : 52;
-
-            header.classList.toggle("is-condensed", progress > 0.18);
-            header.style.height = Math.round(expandedHeight - ((expandedHeight - compactHeight) * progress)) + "px";
-            header.style.setProperty("--static-header-progress", progress.toFixed(3));
-            header.style.setProperty("--static-logo-scale", (1 - (0.3 * progress)).toFixed(3));
-            header.style.setProperty("--static-compact-opacity", progress.toFixed(3));
-            header.style.setProperty("--static-compact-scale", (0.84 + (0.16 * progress)).toFixed(3));
-          });
-        };
-
-        const resize = () => {
-          header.style.height = "auto";
-          expandedHeight = header.offsetHeight;
+        const mastheadLogo = header.querySelector("h1");
+        if (mastheadLogo && "IntersectionObserver" in window) {
+          const observer = new IntersectionObserver(
+            ([entry]) => header.classList.toggle("is-condensed", !entry.isIntersecting),
+            { rootMargin: "-52px 0px 0px", threshold: 0 },
+          );
+          observer.observe(mastheadLogo);
+        } else {
+          const update = () => header.classList.toggle("is-condensed", window.scrollY > 112);
           update();
-        };
-
-        update();
-        window.addEventListener("scroll", update, { passive: true });
-        window.addEventListener("resize", resize);
-        reducedMotion.addEventListener?.("change", update);
+          window.addEventListener("scroll", update, { passive: true });
+        }
       })();
     </script>
   </body>
@@ -306,7 +293,7 @@ function renderArticlePage(article) {
   const fullArticle = fullArticleMap.get(article.id) || article;
   const metaArticle = { ...article, body: fullArticle.body };
   const meta = buildRouteMeta({ page: "article", article: metaArticle });
-  const related = relatedArticlesFor(article);
+  const related = relatedArticlesFor(article, 5, sortedArticles);
   const body = `
     <article>
       <div class="eyebrow">${escapeHtml(sectionLabel(article.section))} / ${escapeHtml(article.location)} / ${escapeHtml(formatDisplayDate(article.date))}</div>
@@ -364,25 +351,59 @@ function articlesForStaticPage(page) {
   return sortedArticles.slice(0, 6);
 }
 
+function staticPolicyBody(page) {
+  const publisher = escapeHtml(site.publisher.name);
+  const contactUrl = escapeHtml(site.publisher.publicContactUrl);
+
+  if (page === "about") return `
+    <section class="content-block">
+      <h2>Independent local publication</h2>
+      <p>${publisher}, ${escapeHtml(site.publisher.role)}, independently owns and publishes Tysons Times. The publication focuses on verified civic, school, business, transportation, cultural, and neighborhood reporting across Northern Fairfax County.</p>
+      <h2>Editorial independence</h2>
+      <p>Tysons Times does not publish paid advertising or sponsored articles. Any material relationship that could affect coverage should be disclosed with the article.</p>
+      <p><a href="${pageCleanPath("standards")}">Read the editorial standards</a> or <a href="${pageCleanPath("contact")}">contact the newsroom</a>.</p>
+    </section>`;
+
+  if (page === "standards") return `
+    <section class="content-block">
+      <h2>Verification and sourcing</h2><p>Names, dates, quotations, statistics, and material claims should be checked against primary documents, direct interviews, official records, or clearly identified reporting. Automated tools are never treated as sources.</p>
+      <h2>Corrections and updates</h2><p>Material errors are corrected promptly in the article and recorded on the corrections page. Clarifications explain meaningful changes in context.</p>
+      <h2>Automation and AI</h2><p>Automated tools may assist research organization and drafting, but a human editor is responsible for publication decisions and factual verification. AI-created images are labeled in their credits.</p>
+      <h2>Bylines and accountability</h2><p>A named byline identifies the reporter when appropriate. The Tysons Times Staff byline identifies newsroom-produced briefs, collaborative work, and articles assembled from verified public information under editor responsibility.</p>
+      <h2>Independence, images, and harm</h2><p>Paid placement is not presented as reporting. Material conflicts should be disclosed. Images require accurate captions and credits, and coverage should minimize unnecessary harm.</p>
+    </section>`;
+
+  if (page === "contact") return `
+    <section class="content-block">
+      <h2>Corrections and story ideas</h2><p>For corrections, include the article link, the statement you believe is wrong, and supporting firsthand or documentary evidence. For story ideas, explain what changed, who is affected, and where the relevant evidence can be found.</p>
+      <h2>Public contact desk</h2><p><a href="${contactUrl}" rel="noopener noreferrer">Open the public contact desk</a>. Submissions and attachments there are public.</p>
+      <h2>Sensitive information</h2><p>Do not post confidential records, private contact details, medical information, or source-identifying material. Ask for a private follow-up channel without including the sensitive material itself.</p>
+    </section>`;
+
+  if (page === "corrections") return `
+    <section class="content-block">
+      <h2>Published corrections</h2><p>There are no substantive corrections recorded as of this edition. Material errors will be listed here with the affected article, the original error, and the correction.</p>
+      <p><a href="${pageCleanPath("contact")}">Request a correction</a>.</p>
+    </section>`;
+
+  if (page === "privacy") return `
+    <section class="content-block">
+      <h2>What the site handles</h2><p>Our hosting provider may process standard request information such as an IP address, browser type, requested page, and request time to deliver and secure the site.</p>
+      <h2>Preferences stored on your device</h2><p>Your color theme and saved-story IDs are stored in your browser's local storage. Tysons Times does not receive those values or use them to identify you across websites.</p>
+      <h2>Third-party services</h2><p>The site requests weather from Open-Meteo and loads articles and images from the Tysons Times content host. Those services may receive ordinary request information under their own privacy practices.</p>
+      <h2>Forms, cookies, and advertising</h2><p>Tysons Times does not maintain reader accounts or collect personal information through on-site submission forms. We do not set tracking cookies, run behavioral analytics, or operate targeted advertising.</p>
+      <h2>Sharing, retention, and your choices</h2><p>We do not sell or rent personal information or maintain reader profiles. Service providers may keep limited security and access logs. You can clear local preferences through your browser settings.</p>
+      <p class="meta">Last updated August 9, 2026</p>
+    </section>`;
+
+  return "";
+}
+
 function renderStaticPage(page) {
   const meta = buildRouteMeta({ page });
   const title = pageTitles[page] || page;
   const related = articlesForStaticPage(page);
-  const privacyBody = page === "privacy" ? `
-      <section class="content-block">
-        <h2>What the site handles</h2>
-        <p>Our hosting provider may process standard request information such as an IP address, browser type, requested page, and request time to deliver and secure the site.</p>
-        <h2>Preferences stored on your device</h2>
-        <p>Your color-theme choice is saved in your browser's local storage. We do not use that preference to identify you across websites.</p>
-        <h2>Third-party services</h2>
-        <p>The site requests weather from Open-Meteo and loads articles from the Tysons Times content host. Those services may receive ordinary request information under their own privacy practices.</p>
-        <h2>Forms, cookies, and advertising</h2>
-        <p>Tysons Times does not maintain reader accounts or collect personal information through on-site submission forms. We do not set tracking cookies, run behavioral analytics, or operate targeted advertising.</p>
-        <h2>Sharing, retention, and your choices</h2>
-        <p>We do not sell or rent personal information or maintain reader profiles. Service providers may keep limited security and access logs. You can clear local preferences through your browser settings. Material policy changes will appear here with a new effective date.</p>
-        <p class="meta">Last updated July 28, 2026</p>
-      </section>
-    ` : "";
+  const policyBody = staticPolicyBody(page);
   const body = `
     <section>
       <h1>${escapeHtml(title)}</h1>
@@ -392,8 +413,8 @@ function renderStaticPage(page) {
         <div><dt>Primary topics</dt><dd>${escapeHtml(site.topics.slice(0, 5).join(", "))}</dd></div>
         <div><dt>Latest update</dt><dd>${escapeHtml(formatDisplayDate(sortedArticles[0].date))}</dd></div>
       </dl>
-      ${privacyBody}
-      ${page === "privacy" ? "" : articleList(related, page === "archive" ? "All articles" : "Featured local coverage")}
+      ${policyBody}
+      ${policyBody ? "" : articleList(related, page === "archive" ? "All articles" : "Featured local coverage")}
     </section>
   `;
 
@@ -447,8 +468,7 @@ function buildRobots() {
 Allow: /
 
 Sitemap: ${siteOrigin}/sitemap.xml
-# LLM-readable site index: ${siteOrigin}/llms.txt
-# Full article corpus for citation and retrieval: ${siteOrigin}/llms-full.txt`;
+# LLM-readable site index: ${siteOrigin}/llms.txt`;
 }
 
 function buildFeed() {
@@ -461,7 +481,7 @@ function buildFeed() {
     <language>en-us</language>
     <lastBuildDate>${escapeXml(rssDate(sortedArticles[0].date))}</lastBuildDate>
     <atom:link href="${escapeXml(siteOrigin)}/feed.xml" rel="self" type="application/rss+xml" />
-${sortedArticles
+${feedArticles
   .map(
     (article) => `    <item>
       <title>${escapeXml(article.title)}</title>
@@ -496,8 +516,9 @@ Primary topics: ${site.topics.join(", ")}
 
 - Sitemap: ${siteOrigin}/sitemap.xml
 - RSS feed: ${siteOrigin}/feed.xml
-- Full article corpus: ${siteOrigin}/llms-full.txt
-- Corrections and standards: ${absoluteUrl(pageCleanPath("corrections"))}
+- Editorial standards: ${absoluteUrl(pageCleanPath("standards"))}
+- Corrections: ${absoluteUrl(pageCleanPath("corrections"))}
+- Contact: ${absoluteUrl(pageCleanPath("contact"))}
 
 ## Preferred citation
 
@@ -511,32 +532,9 @@ ${sections.map((section) => `- [${section.label}](${absoluteUrl(sectionCleanPath
 
 ${indexedPages.map((page) => `- [${pageTitles[page] || page}](${absoluteUrl(pageCleanPath(page))}): ${pageDescriptions[page]}`).join("\n")}
 
-## Articles
+## Latest 100 articles
 
-${sortedArticles.map(markdownArticleLine).join("\n")}`;
-}
-
-function buildLlmsFullTxt() {
-  return `# ${site.name} Full Article Corpus
-
-Source: ${siteOrigin}
-Coverage area: ${site.coverageArea.join(", ")}
-
-${fullArticles
-  .map(
-    (article) => `## ${article.title}
-
-Canonical URL: ${absoluteUrl(articleCleanPath(article.id))}
-Author: ${article.author}
-Published: ${article.date}
-Section: ${sectionLabel(article.section)}
-Location: ${article.location}
-Topics: ${article.tags.join(", ")}
-Summary: ${article.dek}
-
-${article.body.join("\n\n")}`,
-  )
-  .join("\n\n")}`;
+${llmIndexArticles.map(markdownArticleLine).join("\n")}`;
 }
 
 async function main() {
@@ -548,7 +546,6 @@ async function main() {
     writePublic("sitemap.xml", buildSitemap()),
     writePublic("feed.xml", buildFeed()),
     writePublic("llms.txt", buildLlmsTxt()),
-    writePublic("llms-full.txt", buildLlmsFullTxt()),
     ...articles.map((article) => writePublic(path.join("articles", article.id, "index.html"), renderArticlePage(article))),
     ...sections.map((section) => writePublic(path.join("sections", section.id, "index.html"), renderSectionPage(section))),
     ...indexedPages.map((page) => writePublic(path.join(pageCleanPath(page).replace(/^\/|\/$/g, ""), "index.html"), renderStaticPage(page))),

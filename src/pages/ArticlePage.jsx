@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { EmptyArticles, HeadlineList, Tags } from "../components/ArticleBits.jsx";
 import { HoverLink } from "../components/HoverLink.jsx";
 import { ImagePlate } from "../components/Media.jsx";
@@ -8,6 +8,7 @@ import { getArticleById, relatedArticlesFor, sectionLabel } from "../data/select
 import { pagePath, sectionPath } from "../routing.js";
 import { useSavedArticles } from "../hooks/useSavedArticles.js";
 import { formatDate } from "../utils/format.js";
+import { sanitizeArticleHtml } from "../utils/sanitizeArticleHtml.js";
 
 function articleDataUrl(id) {
   return contentUrl(`articles/${encodeURIComponent(id)}.json`);
@@ -21,6 +22,10 @@ export function ArticlePage({ route }) {
   const [loadError, setLoadError] = useState(false);
   const [shareStatus, setShareStatus] = useState("");
   const { isSaved, toggleSaved } = useSavedArticles();
+  const safeBodyHtml = useMemo(
+    () => (fullArticle?.bodyHtml ? sanitizeArticleHtml(fullArticle.bodyHtml) : ""),
+    [fullArticle?.bodyHtml],
+  );
 
   useEffect(() => {
     if (!article) return undefined;
@@ -119,7 +124,7 @@ export function ArticlePage({ route }) {
             <span className="article-share-status" role="status">{shareStatus}</span>
           </div>
           {fullArticle ? (
-            <div className="article-body article-prose" dangerouslySetInnerHTML={{ __html: fullArticle.bodyHtml }} />
+            <div className="article-body article-prose" dangerouslySetInnerHTML={{ __html: safeBodyHtml }} />
           ) : loadError ? (
             <div className="article-body article-prose">
               {article.body.map((paragraph) => (
