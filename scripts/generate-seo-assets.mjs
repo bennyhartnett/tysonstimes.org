@@ -184,7 +184,13 @@ function layout(meta, body, appHref) {
       body { margin: 0; }
       a { color: inherit; text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
       .shell { width: min(980px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 44px; }
-      .masthead { border-bottom: 3px double #151515; padding-bottom: 18px; margin-bottom: 28px; text-align: center; }
+      .masthead { --static-header-progress: 0; --static-logo-scale: 1; --static-compact-opacity: 0; position: sticky; top: 0; z-index: 20; box-sizing: border-box; overflow: hidden; border-bottom: 3px double #151515; padding: 18px 0; margin-bottom: 28px; background: rgba(245, 242, 234, 0.96); text-align: center; }
+      .masthead.is-condensed { box-shadow: 0 10px 28px rgba(21, 21, 21, 0.1); }
+      .masthead-full { opacity: calc(1 - var(--static-header-progress)); }
+      .masthead h1 { transform: scale(var(--static-logo-scale)); transform-origin: center; }
+      .masthead-compact { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: var(--static-compact-opacity); pointer-events: none; font-size: 28px; font-weight: 700; line-height: 1; text-decoration: none; transform: scale(var(--static-compact-scale, 0.84)); transform-origin: center; }
+      .masthead.is-condensed .masthead-compact { pointer-events: auto; }
+      .masthead-compact-accent { color: #0b57c7; }
       .kicker { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; font: 700 12px/1.3 Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.08em; }
       h1 { font-size: clamp(36px, 8vw, 76px); line-height: 0.95; margin: 12px 0 8px; letter-spacing: 0; }
       h2 { font-size: 24px; margin-top: 28px; }
@@ -213,19 +219,27 @@ function layout(meta, body, appHref) {
       .article-inline-image figcaption span { display: block; margin-top: 4px; font-size: 11px; }
       .open-app { display: inline-block; margin-top: 18px; border: 1px solid #151515; padding: 9px 12px; font: 700 13px/1 Arial, sans-serif; text-transform: uppercase; text-decoration: none; }
       footer { border-top: 3px double #151515; margin-top: 36px; padding-top: 14px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: space-between; }
+      @supports (backdrop-filter: blur(14px)) { .masthead { background: rgba(245, 242, 234, 0.88); backdrop-filter: blur(14px) saturate(1.1); } }
+      @media (max-width: 600px) { .masthead-compact { font-size: 24px; } }
+      @media (prefers-reduced-motion: reduce) { .masthead, .masthead-full, .masthead h1, .masthead-compact { transition: none; } }
     </style>
   </head>
   <body>
     <div class="shell">
       <header class="masthead">
-        <div class="kicker">
-          <span>${escapeHtml(site.location)}</span>
-          <span>Independent Local Newspaper</span>
-          <span>${escapeHtml(site.domain)}</span>
+        <a class="masthead-compact" href="/" aria-label="${escapeHtml(site.name)}">
+          <span>Tysons&nbsp;</span><span class="masthead-compact-accent">Times</span>
+        </a>
+        <div class="masthead-full">
+          <div class="kicker">
+            <span>${escapeHtml(site.location)}</span>
+            <span>Independent Local Newspaper</span>
+            <span>${escapeHtml(site.domain)}</span>
+          </div>
+          <h1><a href="/">${escapeHtml(site.name)}</a></h1>
+          <p class="subtitle">${escapeHtml(site.tagline)}</p>
+          <nav class="static-nav" aria-label="Static site index">${staticNav()}</nav>
         </div>
-        <h1><a href="/">${escapeHtml(site.name)}</a></h1>
-        <p class="subtitle">${escapeHtml(site.tagline)}</p>
-        <nav class="static-nav" aria-label="Static site index">${staticNav()}</nav>
       </header>
       <main class="content">
         ${body}
@@ -236,6 +250,43 @@ function layout(meta, body, appHref) {
         <span><a href="/sitemap.xml">Sitemap</a> / <a href="/llms.txt">LLM index</a> / <a href="/feed.xml">RSS</a></span>
       </footer>
     </div>
+    <script>
+      (() => {
+        const header = document.querySelector(".masthead");
+        if (!header) return;
+
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let frame = 0;
+        let expandedHeight = header.offsetHeight;
+
+        const update = () => {
+          cancelAnimationFrame(frame);
+          frame = requestAnimationFrame(() => {
+            const rawProgress = Math.min(1, Math.max(0, (window.scrollY - 8) / 144));
+            const progress = reducedMotion.matches ? (rawProgress > 0.5 ? 1 : 0) : rawProgress;
+            const compactHeight = window.innerWidth <= 600 ? 48 : 52;
+
+            header.classList.toggle("is-condensed", progress > 0.18);
+            header.style.height = Math.round(expandedHeight - ((expandedHeight - compactHeight) * progress)) + "px";
+            header.style.setProperty("--static-header-progress", progress.toFixed(3));
+            header.style.setProperty("--static-logo-scale", (1 - (0.3 * progress)).toFixed(3));
+            header.style.setProperty("--static-compact-opacity", progress.toFixed(3));
+            header.style.setProperty("--static-compact-scale", (0.84 + (0.16 * progress)).toFixed(3));
+          });
+        };
+
+        const resize = () => {
+          header.style.height = "auto";
+          expandedHeight = header.offsetHeight;
+          update();
+        };
+
+        update();
+        window.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", resize);
+        reducedMotion.addEventListener?.("change", update);
+      })();
+    </script>
   </body>
 </html>`;
 }
