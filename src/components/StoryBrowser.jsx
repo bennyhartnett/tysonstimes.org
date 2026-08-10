@@ -1,26 +1,42 @@
 import { useEffect, useMemo, useState } from "react";
 import { sections } from "../data/content.js";
-import { formatDate } from "../utils/format.js";
 import { useSavedArticles } from "../hooks/useSavedArticles.js";
 import { ArticleCard } from "./ArticleBits.jsx";
 
 const PAGE_SIZE = 12;
+const DEFAULT_SORT = "newest";
+const SORT_OPTIONS = [
+  ["newest", "Newest first"],
+  ["oldest", "Oldest first"],
+  ["updated", "Recently updated"],
+  ["relevance", "Best match"],
+  ["featured", "Editor’s picks"],
+  ["longest", "Most in-depth"],
+  ["shortest", "Quickest reads"],
+  ["headline", "Headline A–Z"],
+];
+const VALID_SORTS = new Set(SORT_OPTIONS.map(([value]) => value));
+const MONTHS = new Intl.DateTimeFormat("en-US", { month: "long", timeZone: "UTC" });
+
+function monthLabel(month) {
+  return MONTHS.format(new Date(Date.UTC(2026, Number(month) - 1, 1)));
+}
 
 function filtersFromQuery(queryString, includeSection) {
   const params = new URLSearchParams(queryString || "");
-  const from = params.get("from") || "";
-  const to = params.get("to") || "";
+  const legacyMonth = params.get("month") || "";
   const exactDate = params.get("date") || "";
-  const month = params.get("month") || "";
-  const year = params.get("year") || "";
+  const [legacyYear, legacyMonthNumber] = legacyMonth.includes("-") ? legacyMonth.split("-") : ["", legacyMonth];
+  const requestedSort = params.get("sort") || DEFAULT_SORT;
 
   return {
     query: params.get("q") || "",
     section: includeSection ? params.get("section") || "" : "",
-    dateChoice: exactDate || (month ? `month:${month}` : year ? `year:${year}` : from || to ? "custom" : ""),
-    from,
-    to,
-    sort: params.get("sort") === "oldest" ? "oldest" : "newest",
+    month: legacyMonthNumber,
+    year: params.get("year") || legacyYear,
+    from: params.get("from") || exactDate,
+    to: params.get("to") || exactDate,
+    sort: VALID_SORTS.has(requestedSort) ? requestedSort : DEFAULT_SORT,
     savedOnly: params.get("saved") === "1",
   };
 }
@@ -29,17 +45,11 @@ function updateHashQuery(filters, includeSection) {
   const params = new URLSearchParams();
   if (filters.query.trim()) params.set("q", filters.query.trim());
   if (includeSection && filters.section) params.set("section", filters.section);
-  if (filters.dateChoice === "custom") {
-    if (filters.from) params.set("from", filters.from);
-    if (filters.to) params.set("to", filters.to);
-  } else if (filters.dateChoice.startsWith("month:")) {
-    params.set("month", filters.dateChoice.slice(6));
-  } else if (filters.dateChoice.startsWith("year:")) {
-    params.set("year", filters.dateChoice.slice(5));
-  } else if (filters.dateChoice) {
-    params.set("date", filters.dateChoice);
-  }
-  if (filters.sort === "oldest") params.set("sort", "oldest");
+  if (filters.month) params.set("month", filters.month);
+  if (filters.year) params.set("year", filters.year);
+  if (filters.from) params.set("from", filters.from);
+  if (filters.to) params.set("to", filters.to);
+  if (filters.sort !== DEFAULT_SORT) params.set("sort", filters.sort);
   if (filters.savedOnly) params.set("saved", "1");
 
   const path = window.location.hash.replace(/^#/, "").split("?")[0] || "/";
@@ -47,22 +57,49 @@ function updateHashQuery(filters, includeSection) {
   window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}#${path}${query ? `?${query}` : ""}`);
 }
 
-function storyTimestamp(article) {
-  return new Date(`${article.date}T12:00:00`).getTime();
+function storyTimestamp(article, field = "date") {
+  return new Date(`${article[field] || article.date}T12:00:00`).getTime();
 }
 
-function formatMonth(month) {
-  return new Date(`${month}-01T12:00:00`).toLocaleDateString("en-US", { month: "long", year: "numeric" });
+function relevanceScore(article, normalizedQuery) {
+  if (!normalizedQuery) return 0;
+  const title = article.title.toLowerCase();
+  const tags = article.tags.join(" ").toLowerCase();
+  const secondary = `${article.dek} ${article.author} ${article.location}`.toLowerCase();
+  return (title === normalizedQuery ? 12 : 0)
+    + (title.includes(normalizedQuery) ? 7 : 0)
+    + (tags.includes(normalizedQuery) ? 4 : 0)
+    + (secondary.includes(normalizedQuery) ? 1 : 0);
+}
+
+function compareArticles(a, b, sort, normalizedQuery) {
+  const newestDifference = storyTimestamp(b) - storyTimestamp(a);
+  let difference = 0;
+
+  if (sort === "oldest") difference = -newestDifference;
+  else if (sort === "updated") difference = storyTimestamp(b, "updated") - storyTimestamp(a, "updated");
+  else if (sort === "relevance") difference = relevanceScore(b, normalizedQuery) - relevanceScore(a, normalizedQuery);
+  else if (sort === "featured") difference = a.priority - b.priority;
+  else if (sort === "longest") difference = (b.wordCount || 0) - (a.wordCount || 0);
+  else if (sort === "shortest") difference = (a.wordCount || 0) - (b.wordCount || 0);
+  else if (sort === "headline") difference = a.title.localeCompare(b.title, "en", { sensitivity: "base" });
+  else difference = newestDifference;
+
+  return difference || newestDifference || a.priority - b.priority;
 }
 
 export function StoryBrowser({ articles, route, includeSection = false, title = "Find stories" }) {
-  const [filters, setFilters] = useState(() => filtersFromQuery(route?.queryString, includeSection));
+  const initialFilters = filtersFromQuery(route?.queryString, includeSection);
+  const [filters, setFilters] = useState(initialFilters);
+  const [dateRangeOpen, setDateRangeOpen] = useState(Boolean(initialFilters.from || initialFilters.to));
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const { savedArticleIds } = useSavedArticles();
   const savedArticleIdSet = useMemo(() => new Set(savedArticleIds), [savedArticleIds]);
 
   useEffect(() => {
-    setFilters(filtersFromQuery(route?.queryString, includeSection));
+    const nextFilters = filtersFromQuery(route?.queryString, includeSection);
+    setFilters(nextFilters);
+    setDateRangeOpen(Boolean(nextFilters.from || nextFilters.to));
   }, [route?.queryString, includeSection]);
 
   useEffect(() => {
@@ -70,12 +107,8 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
     setVisibleCount(PAGE_SIZE);
   }, [filters, includeSection]);
 
-  const availableDates = useMemo(
-    () => [...new Set(articles.map((article) => article.date))].sort().reverse(),
-    [articles],
-  );
   const availableMonths = useMemo(
-    () => [...new Set(articles.map((article) => article.date.slice(0, 7)))].sort().reverse(),
+    () => [...new Set(articles.map((article) => article.date.slice(5, 7)))].sort((a, b) => Number(a) - Number(b)),
     [articles],
   );
   const availableYears = useMemo(
@@ -85,57 +118,58 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
 
   const filteredArticles = useMemo(() => {
     const normalizedQuery = filters.query.trim().toLowerCase();
-    const exactDate = filters.dateChoice && filters.dateChoice !== "custom" && !filters.dateChoice.includes(":")
-      ? filters.dateChoice
-      : "";
-    const selectedMonth = filters.dateChoice.startsWith("month:") ? filters.dateChoice.slice(6) : "";
-    const selectedYear = filters.dateChoice.startsWith("year:") ? filters.dateChoice.slice(5) : "";
 
     return articles
       .filter((article) => {
         const haystack = `${article.title} ${article.dek} ${article.author} ${article.tags.join(" ")} ${article.location}`.toLowerCase();
         return (
-          (!normalizedQuery || haystack.includes(normalizedQuery)) &&
-          (!filters.savedOnly || savedArticleIdSet.has(article.id)) &&
-          (!includeSection || !filters.section || article.section === filters.section) &&
-          (!exactDate || article.date === exactDate) &&
-          (!selectedMonth || article.date.startsWith(`${selectedMonth}-`)) &&
-          (!selectedYear || article.date.startsWith(`${selectedYear}-`)) &&
-          (filters.dateChoice !== "custom" || !filters.from || article.date >= filters.from) &&
-          (filters.dateChoice !== "custom" || !filters.to || article.date <= filters.to)
+          (!normalizedQuery || haystack.includes(normalizedQuery))
+          && (!filters.savedOnly || savedArticleIdSet.has(article.id))
+          && (!includeSection || !filters.section || article.section === filters.section)
+          && (!filters.month || article.date.slice(5, 7) === filters.month)
+          && (!filters.year || article.date.startsWith(`${filters.year}-`))
+          && (!filters.from || article.date >= filters.from)
+          && (!filters.to || article.date <= filters.to)
         );
       })
-      .sort((a, b) => {
-        const dateDifference = storyTimestamp(b) - storyTimestamp(a);
-        const direction = filters.sort === "oldest" ? -1 : 1;
-        return dateDifference ? dateDifference * direction : a.priority - b.priority;
-      });
+      .sort((a, b) => compareArticles(a, b, filters.sort, normalizedQuery));
   }, [articles, filters, includeSection, savedArticleIdSet]);
 
   const visibleArticles = filteredArticles.slice(0, visibleCount);
   const hasFilters = Boolean(
-    filters.query || filters.section || filters.dateChoice || filters.from || filters.to || filters.sort === "oldest" || filters.savedOnly,
+    filters.query || filters.section || filters.month || filters.year || filters.from || filters.to
+      || filters.sort !== DEFAULT_SORT || filters.savedOnly,
   );
 
   function setFilter(name, value) {
-    setFilters((current) => ({
-      ...current,
-      [name]: value,
-      ...(name === "dateChoice" && value !== "custom" ? { from: "", to: "" } : {}),
-    }));
+    setFilters((current) => ({ ...current, [name]: value }));
+  }
+
+  function setCalendarFilter(name, value) {
+    setFilters((current) => ({ ...current, [name]: value, from: "", to: "" }));
+    if (value) setDateRangeOpen(false);
+  }
+
+  function setRangeFilter(name, value) {
+    setFilters((current) => ({ ...current, [name]: value, month: "", year: "" }));
   }
 
   function clearFilters() {
-    setFilters({ query: "", section: "", dateChoice: "", from: "", to: "", sort: "newest", savedOnly: false });
+    setFilters({ query: "", section: "", month: "", year: "", from: "", to: "", sort: DEFAULT_SORT, savedOnly: false });
+    setDateRangeOpen(false);
   }
 
   return (
     <>
       <div className="search-panel story-browser" role="search" aria-label={title}>
         <div className="story-browser-heading">
-          <h3>{title}</h3>
-          {hasFilters ? <button className="filter-clear" type="button" onClick={clearFilters}>Clear all</button> : null}
+          <div>
+            <span className="story-browser-kicker">Story finder</span>
+            <h3>{title}</h3>
+          </div>
+          {hasFilters ? <button className="filter-clear" type="button" onClick={clearFilters}>Reset all</button> : null}
         </div>
+
         <div className="archive-controls">
           <label className="form-field story-search-field">
             <span>{includeSection ? "Search all stories" : "Search this section"}</span>
@@ -149,7 +183,7 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
           </label>
           {includeSection ? (
             <label className="form-field">
-              <span>Section</span>
+              <span>Section <small>Optional</small></span>
               <select className="section-select" value={filters.section} onChange={(event) => setFilter("section", event.target.value)}>
                 <option value="">All sections</option>
                 {sections.map((item) => <option value={item.id} key={item.id}>{item.label}</option>)}
@@ -157,54 +191,65 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
             </label>
           ) : null}
           <label className="form-field">
-            <span>Published</span>
-            <select className="date-select" value={filters.dateChoice} onChange={(event) => setFilter("dateChoice", event.target.value)}>
-              <option value="">Any date</option>
-              <optgroup label="Browse by month">
-                {availableMonths.map((month) => <option value={`month:${month}`} key={month}>{formatMonth(month)}</option>)}
-              </optgroup>
-              <optgroup label="Browse by year">
-                {availableYears.map((year) => <option value={`year:${year}`} key={year}>{year}</option>)}
-              </optgroup>
-              <optgroup label="Exact publication date">
-                {availableDates.map((date) => <option value={date} key={date}>{formatDate(date)}</option>)}
-              </optgroup>
-              <option value="custom">Custom range…</option>
+            <span>Month <small>Optional</small></span>
+            <select className="date-select" value={filters.month} onChange={(event) => setCalendarFilter("month", event.target.value)}>
+              <option value="">Any month</option>
+              {availableMonths.map((month) => <option value={month} key={month}>{monthLabel(month)}</option>)}
             </select>
           </label>
           <label className="form-field">
-            <span>Order</span>
+            <span>Year <small>Optional</small></span>
+            <select className="date-select" value={filters.year} onChange={(event) => setCalendarFilter("year", event.target.value)}>
+              <option value="">Any year</option>
+              {availableYears.map((year) => <option value={year} key={year}>{year}</option>)}
+            </select>
+          </label>
+          <label className="form-field">
+            <span>Sort by</span>
             <select className="sort-select" value={filters.sort} onChange={(event) => setFilter("sort", event.target.value)}>
-              <option value="newest">Newest first</option>
-              <option value="oldest">Oldest first</option>
+              {SORT_OPTIONS.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
             </select>
           </label>
         </div>
-        {filters.dateChoice === "custom" ? (
-          <div className="date-range-controls">
+
+        <div className="story-browser-utility">
+          <button
+            className="date-range-toggle"
+            type="button"
+            aria-expanded={dateRangeOpen}
+            aria-controls="story-date-range"
+            onClick={() => setDateRangeOpen((open) => !open)}
+          >
+            {dateRangeOpen ? "Hide date range" : "Use a custom date range"}
+          </button>
+          {includeSection ? (
+            <label className="saved-stories-filter">
+              <input
+                type="checkbox"
+                checked={filters.savedOnly}
+                onChange={(event) => setFilter("savedOnly", event.target.checked)}
+              />
+              <span>Saved stories only</span>
+              <small>{savedArticleIds.length}</small>
+            </label>
+          ) : null}
+        </div>
+
+        {dateRangeOpen ? (
+          <div className="date-range-controls" id="story-date-range">
             <label className="form-field">
               <span>From</span>
-              <input className="date-input" type="date" value={filters.from} max={filters.to || undefined} onChange={(event) => setFilter("from", event.target.value)} />
+              <input className="date-input" type="date" value={filters.from} max={filters.to || undefined} onChange={(event) => setRangeFilter("from", event.target.value)} />
             </label>
             <label className="form-field">
               <span>Through</span>
-              <input className="date-input" type="date" value={filters.to} min={filters.from || undefined} onChange={(event) => setFilter("to", event.target.value)} />
+              <input className="date-input" type="date" value={filters.to} min={filters.from || undefined} onChange={(event) => setRangeFilter("to", event.target.value)} />
             </label>
           </div>
         ) : null}
-        {includeSection ? (
-          <label className="saved-stories-filter">
-            <input
-              type="checkbox"
-              checked={filters.savedOnly}
-              onChange={(event) => setFilter("savedOnly", event.target.checked)}
-            />
-            <span>Saved stories only</span>
-            <small>{savedArticleIds.length}</small>
-          </label>
-        ) : null}
-        <p className="archive-result-count" role="status">
-          {filteredArticles.length} {filteredArticles.length === 1 ? "story" : "stories"}
+
+        <p className="archive-result-count" role="status" aria-live="polite">
+          <strong>{filteredArticles.length}</strong> {filteredArticles.length === 1 ? "story" : "stories"}
           {filteredArticles.length > visibleArticles.length ? ` · showing ${visibleArticles.length}` : ""}
         </p>
       </div>
