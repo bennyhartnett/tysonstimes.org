@@ -5736,14 +5736,18 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
 
 /* Reader-scale layout and archive controls. */
 @media screen {
+  .page-shell {
+    --site-edge-inset: clamp(40px, 8vw, 96px);
+  }
+
   .wide-shell {
-    width: min(1240px, calc(100% - 48px));
+    width: min(1240px, calc(100% - var(--site-edge-inset)));
   }
 
   .content-shell,
   #main-content > .section,
   #main-content > .lead-grid {
-    width: min(1040px, calc(100% - 40px));
+    width: min(1040px, calc(100% - var(--site-edge-inset)));
   }
 
   .home-top-package,
@@ -5754,7 +5758,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
   .home-four-column,
   .home-visual-section,
   .home-briefing-band {
-    width: min(1100px, calc(100% - 40px));
+    width: min(1100px, calc(100% - var(--site-edge-inset)));
   }
 
   .page-shell:is(
@@ -5765,7 +5769,17 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
     .page-shell--privacy,
     .page-shell--standards
   ) #main-content > .section {
-    width: min(920px, calc(100% - 40px));
+    width: min(920px, calc(100% - var(--site-edge-inset)));
+  }
+
+  .article-breadcrumbs,
+  .article-topper {
+    width: min(900px, calc(100% - var(--site-edge-inset)));
+  }
+
+  .page-shell .article-hero,
+  .article-reading-layout {
+    width: min(1040px, calc(100% - var(--site-edge-inset)));
   }
 
   .page-shell #main-content .story-browser {
@@ -5979,7 +5993,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
     .page-shell--privacy,
     .page-shell--standards
   ) #main-content > .section {
-    width: calc(100% - 28px);
+    width: calc(100% - var(--site-edge-inset));
   }
 
   .page-shell #main-content .story-browser {
