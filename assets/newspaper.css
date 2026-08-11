@@ -5008,12 +5008,15 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
     display: flex;
     align-items: center;
     justify-content: center;
+    column-gap: 0.32em;
     font-size: 0.78rem;
   }
 
   .site-brand p strong {
+    border: 0;
     color: var(--site-blue);
     font-weight: 650;
+    text-decoration: none;
   }
 
   .site-masthead-meta {
@@ -5270,17 +5273,7 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
   }
 
   .site-masthead::before {
-    position: absolute;
-    inset: 16px 14% 12px;
-    z-index: -1;
-    background:
-      linear-gradient(116deg, transparent 0 39%, color-mix(in srgb, var(--brand-civic) 10%, transparent) 39.2% 39.65%, transparent 39.8%),
-      repeating-linear-gradient(90deg, transparent 0 66px, color-mix(in srgb, var(--brand-rule) 28%, transparent) 67px 68px),
-      repeating-linear-gradient(0deg, transparent 0 28px, color-mix(in srgb, var(--brand-rule) 22%, transparent) 29px 30px);
-    content: "";
-    mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
-    opacity: 0.55;
-    pointer-events: none;
+    display: none;
   }
 
   .site-brand-kicker {
