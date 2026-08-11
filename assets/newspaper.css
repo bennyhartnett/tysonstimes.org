@@ -5352,21 +5352,6 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
     text-shadow: 0 1px 0 var(--brand-paper-light);
   }
 
-  .site-wordmark-accent {
-    position: relative;
-  }
-
-  .site-wordmark-accent::after {
-    position: absolute;
-    right: 0.03em;
-    bottom: -0.15em;
-    left: 0.08em;
-    height: 0.035em;
-    background: currentColor;
-    content: "";
-    opacity: 0.75;
-  }
-
   .site-wordmark--compact {
     align-items: center;
     gap: 8px;
@@ -5378,11 +5363,6 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
     height: 25px;
     flex-basis: 25px;
     font-size: 0.66rem;
-  }
-
-  .site-wordmark--compact .site-wordmark-accent::after,
-  .site-footer-mark .site-wordmark-accent::after {
-    display: none;
   }
 
   .site-brand p {
