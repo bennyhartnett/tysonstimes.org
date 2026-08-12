@@ -10,11 +10,18 @@ const allowedTags = new Set([
   "ol",
   "p",
   "strong",
+  "table",
+  "tbody",
+  "td",
+  "th",
+  "thead",
+  "tr",
   "ul",
 ]);
 
 const tagPattern = /<\/?\s*([a-z0-9-]+)/gi;
 const hrefPattern = /\shref\s*=\s*(["'])(.*?)\1/gi;
+const stylePattern = /\sstyle\s*=\s*(["'])(.*?)\1/gi;
 
 export function isSafeArticleUrl(value) {
   const trimmed = String(value || "").trim();
@@ -43,8 +50,21 @@ export function validateArticleHtml(html, articleId = "unknown") {
     throw new Error(`Article '${articleId}' contains unsupported HTML tags: ${[...invalidTags].join(", ")}`);
   }
 
-  if (/\s(?:on[a-z]+|style|srcdoc)\s*=/i.test(source)) {
+  if (/\s(?:on[a-z]+|srcdoc)\s*=/i.test(source)) {
     throw new Error(`Article '${articleId}' contains unsafe HTML attributes.`);
+  }
+
+  stylePattern.lastIndex = 0;
+  const sourceWithoutQuotedStyles = source.replace(stylePattern, "");
+  if (/\sstyle\s*=/i.test(sourceWithoutQuotedStyles)) {
+    throw new Error(`Article '${articleId}' contains unsafe HTML attributes.`);
+  }
+
+  stylePattern.lastIndex = 0;
+  while ((match = stylePattern.exec(source))) {
+    if (!/^text-align\s*:\s*(?:left|right|center)\s*;?$/i.test(match[2].trim())) {
+      throw new Error(`Article '${articleId}' contains unsafe HTML attributes.`);
+    }
   }
 
   hrefPattern.lastIndex = 0;

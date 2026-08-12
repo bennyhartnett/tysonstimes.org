@@ -3004,6 +3004,31 @@ body:has(.page-shell)::after,
   line-height: 1.35;
 }
 
+.page-shell .article-reading-layout .article-prose table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 1.7em 0;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-family: var(--site-sans);
+  font-size: 0.78em;
+  line-height: 1.4;
+}
+
+.page-shell .article-reading-layout .article-prose :is(th, td) {
+  min-width: 7rem;
+  border: 1px solid var(--site-line);
+  padding: 9px 11px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.page-shell .article-reading-layout .article-prose th {
+  background: var(--site-subtle);
+  font-weight: 800;
+}
+
 .article-main .tag-row { margin-top: 36px; border-top: 1px solid var(--site-line); padding-top: 18px; }
 .article-main .tag { border: 0; border-radius: 999px; padding: 6px 10px; color: var(--site-muted); background: var(--site-subtle); font-family: var(--site-sans); font-size: 0.64rem; font-weight: 700; text-transform: none; }
 
