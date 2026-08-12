@@ -3,6 +3,7 @@ import { directoryNavGroups, primaryNavLinks } from "../data/pages.js";
 import { site } from "../data/content.js";
 import { pagePath, sectionPath } from "../routing.js";
 import { usePublicationPreferences } from "../hooks/usePublicationPreferences.js";
+import { weatherLabel } from "../weather.js";
 import { HoverLink } from "./HoverLink.jsx";
 
 function navHref(item) {
@@ -16,17 +17,6 @@ function formatFullDate(date) {
     day: "numeric",
     year: "numeric",
   });
-}
-
-function weatherLabel(code) {
-  if (code === 0) return "Clear";
-  if (code <= 2) return "Partly cloudy";
-  if (code === 3) return "Cloudy";
-  if (code === 45 || code === 48) return "Foggy";
-  if (code >= 51 && code <= 67) return "Rain";
-  if (code >= 71 && code <= 86) return "Snow";
-  if (code >= 95) return "Storms";
-  return "";
 }
 
 function useMastheadInfo() {
