@@ -1853,8 +1853,8 @@ body:has(.page-shell)::after,
 }
 
 .content-shell,
-#main-content > .section,
-#main-content > .lead-grid {
+#main-content > .route-stage > .section,
+#main-content > .route-stage > .lead-grid {
   width: min(1080px, calc(100% - 32px));
   margin-inline: auto;
 }
@@ -3156,7 +3156,7 @@ html[data-site-theme="dark"] .site-footer small { color: var(--site-muted); }
 .ops-control-grid--display .ops-toggle-row { border: 1px solid #e2e7ee; border-radius: 11px; background: #fbfcfe; }
 
 /* Existing inner pages inherit the same editorial system. */
-#main-content > .section {
+#main-content > .route-stage > .section {
   margin-top: 0;
   border-top: 0;
   border-bottom: 1px solid var(--site-ink);
@@ -3253,8 +3253,8 @@ html[data-site-theme="dark"] .site-footer small { color: var(--site-muted); }
 @media (max-width: 600px) {
   .wide-shell,
   .content-shell,
-  #main-content > .section,
-  #main-content > .lead-grid,
+  #main-content > .route-stage > .section,
+  #main-content > .route-stage > .lead-grid,
   .home-top-package,
   .home-secondary-package,
   .home-category,
@@ -3707,7 +3707,7 @@ html[data-site-theme="dark"] .site-footer small { color: var(--site-muted); }
 }
 
 /* Complete inner-page migration to the metropolitan editorial system. */
-.page-shell:not(.page-shell--home):not(.page-shell--article) #main-content > .section:first-child {
+.page-shell:not(.page-shell--home):not(.page-shell--article) #main-content > .route-stage > .section:first-child {
   padding-top: clamp(50px, 7vw, 82px);
 }
 
@@ -4444,7 +4444,7 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
 }
 
 @media (max-width: 620px) {
-  .page-shell:not(.page-shell--home):not(.page-shell--article) #main-content > .section:first-child {
+  .page-shell:not(.page-shell--home):not(.page-shell--article) #main-content > .route-stage > .section:first-child {
     padding-top: 40px;
   }
 
@@ -4569,8 +4569,8 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
   }
 
   .content-shell,
-  #main-content > .section,
-  #main-content > .lead-grid,
+  #main-content > .route-stage > .section,
+  #main-content > .route-stage > .lead-grid,
   .home-top-package,
   .home-secondary-package,
   .home-category,
@@ -4846,8 +4846,8 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
 
 @media screen and (max-width: 850px) {
   .content-shell,
-  #main-content > .section,
-  #main-content > .lead-grid,
+  #main-content > .route-stage > .section,
+  #main-content > .route-stage > .lead-grid,
   .home-top-package,
   .home-secondary-package,
   .home-category,
@@ -4866,8 +4866,8 @@ html[data-site-theme="dark"] .page-shell #main-content .newsletter-preview {
 
 @media screen and (max-width: 600px) {
   .content-shell,
-  #main-content > .section,
-  #main-content > .lead-grid,
+  #main-content > .route-stage > .section,
+  #main-content > .route-stage > .lead-grid,
   .home-top-package,
   .home-secondary-package,
   .home-category,
@@ -5718,8 +5718,8 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
   }
 
   .content-shell,
-  #main-content > .section,
-  #main-content > .lead-grid {
+  #main-content > .route-stage > .section,
+  #main-content > .route-stage > .lead-grid {
     width: min(1040px, calc(100% - var(--site-edge-inset)));
   }
 
@@ -5730,7 +5730,8 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
   .home-latest-stream,
   .home-four-column,
   .home-visual-section,
-  .home-briefing-band {
+  .home-briefing-band,
+  .home-newsletter {
     width: min(1100px, calc(100% - var(--site-edge-inset)));
   }
 
@@ -5741,7 +5742,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
     .page-shell--corrections,
     .page-shell--privacy,
     .page-shell--standards
-  ) #main-content > .section {
+  ) #main-content > .route-stage > .section {
     width: min(920px, calc(100% - var(--site-edge-inset)));
   }
 
@@ -5948,8 +5949,8 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
 @media screen and (max-width: 600px) {
   .wide-shell,
   .content-shell,
-  #main-content > .section,
-  #main-content > .lead-grid,
+  #main-content > .route-stage > .section,
+  #main-content > .route-stage > .lead-grid,
   .home-top-package,
   .home-secondary-package,
   .home-category,
@@ -5958,6 +5959,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
   .home-four-column,
   .home-visual-section,
   .home-briefing-band,
+  .home-newsletter,
   .page-shell:is(
     .page-shell--about,
     .page-shell--briefs,
@@ -5965,7 +5967,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
     .page-shell--corrections,
     .page-shell--privacy,
     .page-shell--standards
-  ) #main-content > .section {
+  ) #main-content > .route-stage > .section {
     width: calc(100% - var(--site-edge-inset));
   }
 
@@ -6001,7 +6003,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
 
 /* Section pages prioritize current coverage over search controls. */
 @media screen {
-  .page-shell:not(.page-shell--home):not(.page-shell--article) #main-content > .section.section-page:first-child {
+  .page-shell:not(.page-shell--home):not(.page-shell--article) #main-content > .route-stage > .section.section-page:first-child {
     padding-top: clamp(22px, 2.5vw, 32px);
   }
 
