@@ -1,5 +1,6 @@
 import { createContext, startTransition, useContext, useEffect, useMemo, useState } from "react";
 import { articles as initialArticles, contentUrl } from "./content.js";
+import { applyArticleOverrides } from "./articleOverrides.js";
 
 const ContentContext = createContext({
   articles: initialArticles,
@@ -32,7 +33,7 @@ export function ContentProvider({ children }) {
         })
         .then((articles) => {
           if (!validArticleIndex(articles)) throw new Error("Content feed returned an invalid article index");
-          setState({ articles, source: "live", complete: true, loading: false });
+          setState({ articles: articles.map(applyArticleOverrides), source: "live", complete: true, loading: false });
         })
         .catch((error) => {
           if (error.name !== "AbortError") {

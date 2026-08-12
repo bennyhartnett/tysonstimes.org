@@ -3,8 +3,9 @@ function ResponsiveImage({ image, alt, eager = false, sizes = "(max-width: 700px
 
   return (
     <picture>
-      <source type="image/webp" srcSet={image.srcSet} sizes={sizes} />
+      {image.srcSet ? <source type={image.srcSetType || "image/webp"} srcSet={image.srcSet} sizes={sizes} /> : null}
       <img
+        className={image.fit === "contain" ? "responsive-image--contain" : undefined}
         src={image.src}
         alt={alt ?? image.alt}
         width={image.width}

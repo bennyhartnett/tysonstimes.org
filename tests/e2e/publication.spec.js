@@ -26,6 +26,19 @@ test("front page, menu, and newsroom search are usable", async ({ page }) => {
   expect(errors).toEqual([]);
 });
 
+test("front-page photos preserve their full image inside consistent frames", async ({ page }) => {
+  await page.goto("/#/");
+
+  const leadFrame = page.locator(".home-lead-visual .mini-photo");
+  const leadImage = leadFrame.locator("img");
+  await expect(leadImage).toHaveAttribute("src", /Rep\._Don_Beyer/);
+  await expect(leadImage).toHaveCSS("object-fit", "contain");
+
+  const box = await leadFrame.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box.width / box.height).toBeCloseTo(16 / 9, 1);
+});
+
 test("article tools save and copy a canonical link", async ({ page, context }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto(`/#/article/${articleIndex[0].id}`);
