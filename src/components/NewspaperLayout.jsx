@@ -402,17 +402,8 @@ function Wordmark({ compact = false, inactive = false }) {
       aria-hidden={inactive || undefined}
       tabIndex={inactive ? -1 : undefined}
     >
-      {compact ? <BrandMark /> : null}
       <span>Tysons</span>{" "}
       <span className="site-wordmark-accent">Times</span>
     </HoverLink>
-  );
-}
-
-function BrandMark() {
-  return (
-    <span className="site-brand-mark" aria-hidden="true">
-      <span>TT</span>
-    </span>
   );
 }
