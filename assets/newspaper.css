@@ -6002,16 +6002,23 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
 /* Section pages prioritize current coverage over search controls. */
 @media screen {
   .page-shell:not(.page-shell--home):not(.page-shell--article) #main-content > .section.section-page:first-child {
-    padding-top: clamp(28px, 3vw, 40px);
+    padding-top: clamp(22px, 2.5vw, 32px);
   }
 
   .page-shell #main-content .section-page .page-title {
-    margin-bottom: 10px;
-    font-size: clamp(3.25rem, 4.5vw, 3.625rem);
+    margin-bottom: 6px;
+    font-size: clamp(2.5rem, 3.6vw, 3rem);
+    letter-spacing: -0.035em;
+    line-height: 1;
   }
 
   .page-shell #main-content .section-page .page-title + .deck {
-    margin-bottom: 16px;
+    max-width: 780px;
+    margin-bottom: 12px;
+    color: var(--site-muted);
+    font-size: clamp(0.95rem, 1.35vw, 1.08rem);
+    font-style: italic;
+    line-height: 1.4;
   }
 
   .page-shell #main-content .story-browser.story-browser--compact {
@@ -6097,7 +6104,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
 
 @media screen and (max-width: 600px) {
   .page-shell #main-content .section-page .page-title {
-    font-size: clamp(2.7rem, 13vw, 3.4rem);
+    font-size: clamp(2.4rem, 11vw, 3rem);
   }
 
   .page-shell #main-content .story-browser--compact .archive-controls,
