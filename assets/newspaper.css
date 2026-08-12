@@ -5471,11 +5471,11 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
   }
 
   .site-header::before {
-    height: 58px;
+    height: 50px;
   }
 
   .site-header .site-utility {
-    height: 58px;
+    height: 50px;
   }
 
   .site-header .site-utility-brand,
@@ -5488,7 +5488,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
 
   .site-masthead {
     height: auto;
-    min-height: 164px;
+    min-height: 128px;
     max-height: none;
     overflow: visible;
     opacity: 1;
@@ -5501,7 +5501,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
   }
 
   .site-section-row {
-    height: 51px;
+    height: 44px;
   }
 
   .site-compact-header {
@@ -5670,7 +5670,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
 
 @media screen and (max-width: 900px) {
   .site-masthead {
-    min-height: 140px;
+    min-height: 118px;
   }
 }
 
@@ -5681,7 +5681,7 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
   }
 
   .site-masthead {
-    min-height: 116px;
+    min-height: 100px;
   }
 
   .site-compact-header .site-utility {
@@ -5996,5 +5996,116 @@ html[data-site-theme="dark"] .site-name .site-wordmark {
 
   .page-shell #main-content .story-browser .date-range-controls {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Section pages prioritize current coverage over search controls. */
+@media screen {
+  .page-shell:not(.page-shell--home):not(.page-shell--article) #main-content > .section.section-page:first-child {
+    padding-top: clamp(28px, 3vw, 40px);
+  }
+
+  .page-shell #main-content .section-page .page-title {
+    margin-bottom: 10px;
+    font-size: clamp(3.25rem, 4.5vw, 3.625rem);
+  }
+
+  .page-shell #main-content .section-page .page-title + .deck {
+    margin-bottom: 16px;
+  }
+
+  .page-shell #main-content .story-browser.story-browser--compact {
+    margin: 0 0 20px;
+    border-top-width: 2px;
+    padding: 14px 16px 12px;
+    box-shadow: none;
+  }
+
+  .page-shell #main-content .story-browser--compact .story-browser-heading {
+    margin-bottom: 10px;
+    border: 0;
+    padding: 0;
+  }
+
+  .page-shell #main-content .story-browser--compact .story-browser-heading h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.15;
+  }
+
+  .page-shell #main-content .story-browser--compact .archive-controls,
+  .page-shell #main-content .story-browser--compact:not(:has(.section-select)) .archive-controls {
+    grid-template-columns: minmax(260px, 2fr) repeat(3, minmax(108px, 0.72fr));
+    gap: 8px;
+  }
+
+  .page-shell #main-content .story-browser--compact .form-field > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .page-shell #main-content .story-browser--compact :is(.search-input, .section-select, .date-select, .sort-select, .date-input) {
+    min-height: 38px;
+    padding: 8px 10px;
+  }
+
+  .page-shell #main-content .story-browser--compact .story-browser-utility {
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .page-shell #main-content .story-browser--compact .archive-result-count {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    font-size: 0.7rem;
+  }
+
+  .page-shell #main-content .story-browser--compact .archive-result-count strong {
+    font-size: inherit;
+  }
+
+  .page-shell #main-content .story-browser--compact .date-range-toggle {
+    min-height: 0;
+    border: 0;
+    padding: 2px 0;
+    color: var(--site-blue);
+    background: transparent;
+  }
+
+  .page-shell #main-content .story-browser--compact .date-range-controls {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+}
+
+@media screen and (max-width: 960px) {
+  .page-shell #main-content .story-browser--compact .archive-controls,
+  .page-shell #main-content .story-browser--compact:not(:has(.section-select)) .archive-controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-shell #main-content .story-browser--compact .story-search-field {
+    grid-column: 1 / -1;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .page-shell #main-content .section-page .page-title {
+    font-size: clamp(2.7rem, 13vw, 3.4rem);
+  }
+
+  .page-shell #main-content .story-browser--compact .archive-controls,
+  .page-shell #main-content .story-browser--compact:not(:has(.section-select)) .archive-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .page-shell #main-content .story-browser--compact .story-search-field {
+    grid-column: auto;
   }
 }

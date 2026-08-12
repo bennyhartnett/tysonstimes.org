@@ -11,13 +11,13 @@ export function SectionPage({ route }) {
   const otherSections = sections.filter((item) => item.id !== section.id);
 
   return (
-    <section className="section">
+    <section className="section section-page">
       <div className="section-layout">
         <div>
           <h1 className="page-title">{section.label}</h1>
           <p className="deck">{section.description}</p>
           {articles.length ? (
-            <StoryBrowser articles={articles} route={route} title={`Browse ${section.label}`} key={section.id} />
+            <StoryBrowser articles={articles} route={route} title={`Browse ${section.label}`} compact key={section.id} />
           ) : <EmptyArticles />}
         </div>
         <aside className="article-tools">

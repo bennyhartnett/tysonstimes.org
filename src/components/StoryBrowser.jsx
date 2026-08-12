@@ -88,7 +88,7 @@ function compareArticles(a, b, sort, normalizedQuery) {
   return difference || newestDifference || a.priority - b.priority;
 }
 
-export function StoryBrowser({ articles, route, includeSection = false, title = "Find stories" }) {
+export function StoryBrowser({ articles, route, includeSection = false, compact = false, title = "Find stories" }) {
   const initialFilters = filtersFromQuery(route?.queryString, includeSection);
   const [filters, setFilters] = useState(initialFilters);
   const [dateRangeOpen, setDateRangeOpen] = useState(Boolean(initialFilters.from || initialFilters.to));
@@ -159,12 +159,19 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
     setDateRangeOpen(false);
   }
 
+  const resultSummary = (
+    <p className="archive-result-count" role="status" aria-live="polite">
+      <strong>{filteredArticles.length}</strong> {filteredArticles.length === 1 ? "story" : "stories"}
+      {filteredArticles.length > visibleArticles.length ? ` · showing ${visibleArticles.length}` : ""}
+    </p>
+  );
+
   return (
     <>
-      <div className="search-panel story-browser" role="search" aria-label={title}>
+      <div className={`search-panel story-browser${compact ? " story-browser--compact" : ""}`} role="search" aria-label={title}>
         <div className="story-browser-heading">
           <div>
-            <span className="story-browser-kicker">Story finder</span>
+            {!compact ? <span className="story-browser-kicker">Story finder</span> : null}
             <h3>{title}</h3>
           </div>
           {hasFilters ? <button className="filter-clear" type="button" onClick={clearFilters}>Reset all</button> : null}
@@ -176,6 +183,7 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
             <input
               className="search-input"
               type="search"
+              aria-label={includeSection ? "Search all stories" : "Search this section"}
               placeholder="Headline, topic, author, or place"
               value={filters.query}
               onChange={(event) => setFilter("query", event.target.value)}
@@ -184,7 +192,7 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
           {includeSection ? (
             <label className="form-field">
               <span>Section <small>Optional</small></span>
-              <select className="section-select" value={filters.section} onChange={(event) => setFilter("section", event.target.value)}>
+              <select className="section-select" aria-label="Section" value={filters.section} onChange={(event) => setFilter("section", event.target.value)}>
                 <option value="">All sections</option>
                 {sections.map((item) => <option value={item.id} key={item.id}>{item.label}</option>)}
               </select>
@@ -192,27 +200,28 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
           ) : null}
           <label className="form-field">
             <span>Month <small>Optional</small></span>
-            <select className="date-select" value={filters.month} onChange={(event) => setCalendarFilter("month", event.target.value)}>
+            <select className="date-select" aria-label="Month" value={filters.month} onChange={(event) => setCalendarFilter("month", event.target.value)}>
               <option value="">Any month</option>
               {availableMonths.map((month) => <option value={month} key={month}>{monthLabel(month)}</option>)}
             </select>
           </label>
           <label className="form-field">
             <span>Year <small>Optional</small></span>
-            <select className="date-select" value={filters.year} onChange={(event) => setCalendarFilter("year", event.target.value)}>
+            <select className="date-select" aria-label="Year" value={filters.year} onChange={(event) => setCalendarFilter("year", event.target.value)}>
               <option value="">Any year</option>
               {availableYears.map((year) => <option value={year} key={year}>{year}</option>)}
             </select>
           </label>
           <label className="form-field">
             <span>Sort by</span>
-            <select className="sort-select" value={filters.sort} onChange={(event) => setFilter("sort", event.target.value)}>
+            <select className="sort-select" aria-label="Sort stories" value={filters.sort} onChange={(event) => setFilter("sort", event.target.value)}>
               {SORT_OPTIONS.map(([value, label]) => <option value={value} key={value}>{label}</option>)}
             </select>
           </label>
         </div>
 
         <div className="story-browser-utility">
+          {compact ? resultSummary : null}
           <button
             className="date-range-toggle"
             type="button"
@@ -220,7 +229,9 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
             aria-controls="story-date-range"
             onClick={() => setDateRangeOpen((open) => !open)}
           >
-            {dateRangeOpen ? "Hide date range" : "Use a custom date range"}
+            {compact
+              ? (dateRangeOpen ? "Hide advanced filters" : "Advanced filters")
+              : (dateRangeOpen ? "Hide date range" : "Use a custom date range")}
           </button>
           {includeSection ? (
             <label className="saved-stories-filter">
@@ -248,10 +259,7 @@ export function StoryBrowser({ articles, route, includeSection = false, title = 
           </div>
         ) : null}
 
-        <p className="archive-result-count" role="status" aria-live="polite">
-          <strong>{filteredArticles.length}</strong> {filteredArticles.length === 1 ? "story" : "stories"}
-          {filteredArticles.length > visibleArticles.length ? ` · showing ${visibleArticles.length}` : ""}
-        </p>
+        {!compact ? resultSummary : null}
       </div>
 
       <div className="card-grid" id="archiveGrid">
