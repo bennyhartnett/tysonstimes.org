@@ -181,7 +181,7 @@ function layout(meta, body, appHref) {
     ${meta.imageUrl ? `<meta property="og:image" content="${escapeHtml(meta.imageUrl)}" />` : ""}
     ${meta.imageAlt ? `<meta property="og:image:alt" content="${escapeHtml(meta.imageAlt)}" />` : ""}
     <link rel="canonical" href="${escapeHtml(meta.canonicalUrl)}" />
-    <link rel="preconnect" href="https://content.tysonstimes.org" crossorigin />
+    <link rel="preconnect" href="https://bennyhartnett.github.io" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" type="application/rss+xml" href="/feed.xml" title="Tysons Times RSS" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="Tysons Times LLM index" />

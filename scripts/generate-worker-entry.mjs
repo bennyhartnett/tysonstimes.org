@@ -4,7 +4,7 @@ const outputDirectory = new URL("../dist/server/", import.meta.url);
 const outputFile = new URL("index.js", outputDirectory);
 
 const worker = `const SECURITY_HEADERS = {
-  "content-security-policy": "default-src 'self'; base-uri 'self'; connect-src 'self' https://api.open-meteo.com https://content.tysonstimes.org; font-src 'self'; form-action 'self' https://github.com; frame-ancestors 'none'; img-src 'self' data: https://content.tysonstimes.org; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests",
+  "content-security-policy": "default-src 'self'; base-uri 'self'; connect-src 'self' https://api.open-meteo.com https://bennyhartnett.github.io; font-src 'self'; form-action 'self' https://github.com; frame-ancestors 'none'; img-src 'self' data: https://bennyhartnett.github.io; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests",
   "permissions-policy": "camera=(), geolocation=(), microphone=()",
   "referrer-policy": "strict-origin-when-cross-origin",
   "strict-transport-security": "max-age=31536000; includeSubDomains",
