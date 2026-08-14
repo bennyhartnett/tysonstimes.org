@@ -3956,6 +3956,11 @@ html[data-site-theme="dark"] .site-footer small { color: var(--site-muted); }
   object-position: center;
 }
 
+.page-shell #main-content .home-lead-visual img {
+  object-fit: cover;
+  object-position: center;
+}
+
 .page-shell #main-content .card-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 30px 22px;
