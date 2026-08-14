@@ -39,6 +39,30 @@ test("front-page photos preserve their full image inside consistent frames", asy
   expect(box.width / box.height).toBeCloseTo(16 / 9, 1);
 });
 
+test("each article is placed only once on the front page", async ({ page }) => {
+  await page.goto("/#/");
+
+  const articleIds = await page.locator("[data-article-id]").evaluateAll((placements) => (
+    placements.map((placement) => placement.dataset.articleId)
+  ));
+
+  expect(articleIds.length).toBeGreaterThan(0);
+  expect(new Set(articleIds).size).toBe(articleIds.length);
+});
+
+test("section pages do not repeat story cards in a sidebar index", async ({ page }) => {
+  await page.goto("/#/section/local");
+  await expect(page.getByRole("heading", { level: 1, name: "Local" })).toBeVisible();
+
+  const articleIds = await page.locator("[data-article-id]").evaluateAll((placements) => (
+    placements.map((placement) => placement.dataset.articleId)
+  ));
+
+  expect(articleIds.length).toBeGreaterThan(0);
+  expect(new Set(articleIds).size).toBe(articleIds.length);
+  await expect(page.getByRole("heading", { name: "Section Index" })).toHaveCount(0);
+});
+
 test("article tools save and copy a canonical link", async ({ page, context }) => {
   await context.grantPermissions(["clipboard-read", "clipboard-write"]);
   await page.goto(`/#/article/${articleIndex[0].id}`);

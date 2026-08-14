@@ -38,7 +38,7 @@ export function HeadlineList({ articles, pageSize }) {
     <>
       <ul className="headline-list" id={listId}>
         {visibleArticles.map((article) => (
-          <li key={article.id}>
+          <li data-article-id={article.id} key={article.id}>
             <HoverLink href={articlePath(article.id)}>{article.title}</HoverLink>
             <br />
             <span>
@@ -85,7 +85,7 @@ export function ArticleCard({ article, includeImage = true }) {
   const searchValue = `${article.title} ${article.dek} ${article.tags.join(" ")} ${article.location}`.toLowerCase();
 
   return (
-    <article className="article-card" data-archive-card data-section={article.section} data-search={searchValue}>
+    <article className="article-card" data-article-id={article.id} data-archive-card data-section={article.section} data-search={searchValue}>
       {includeImage ? (
         <a href={articlePath(article.id)} aria-label={article.title}>
           <MiniPhoto article={article} />

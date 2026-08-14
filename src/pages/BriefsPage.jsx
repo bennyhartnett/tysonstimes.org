@@ -21,7 +21,7 @@ export function BriefsPage() {
         <p className="deck">Recent verified reporting from across Tysons and Northern Fairfax County.</p>
         <div className="brief-list">
           {briefs.map((article, index) => (
-            <article className="brief-item" key={article.id}>
+            <article className="brief-item" data-article-id={article.id} key={article.id}>
               <div className="brief-number">{String(index + 1).padStart(2, "0")}</div>
               <div>
                 <div className="meta">

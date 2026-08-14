@@ -1,4 +1,4 @@
-import { EmptyArticles, HeadlineList, SectionIndex } from "../components/ArticleBits.jsx";
+import { EmptyArticles, SectionIndex } from "../components/ArticleBits.jsx";
 import { StoryBrowser } from "../components/StoryBrowser.jsx";
 import { sections } from "../data/content.js";
 import { useArticles } from "../data/ContentProvider.jsx";
@@ -21,10 +21,6 @@ export function SectionPage({ route }) {
           ) : <EmptyArticles />}
         </div>
         <aside className="article-tools">
-          <div className="index-box">
-            <h3>Section Index</h3>
-            <HeadlineList articles={articles} pageSize={10} />
-          </div>
           <div className="ad-box">
             <h3>More Desks</h3>
             <SectionIndex sections={otherSections} />

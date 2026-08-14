@@ -1,8 +1,32 @@
 import { articles, sections } from "./content.js";
 
 export const sectionMap = Object.fromEntries(sections.map((section) => [section.id, section]));
+
+export function uniqueArticles(items = articles) {
+  const seenIds = new Set();
+
+  return items.filter((article) => {
+    if (seenIds.has(article.id)) return false;
+    seenIds.add(article.id);
+    return true;
+  });
+}
+
 export function sortArticles(items = articles) {
-  return [...items].sort((a, b) => a.priority - b.priority);
+  return uniqueArticles([...items].sort((a, b) => a.priority - b.priority));
+}
+
+export function claimArticles(items, claimedIds, limit) {
+  const selected = [];
+
+  for (const article of uniqueArticles(items)) {
+    if (selected.length >= limit) break;
+    if (claimedIds.has(article.id)) continue;
+    claimedIds.add(article.id);
+    selected.push(article);
+  }
+
+  return selected;
 }
 
 export const sortedArticles = sortArticles();

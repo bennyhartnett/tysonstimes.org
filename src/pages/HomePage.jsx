@@ -2,7 +2,7 @@ import { HoverLink } from "../components/HoverLink.jsx";
 import { MiniPhoto } from "../components/Media.jsx";
 import { useArticles } from "../data/ContentProvider.jsx";
 import { articlePath, pagePath, sectionPath } from "../routing.js";
-import { sectionLabel, sortArticles } from "../data/selectors.js";
+import { claimArticles, sectionLabel, sortArticles } from "../data/selectors.js";
 import { formatDate, textPreview } from "../utils/format.js";
 
 function StoryLink({ article, children }) {
@@ -19,7 +19,7 @@ function Byline({ article, showDate = false }) {
 
 function ImageStory({ article, className = "" }) {
   return (
-    <article className={className}>
+    <article className={className} data-article-id={article.id}>
       <a className="home-image-link" href={articlePath(article.id)} aria-label={article.title}>
         <MiniPhoto article={article} />
       </a>
@@ -41,25 +41,30 @@ function SectionHeading({ title, href, linkLabel }) {
 
 export function HomePage() {
   const articles = sortArticles(useArticles());
-  const lead = articles[0];
-  const secondary = articles.slice(1, 3);
-  const center = articles[3];
+  const claimedIds = new Set();
+  const take = (items, limit) => claimArticles(items, claimedIds, limit);
+  const inSections = (...sectionIds) => articles.filter((article) => sectionIds.includes(article.section));
+
+  const lead = take(articles, 1)[0];
+  const secondary = take(articles, 2);
+  const center = take(articles, 1)[0];
   const opinion = articles.filter((article) => article.section === "opinion");
-  const opinionRail = [...opinion, ...articles.filter((article) => article.section === "civic")].slice(0, 4);
-  const mostRead = articles.slice(4, 9);
-  const regional = articles.filter((article) => ["local", "civic"].includes(article.section)).slice(2, 7);
-  const moreStories = articles.slice(9, 13);
-  const latest = articles.slice(0, 6);
-  const schools = articles.filter((article) => article.section === "schools").slice(0, 5);
-  const business = articles.filter((article) => article.section === "business").slice(0, 4);
-  const culture = articles.filter((article) => article.section === "culture").slice(0, 3);
+  const opinionRail = take([...opinion, ...inSections("civic")], 4);
+  const regional = take(inSections("local", "civic"), 5);
+  const schools = take(inSections("schools"), 5);
+  const business = take(inSections("business"), 4);
+  const culture = take(inSections("culture"), 3);
+  const centerBriefs = take(articles, 2);
+  const mostRead = take(articles, 5);
+  const moreStories = take(articles, 4);
+  const latest = take(articles, 6);
 
   if (!lead) return null;
 
   return (
     <>
       <section className="home-top-package">
-        <article className="home-lead-copy">
+        <article className="home-lead-copy" data-article-id={lead.id}>
           <span className="home-eyebrow">{sectionLabel(lead.section)}</span>
           <h1><StoryLink article={lead}>{lead.homeTitle || lead.title}</StoryLink></h1>
           <p>{lead.dek}</p>
@@ -80,7 +85,7 @@ export function HomePage() {
         <aside className="home-opinions" aria-label="Opinion and analysis">
           <h2 className="home-rail-title">Opinions <span aria-hidden="true">›</span></h2>
           {opinionRail.map((article) => (
-            <article className="home-opinion-item" key={article.id}>
+            <article className="home-opinion-item" data-article-id={article.id} key={article.id}>
               <span>{article.author || "Tysons Times Staff"}</span>
               <h3><StoryLink article={article} /></h3>
             </article>
@@ -91,7 +96,7 @@ export function HomePage() {
       <section className="home-secondary-package">
         <div className="home-story-stack">
           {secondary.map((article) => (
-            <article key={article.id}>
+            <article data-article-id={article.id} key={article.id}>
               <span className="home-eyebrow">{sectionLabel(article.section)}</span>
               <h2><StoryLink article={article} /></h2>
               <p>{textPreview(article.dek, 165)}</p>
@@ -103,8 +108,8 @@ export function HomePage() {
         <div className="home-center-stories">
           <ImageStory article={center} className="home-center-feature" />
           <div className="home-two-up">
-            {articles.slice(13, 15).map((article) => (
-              <article key={article.id}>
+            {centerBriefs.map((article) => (
+              <article data-article-id={article.id} key={article.id}>
                 <h3><StoryLink article={article} /></h3>
                 <small>{formatDate(article.date)}</small>
               </article>
@@ -115,7 +120,7 @@ export function HomePage() {
         <aside className="home-most-read">
           <h2>More to Read</h2>
           {mostRead.map((article, index) => (
-            <a href={articlePath(article.id)} key={article.id}>
+            <a href={articlePath(article.id)} data-article-id={article.id} key={article.id}>
               <b>{index + 1}</b>
               <span>{article.title}</span>
             </a>
@@ -129,7 +134,7 @@ export function HomePage() {
           <ImageStory article={regional[0]} className="home-category-lead" />
           <div className="home-headline-list">
             {regional.slice(1).map((article) => (
-              <article key={article.id}>
+              <article data-article-id={article.id} key={article.id}>
                 <span>{article.location}</span>
                 <h3><StoryLink article={article} /></h3>
               </article>
@@ -157,7 +162,7 @@ export function HomePage() {
       <section className="home-latest-stream">
         <SectionHeading title="Latest from Tysons Times" href={pagePath("archive")} linkLabel="View all" />
         {latest.map((article) => (
-          <a href={articlePath(article.id)} key={article.id}>
+          <a href={articlePath(article.id)} data-article-id={article.id} key={article.id}>
             <time>{formatDate(article.date)}</time>
             <h3>{article.title}</h3>
             <span aria-hidden="true">›</span>
@@ -172,7 +177,7 @@ export function HomePage() {
             <ImageStory article={schools[0]} className="home-compact-lead" />
             <div className="home-compact-list">
               {schools.slice(1).map((article) => (
-                <a href={articlePath(article.id)} key={article.id}>{article.title}</a>
+                <a href={articlePath(article.id)} data-article-id={article.id} key={article.id}>{article.title}</a>
               ))}
             </div>
           </div>
@@ -184,7 +189,7 @@ export function HomePage() {
           <SectionHeading title="Business & Development" href={sectionPath("business")} linkLabel="More business" />
           <div className="home-four-grid home-four-grid--text">
             {business.map((article) => (
-              <article key={article.id}>
+              <article data-article-id={article.id} key={article.id}>
                 <span>{article.location}</span>
                 <h3><StoryLink article={article} /></h3>
                 <p>{textPreview(article.dek, 135)}</p>
